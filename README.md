@@ -271,6 +271,30 @@ property는 정적인 값을 할당하거나 동적 표현식에 결합할 수 �
 
 * Property Attributes 정의하기
 
+C++에서 클래스에 Q_PROPERTY를 등록하여 QML type 시스템에 등록함으로써 property는 type으로 정의될 수 있습니다. 또는 다음 구문을 사용하여 QML 도큐먼트에서 object type의 커스텀 property를 object 선언에서 정의할 수도 있습니다.
+
+```qml
+[default] [required] [readonly] property <propertyType> <propertyName>
+```
+
+In this way an object declaration may [expose a particular value](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html#defining-object-types-from-qml) to outside objects or maintain some internal state more easily.
+
+Property names must begin with a lower case letter and can only contain letters, numbers and underscores. [JavaScript reserved words](https://developer.mozilla.org/en/JavaScript/Reference/Reserved_Words) are not valid property names. The default, required, and readonly keywords are optional, and modify the semantics of the property being declared. See the upcoming sections on [default properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties), [required properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#required-properties) and, [read-only properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#read-only-properties) for more information about their respective meaning.
+
+Declaring a custom property implicitly creates a value-change [signal](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes) for that property, as well as an associated [signal handler](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes) called on<PropertyName>Changed, where <PropertyName> is the name of the property, with the first letter capitalized.
+
+For example, the following object declaration defines a new type which derives from the Rectangle base type. It has two new properties, with a [signal handler](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes) implemented for one of those new properties:
+
+```qml
+Rectangle {
+    property color previousColor
+    property color nextColor
+    onNextColorChanged: console.log("The next color will be: " + nextColor.toString())
+}
+```
+
+* Valid Types in Custom Property Definitions
+
 ...
 
 
