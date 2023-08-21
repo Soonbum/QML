@@ -61,11 +61,131 @@ ApplicationWindow {
 
 ### [QML 레퍼런스](https://doc.qt.io/qt-6/qmlreference.html)
 
-QML은 고도의 동적 앱을 만들기 위한 멀티 패러다임 언어입니다. QML을 이용하면 UI 컴포넌트 같은 앱 빌딩 블럭을 선언할 수 있고 앱 행동을 정의할 수 있는 다양한 프로퍼티 셋이 있습니다. 앱 행동은 JavaScript를 통해서도 스크립팅이 가능합니다. 게다가 QML은 Qt를 많이 사용하므로 QML 앱에서 타입 및 기타 Qt 기능에 직접 접근할 수 있습니다.
+QML은 고도의 동적 앱을 만들기 위한 멀티 패러다임 언어입니다. QML을 이용하면 UI 컴포넌트 같은 앱 빌딩 블럭을 선언할 수 있고 앱 동작을 정의할 수 있는 다양한 프로퍼티 셋이 있습니다. 앱 동작은 JavaScript를 통해서도 스크립팅이 가능합니다. 게다가 QML은 Qt를 많이 사용하므로 QML 앱에서 타입 및 기타 Qt 기능에 직접 접근할 수 있습니다.
 
 이 레퍼런스 가이드는 QML 언어의 기능에 대해 설명합니다. 이 가이드에 있는 많은 QML 타입들은 [Qt QML](https://doc.qt.io/qt-6/qtqml-index.html) 또는 [Qt Quick](https://doc.qt.io/qt-6/qtquick-index.html) 모듈에 기원을 두고 있습니다.
 
 #### QML 구문 기초
+
+QML은 object가 attribute 및 다른 object의 변경사항과의 관계와 응답하는 방식으로 정의될 수 있게 해주는 다중 패러다임 언어입니다. attribute와 동작의 변경사항이 단계적으로 처리되는 일련의 명령문들을 통해 표현되는 순수한 명령형 코드와 달리 QML의 선언적 구문은 attribute와 동작 변경사항을 개별 object의 정의에 직접 통합합니다. 이러한 attribute 정의에는 복잡한 커스텀 앱 동작이 필요한 경우 명령형 코드가 포함될 수 있습니다.
+
+QML 소스 코드는 일반적으로 QML 코드의 독립형 도큐먼트인 QML 도큐먼트를 통해 엔진에 의해 로드됩니다. 이를 사용하여 앱 전체에서 재사용할 수 있는 QML object type을 정의할 수 있습니다. QML 파일에서 QML object type으로 선언하려면 타입 이름은 반드시 대문자로 시작해야 합니다.
+
+* import 구문
+
+QML 도큐먼트는 파일의 최상단에 1개 이상의 import 구문을 갖고 있습니다. import는 다음 중 하나가 될 수 있습니다:
+
+- 타입이 등록된 버전이 부여된 네임스페이스 (예. 플러그인에 의해)
+- QML 도큐먼트 형태의 타입-정의를 포함하는 상대 경로 디렉토리
+- JavaScript 파일
+
+import할 때 JavaScript 파일 가져오기는 반드시 적합해야 합니다. 그래야 제공되는 프로퍼티와 메서드에 접근할 수 있습니다.
+
+다양한 import의 일반적인 형태는 다음과 같습니다:
+
+- import Namespace VersionMajor.VersionMinor
+- import Namespace VersionMajor.VersionMinor as SingletonTypeIdentifier
+- import "directory"
+- import "file.js" as ScriptIdentifier
+
+예제:
+
+- import QtQuick 2.0
+- import QtQuick.LocalStorage 2.0 as Database
+- import "../privateComponents"
+- import "somefile.js" as Script
+
+QML 가져오기에 대한 자세한 정보를 보려면 QML 구문 - Import 구문 문서를 보십시오.
+
+* Object 선언
+
+구문적으로 QML 코드 블럭은 생성될 QML object 트리를 정의합니다. object는 object에 주어진 attribute뿐만 아니라 생성될 object의 타입을 설명하는 object 선언을 사용하여 정의됩니다. 각 object는 nested object 선언을 사용하여 child object를 선언할 수도 있습니다.
+
+object 선언은 해당 object 타입의 이름과 {} 세트로 구성되어 있습니다. 모든 attribute와 child object는 이 {} 안에서 정의됩니다.
+
+다음은 간단한 object 선언입니다:
+
+```qml
+Rectangle {
+    width: 100
+    height: 100
+    color: "red"
+}
+```
+
+이 선언은 타입 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)의 object입니다. 바로 뒤에는 object에 대해 정의된 attribute를 감싸는 {}가 나옵니다. [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) 타입은 QtQuick 모듈을 통해 만들 수 있으며 이 경우 정의된 attribute는 직사각형의 너비(width), 높이(height), 컬러(color) property의 값입니다.
+
+위의 object는 [QML document](https://doc.qt.io/qt-6/qtqml-documents-topic.html)의 일부인 경우 엔진에 의해 로드될 수 있습니다. 즉, ([Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) 타입을 이용할 수 있도록) 소스 코드에 QtQuick 모듈을 가져오는 import 구문을 추가하면 아래와 같습니다:
+
+```qml
+import QtQuick 2.0
+
+Rectangle {
+    width: 100
+    height: 100
+    color: "red"
+}
+```
+
+어떤 .qml 파일에 배치되고 QML 엔진에 의해 로드되면, 위의 코드는 QtQuick 모듈에 의해 지원되는 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) type을 이용하여 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object를 생성합니다.
+
+만약 object 정의가 적은 수의 property를 갖고 있다면 다음과 같이 property들을 세미콜론으로 분리하여 한 줄로 작성할 수 있습니다.
+
+```qml
+Rectangle { width: 100; height: 100; color: "red" }
+```
+
+분명히 예제에서 선언된 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object는 실제로 매우 간단합니다. 이는 적은 수의 property 값들만 정의하기 때문입니다. 좀 더 유용한 object들을 생성하려면 object 선언이 여러 가지 attribute 타입들을 정의해야 합니다: 이것은 [QML Object Attributes](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html) 문서에서 논의할 것입니다. 게다가 object 선언은 아래에서 논의한 대로 child object들을 정의할 수도 있습니다.
+
+* Child Objects
+
+어떤 object 선언이라도 nested object 선언을 통해 child object들을 정의할 수 있습니다. 이런 식으로 **object 선언은 여러 개의 child object를 포함하는 object 트리를 선언할 수 있습니다**.
+
+예를 들어, 아래의 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object 선언은 하나의 [Gradient](https://doc.qt.io/qt-6/qml-qtquick-gradient.html) object 선언을 포함하고 있으며 또 이것은 2개의 [GradientStop](https://doc.qt.io/qt-6/qml-qtquick-gradientstop.html) 선언을 포함하고 있습니다:
+
+```qml
+import QtQuick 2.0
+
+Rectangle {
+    width: 100
+    height: 100
+
+    gradient: Gradient {
+        GradientStop { position: 0.0; color: "yellow" }
+        GradientStop { position: 1.0; color: "green" }
+    }
+}
+```
+
+엔진이 이 코드를 로드하면, 이것은 루트가 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object인 object 트리를 생성합니다; 이 object는 [Gradient](https://doc.qt.io/qt-6/qml-qtquick-gradient.html) child object를 가지고 있습니다. 또 이것은 2개의 [GradientStop](https://doc.qt.io/qt-6/qml-qtquick-gradientstop.html) child를 갖고 있습니다.
+
+Note, however, that this is a parent-child relationship in the context of the QML object tree, not in the context of the visual scene. The concept of a parent-child relationship in a visual scene is provided by the [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type from the QtQuick module, which is the base type for most QML types, as most QML objects are intended to be visually rendered. For example, [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) and [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) are both [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)-based types, and below, a [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object has been declared as a visual child of a [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object:
+
+```qml
+import QtQuick 2.0
+
+Rectangle {
+    width: 200
+    height: 200
+    color: "red"
+
+    Text {
+        anchors.centerIn: parent
+        text: "Hello, QML!"
+    }
+}
+```
+
+When the [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object refers to its [parent](https://doc.qt.io/qt-6/qml-qtquick-item.html#parent-prop) value in the above code, it is referring to its visual parent, not the parent in the object tree. In this case, they are one and the same: the [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object is the parent of the [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object in both the context of the QML object tree as well as the context of the visual scene. However, while the [parent](https://doc.qt.io/qt-6/qml-qtquick-item.html#parent-prop) property can be modified to change the visual parent, the parent of an object in the context of the object tree cannot be changed from QML.
+
+(Additionally, notice that the [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object has been declared without assigning it to a property of the [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html), unlike the earlier example which assigned a [Gradient](https://doc.qt.io/qt-6/qml-qtquick-gradient.html) object to the rectangle's gradient property. This is because the [children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) property of [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) has been set as the type's [default property](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties) to enable this more convenient syntax.)
+
+See the [visual parent](https://doc.qt.io/qt-6/qtquick-visualcanvas-visualparent.html) documentation for more information on the concept of visual parenting with the [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type.
+
+* 주석
+
+
+
 
 #### QML Object Attributes
 
