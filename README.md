@@ -71,7 +71,7 @@ QML은 object가 attribute 및 다른 object의 변경사항과의 관계와 응
 
 QML 소스 코드는 일반적으로 QML 코드의 독립형 도큐먼트인 QML 도큐먼트를 통해 엔진에 의해 로드됩니다. 이를 사용하여 앱 전체에서 재사용할 수 있는 QML object type을 정의할 수 있습니다. QML 파일에서 QML object type으로 선언하려면 타입 이름은 반드시 대문자로 시작해야 합니다.
 
-* import 구문
+##### import 구문
 
 QML 도큐먼트는 파일의 최상단에 1개 이상의 import 구문을 갖고 있습니다. import는 다음 중 하나가 될 수 있습니다:
 
@@ -97,7 +97,7 @@ import할 때 JavaScript 파일 가져오기는 반드시 적합해야 합니다
 
 QML 가져오기에 대한 자세한 정보를 보려면 QML 구문 - Import 구문 문서를 보십시오.
 
-* Object 선언
+##### Object 선언
 
 구문적으로 QML 코드 블럭은 생성될 QML object 트리를 정의합니다. object는 object에 주어진 attribute뿐만 아니라 생성될 object의 타입을 설명하는 object 선언을 사용하여 정의됩니다. 각 object는 nested object 선언을 사용하여 child object를 선언할 수도 있습니다.
 
@@ -137,7 +137,7 @@ Rectangle { width: 100; height: 100; color: "red" }
 
 분명히 예제에서 선언된 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object는 실제로 매우 간단합니다. 이는 적은 수의 property 값들만 정의하기 때문입니다. 좀 더 유용한 object들을 생성하려면 object 선언이 여러 가지 attribute 타입들을 정의해야 합니다: 이것은 [QML Object Attributes](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html) 문서에서 논의할 것입니다. 게다가 object 선언은 아래에서 논의한 대로 child object들을 정의할 수도 있습니다.
 
-* Child Objects
+##### Child Objects
 
 어떤 object 선언이라도 nested object 선언을 통해 child object들을 정의할 수 있습니다. 이런 식으로 **object 선언은 여러 개의 child object를 포함하는 object 트리를 선언할 수 있습니다**.
 
@@ -182,7 +182,7 @@ Rectangle {
 
 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type과 함께 시각적 parenting의 개념에 대한 더 많은 정보를 보려면 [visual parent](https://doc.qt.io/qt-6/qtquick-visualcanvas-visualparent.html) 문서를 보십시오.
 
-* 코멘트
+##### 코멘트
 
 QML에서 코멘트 달기 구문은 JavaScript의 그것과 비슷합니다:
 
@@ -216,31 +216,31 @@ Text {
 
 #### QML Object Attributes
 
-Every QML object type has a defined set of attributes. Each instance of an object type is created with the set of attributes that have been defined for that object type. There are several different kinds of attributes which can be specified, which are described below.
+모든 QML object type은 정의된 attribute 집합을 갖고 있습니다. object type의 각 인스턴스는 해당 object type에 대해 정의된 attribute 집합을 가지고 생성됩니다. 아래에 나와 있듯이 지정할 수 있는 여러 종류의 attribute들이 있습니다.
 
-* Attributes in Object Declarations
+##### Object 선언 내에서의 Attribute
 
-An [object declaration](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations) in a QML document defines a new type. It also declares an object hierarchy that will be instantiated should an instance of that newly defined type be created.
+QML 도큐먼트에서 [object 선언](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations)은 새로운 type을 정의합니다. 또한 인스턴스화될 object 계층을 선언합니다. 새로 정의된 type의 인스턴스가 생성되어야 합니다.
 
-The set of QML object-type attribute types is as follows:
+QML object-type attribute type의 집합은 다음과 같습니다:
 
-- the id attribute
-- property attributes
-- signal attributes
-- signal handler attributes
-- method attributes
-- attached properties and attached signal handler attributes
-- enumeration attributes
+* id attribute
+* property attribute
+* signal attribute
+* signal handler attribute
+* method attribute
+* 부착된 property들과 부착된 여러 개의 signal handler attribute
+* 여러 개의 enumeration attribute
 
-These attributes are discussed in detail below.
+이 attribute들은 아래에서 자세히 논의할 것입니다.
 
-* The id Attribute
+##### id attribute
 
-Every QML object type has exactly one id attribute. This attribute is provided by the language itself, and cannot be redefined or overridden by any QML object type.
+모든 QML object type은 단 1개의 id attribute를 갖고 있습니다. 이 attribute는 언어 자체가 제공하며 다른 QML object type에 의해 재정의되거나 오버라이드될 수 없습니다.
 
-A value may be assigned to the id attribute of an object instance to allow that object to be identified and referred to by other objects. This id must begin with a lower-case letter or an underscore, and cannot contain characters other than letters, numbers and underscores.
+object를 식별하고 다른 object가 참조할 수 있도록 object 인스턴스의 id attribute에 어떤 값을 할당할 수 있습니다. 이 id는 반드시 소문자나 밑줄 문자로 시작해야 하며 문자, 숫자, 밑줄 문자 외에 다른 문자는 포함할 수 없습니다.
 
-Below is a [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) object and a [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object. The [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) object's id value is set to "myTextInput". The [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object sets its text property to have the same value as the text property of the [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html), by referring to myTextInput.text. Now, both items will display the same text:
+아래는 [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) object와 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object입니다. [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) object의 id 값은 "myTextInput"입니다. [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object는 myTextInput.text를 참조함으로써 [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html)의 text property와 같은 값으로 자신의 text property를 설정합니다:
 
 ```qml
 import QtQuick 2.0
@@ -254,11 +254,17 @@ Column {
 }
 ```
 
-An object can be referred to by its id from anywhere within the component scope in which it is declared. Therefore, an id value must always be unique within its component scope. See [Scope and Naming Resolution](https://doc.qt.io/qt-6/qtqml-documents-scope.html) for more information.
+object는 선언된 component 범위 안이라면 어디서든지 id로 참조할 수 있습니다. 그러므로 id 값은 component 범위 안에서 항상 유일해야 합니다. 더 자세한 것은 [Scope and Naming Resolution](https://doc.qt.io/qt-6/qtqml-documents-scope.html)을 보십시오.
 
-Once an object instance is created, the value of its id attribute cannot be changed. While it may look like an ordinary property, the id attribute is not an ordinary property attribute, and special semantics apply to it; for example, it is not possible to access myTextInput.id in the above example.
+일단 object 인스턴스가 생성되면, id attribute의 값은 바꿀 수 없습니다. 이것은 일반 property처럼 보일 수 있지만 id attribute는 일반 property attribute가 아니며 특별한 의미가 적용됩니다. 예를 들어 위의 예제에서는 myTextInput.id에 접근할 수 없습니다.
 
+##### Property Attributes
 
+property는 정적인 값을 할당하거나 동적 표현식에 결합할 수 있는 object의 attribute입니다. property의 값은 다른 object가 읽을 수 있습니다. 일반적으로 특정 QML type이 특정 property에 대해 이것을 명시적으로 허용하지 않는 한 다른 object에 의해 수정될 수 있습니다.
+
+* Property Attributes 정의하기
+
+...
 
 
 
