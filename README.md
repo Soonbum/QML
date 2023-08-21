@@ -159,7 +159,7 @@ Rectangle {
 
 엔진이 이 코드를 로드하면, 이것은 루트가 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object인 object 트리를 생성합니다; 이 object는 [Gradient](https://doc.qt.io/qt-6/qml-qtquick-gradient.html) child object를 가지고 있습니다. 또 이것은 2개의 [GradientStop](https://doc.qt.io/qt-6/qml-qtquick-gradientstop.html) child를 갖고 있습니다.
 
-Note, however, that this is a parent-child relationship in the context of the QML object tree, not in the context of the visual scene. The concept of a parent-child relationship in a visual scene is provided by the [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type from the QtQuick module, which is the base type for most QML types, as most QML objects are intended to be visually rendered. For example, [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) and [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) are both [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)-based types, and below, a [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object has been declared as a visual child of a [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object:
+그러나 이것은 시각적 장면의 문맥 QML object 트리의 문맥 상에서의 parent-child 관계라는 점을 유의하십시오. 대부분의 QML object들이 시각적으로 렌더링되기 때문에 시각적 장면에서의 parent-child 관계의 개념은 대부분의 QML type에 대한 base type인 QtQuick 모듈의 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type에 의해 제공됩니다. 예를 들어, [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)과 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html)는 모두 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)-기반 type이며, 아래의 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object는 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object의 시각적 child로 선언되었습니다:
 
 ```qml
 import QtQuick 2.0
@@ -176,18 +176,94 @@ Rectangle {
 }
 ```
 
-When the [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object refers to its [parent](https://doc.qt.io/qt-6/qml-qtquick-item.html#parent-prop) value in the above code, it is referring to its visual parent, not the parent in the object tree. In this case, they are one and the same: the [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object is the parent of the [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object in both the context of the QML object tree as well as the context of the visual scene. However, while the [parent](https://doc.qt.io/qt-6/qml-qtquick-item.html#parent-prop) property can be modified to change the visual parent, the parent of an object in the context of the object tree cannot be changed from QML.
+[Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object가 위의 코드에서 [parent](https://doc.qt.io/qt-6/qml-qtquick-item.html#parent-prop) 값을 참조할 때, object 트리의 parent가 아닌 시각적 parent를 참조합니다. 이 경우 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object는 QML object 트리에서나 시각적 장면의 문맥에서나 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object의 parent입니다. 그러나 시각적 parent를 변경하기 위해 [parent](https://doc.qt.io/qt-6/qml-qtquick-item.html#parent-prop) property를 수정할 수는 있어도 object 트리의 문맥 상에서 QML로부터 object의 parent를 변경할 수는 없습니다.
 
-(Additionally, notice that the [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object has been declared without assigning it to a property of the [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html), unlike the earlier example which assigned a [Gradient](https://doc.qt.io/qt-6/qml-qtquick-gradient.html) object to the rectangle's gradient property. This is because the [children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) property of [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) has been set as the type's [default property](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties) to enable this more convenient syntax.)
+(게다가 직사각형의 gradient property에 [Gradient](https://doc.qt.io/qt-6/qml-qtquick-gradient.html) object를 할당한 앞의 예제와 달리 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)의 property에 할당하지 않고 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object가 선언되었음을 주목하십시오. 이것은 더 편리한 구문을 사용하기 위해 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop)의 [children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) property가 타입의 [default property](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties)로 설정되었기 때문입니다.)
 
-See the [visual parent](https://doc.qt.io/qt-6/qtquick-visualcanvas-visualparent.html) documentation for more information on the concept of visual parenting with the [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type.
+[Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type과 함께 시각적 parenting의 개념에 대한 더 많은 정보를 보려면 [visual parent](https://doc.qt.io/qt-6/qtquick-visualcanvas-visualparent.html) 문서를 보십시오.
 
-* 주석
+* 코멘트
 
+QML에서 코멘트 달기 구문은 JavaScript의 그것과 비슷합니다:
 
+- 단일 라인 코멘트는 //로 시작하고 라인의 끝에서 종료합니다.
+- 다중 라인 코멘트는 /*로 시작하고 */로 끝납니다.
 
+```qml
+Text {
+    text: "Hello world!"    //a basic greeting
+    /*
+        We want this text to stand out from the rest so
+        we give it a large size and different font.
+     */
+    font.family: "Helvetica"
+    font.pointSize: 24
+}
+```
+
+QML 코드를 처리할 때 엔진은 코멘트를 무시합니다. 이것은 나중에 참조하거나 다른 사람들에게 구현한 부분을 설명할 때 코드 섹션이 수행하는 작업을 설명하는 데 유용합니다.
+
+코멘트는 때때로 문제를 추적하기 위해 코드 실행을 막는 데에도 유용합니다.
+
+```qml
+Text {
+    text: "Hello world!"
+    //opacity: 0.5
+}
+```
+
+위의 예제에서 Text object는 일반적인 불투명도를 갖게 될 것입니다. 왜냐하면 opacity: 0.5가 코멘트로 변했기 때문입니다.
 
 #### QML Object Attributes
+
+Every QML object type has a defined set of attributes. Each instance of an object type is created with the set of attributes that have been defined for that object type. There are several different kinds of attributes which can be specified, which are described below.
+
+* Attributes in Object Declarations
+
+An [object declaration](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations) in a QML document defines a new type. It also declares an object hierarchy that will be instantiated should an instance of that newly defined type be created.
+
+The set of QML object-type attribute types is as follows:
+
+- the id attribute
+- property attributes
+- signal attributes
+- signal handler attributes
+- method attributes
+- attached properties and attached signal handler attributes
+- enumeration attributes
+
+These attributes are discussed in detail below.
+
+* The id Attribute
+
+Every QML object type has exactly one id attribute. This attribute is provided by the language itself, and cannot be redefined or overridden by any QML object type.
+
+A value may be assigned to the id attribute of an object instance to allow that object to be identified and referred to by other objects. This id must begin with a lower-case letter or an underscore, and cannot contain characters other than letters, numbers and underscores.
+
+Below is a [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) object and a [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object. The [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) object's id value is set to "myTextInput". The [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object sets its text property to have the same value as the text property of the [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html), by referring to myTextInput.text. Now, both items will display the same text:
+
+```qml
+import QtQuick 2.0
+
+Column {
+    width: 200; height: 200
+
+    TextInput { id: myTextInput; text: "Hello World" }
+
+    Text { text: myTextInput.text }
+}
+```
+
+An object can be referred to by its id from anywhere within the component scope in which it is declared. Therefore, an id value must always be unique within its component scope. See [Scope and Naming Resolution](https://doc.qt.io/qt-6/qtqml-documents-scope.html) for more information.
+
+Once an object instance is created, the value of its id attribute cannot be changed. While it may look like an ordinary property, the id attribute is not an ordinary property attribute, and special semantics apply to it; for example, it is not possible to access myTextInput.id in the above example.
+
+
+
+
+
+
+
 
 #### 프로퍼티 바인딩
 
