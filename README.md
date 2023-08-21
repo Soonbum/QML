@@ -4,6 +4,16 @@
 
 * [QML의 예시](#qml의-예시)
 * [QML 용어](#qml-용어)
+* [QML 레퍼런스](#qml-레퍼런스)
+  - [QML 구문 기초](#qml-구문-기초)
+  - [QML Object Attributes](#qml-object-attributes)
+  - [프로퍼티 바인딩](#프로퍼티-바인딩)
+  - [시그널과 핸들러 이벤트 시스템](#시그널과-핸들러-이벤트-시스템)
+  - [QML과 JavaScript 통합하기](#qml과-javascript-통합하기)
+  - [QML 타입 시스템](#qml-타입-시스템)
+  - [QML 모듈](#qml-모듈)
+  - [QML 도큐먼트](#qml-도큐먼트)
+
 
 ### QML의 예시
 
@@ -49,3 +59,24 @@ ApplicationWindow {
 | Signal Handler | Signal Handler는 Signal에 의해 트리거되는 표현식(또는 함수)입니다. C++에서는 이것을 "slot"이라고도 합니다. 자세한 것은 [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)을 보십시오. |
 | Lazy Instantiation | 필요할 때까지 불필요한 작업을 하지 않기 위해 Object Instance는 런타임 시 "늦게" 인스턴스화 될 수 있습니다. Qt Quick은 편하게 Lazy Instantiation을 구현하기 위해 [Loader](https://doc.qt.io/qt-6/qml-qtquick-loader.html) Type을 제공합니다. |
 
+### [QML 레퍼런스](https://doc.qt.io/qt-6/qmlreference.html)
+
+QML은 고도의 동적 앱을 만들기 위한 멀티 패러다임 언어입니다. QML을 이용하면 UI 컴포넌트 같은 앱 빌딩 블럭을 선언할 수 있고 앱 행동을 정의할 수 있는 다양한 프로퍼티 셋이 있습니다. 앱 행동은 JavaScript를 통해서도 스크립팅이 가능합니다. 게다가 QML은 Qt를 많이 사용하므로 QML 앱에서 타입 및 기타 Qt 기능에 직접 접근할 수 있습니다.
+
+이 레퍼런스 가이드는 QML 언어의 기능에 대해 설명합니다. 이 가이드에 있는 많은 QML 타입들은 [Qt QML](https://doc.qt.io/qt-6/qtqml-index.html) 또는 [Qt Quick](https://doc.qt.io/qt-6/qtquick-index.html) 모듈에 기원을 두고 있습니다.
+
+#### QML 구문 기초
+
+#### QML Object Attributes
+
+#### 프로퍼티 바인딩
+
+#### 시그널과 핸들러 이벤트 시스템
+
+#### QML과 JavaScript 통합하기
+
+#### QML 타입 시스템
+
+#### QML 모듈
+
+#### QML 도큐먼트
