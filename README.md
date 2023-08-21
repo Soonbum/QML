@@ -277,13 +277,13 @@ C++에서 클래스에 Q_PROPERTY를 등록하여 QML type 시스템에 등록�
 [default] [required] [readonly] property <propertyType> <propertyName>
 ```
 
-In this way an object declaration may [expose a particular value](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html#defining-object-types-from-qml) to outside objects or maintain some internal state more easily.
+이런 식으로 object 선언은 object 외부로 [특정 값을 노출](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html#defining-object-types-from-qml)하거나 좀 더 쉽게 몇 가지 내부 상태를 유지할 수 있습니다.
 
-Property names must begin with a lower case letter and can only contain letters, numbers and underscores. [JavaScript reserved words](https://developer.mozilla.org/en/JavaScript/Reference/Reserved_Words) are not valid property names. The default, required, and readonly keywords are optional, and modify the semantics of the property being declared. See the upcoming sections on [default properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties), [required properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#required-properties) and, [read-only properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#read-only-properties) for more information about their respective meaning.
+property 이름은 반드시 소문자로 시작해야 하며 글자, 숫자, 밑줄문자로만 이루어질 수 있습니다. [JavaScript 예약어](https://developer.mozilla.org/en/JavaScript/Reference/Reserved_Words)는 유효한 property 이름이 아닙니다. default, required, readonly 키워드는 선택적이며 선언될 property의 의미를 수정합니다. [default properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties), [required properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#required-properties), [read-only properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#read-only-properties)에 대한 각각의 의미에 대한 자세한 정보는 다음 섹션을 보십시오.
 
-Declaring a custom property implicitly creates a value-change [signal](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes) for that property, as well as an associated [signal handler](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes) called on<PropertyName>Changed, where <PropertyName> is the name of the property, with the first letter capitalized.
+커스텀 property를 선언하는 것은 암묵적으로 해당 property에 대하여 value-change [signal](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes)과 이름이 on<PropertyName>Changed인 [signal handler](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes)를 생성합니다. 여기서 <PropertyName>은 property의 이름이며 1번째 글자는 대문자입니다.
 
-For example, the following object declaration defines a new type which derives from the Rectangle base type. It has two new properties, with a [signal handler](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes) implemented for one of those new properties:
+예를 들어, 다음 object 선언은 Rectangle base type으로부터 파생된 새로운 type을 정의합니다. 이것은 2개의 새로운 property를 갖고 있습니다. 그 중 하나에 [signal handler](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes)가 구현되어 있습니다:
 
 ```qml
 Rectangle {
@@ -293,9 +293,606 @@ Rectangle {
 }
 ```
 
-* Valid Types in Custom Property Definitions
+* 커스텀 property 정의 내에서 유효한 type
+
+[enumeration](https://doc.qt.io/qt-6/qml-enumeration.html) type을 제외한 모든 [QML Value Types](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html)은 커스텀 property type으로 사용할 수 있습니다. 예를 들어, 다음은 모두 유효한 property 선언입니다:
+
+```qml
+Item {
+    property int someNumber
+    property string someString
+    property url someUrl
+}
+```
+
+(Enumeration 값은 단순히 정수 값이며 int type을 대신 참조할 수 있습니다.)
+
+일부 value type은 QtQuick 모듈에서 제공하므로 모듈을 가져오지 않으면 property type으로 사용할 수 없습니다. 자세한 것은 [QML Value Types] 문서를 보십시오.
+
+[var](https://doc.qt.io/qt-6/qml-var.html) value type은 모든 타입의 value, list, object를 보관할 수 있는 generic placeholder type이라는 것을 유의하십시오:
+
+```qml
+property var someNumber: 1.5
+property var someString: "abc"
+property var someBool: true
+property var someList: [1, 2, "three", "four"]
+property var someObject: Rectangle { width: 100; height: 100; color: "red" }
+```
+
+게다가 모든 [QML object type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)은 property type으로 사용할 수 있습니다. 예를 들면:
+
+```qml
+property Item someItem
+property Rectangle someRectangle
+```
+
+또한 이것은 [커스텀 QML types](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html#defining-object-types-from-qml)에 적용됩니다. 만약 QML type이 파일 ColorfulButton.qml(클라이언트가 가져온 디렉토리 안)에 정의되어 있다면, type ColorfulButton의 property 역시 유효합니다.
 
 ...
+
+* Assigning Values to Property Attributes
+
+The value of a property of an object instance may be specified in two separate ways:
+
+- a value assignment on initialization
+- an imperative value assignment
+
+In either case, the value may be either a static value or a binding expression value.
+
+* Value Assignment on Initialization
+
+The syntax for assigning a value to a property on initialization is:
+
+```qml
+<propertyName> : <value>
+```
+
+An initialization value assignment may be combined with a property definition in an object declaration, if desired. In that case, the syntax of the property definition becomes:
+
+```qml
+[default] property <propertyType> <propertyName> : <value>
+```
+
+An example of property value initialization follows:
+
+```qml
+import QtQuick 2.0
+
+Rectangle {
+    color: "red"
+    property color nextColor: "blue" // combined property declaration and initialization
+}
+```
+
+* Imperative Value Assignment
+
+An imperative value assignment is where a property value (either static value or binding expression) is assigned to a property from imperative JavaScript code. The syntax of an imperative value assignment is just the JavaScript assignment operator, as shown below:
+
+```qml
+[<objectId>.]<propertyName> = value
+```
+
+An example of imperative value assignment follows:
+
+```qml
+import QtQuick 2.0
+
+Rectangle {
+    id: rect
+    Component.onCompleted: {
+        rect.color = "red"
+    }
+}
+```
+
+* Static Values and Binding Expression Values
+
+As previously noted, there are two kinds of values which may be assigned to a property: static values, and binding expression values. The latter are also known as [property bindings](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html).
+
+| Kind | Semantics |
+| --- | --- |
+| Static Value | A constant value which does not depend on other properties. |
+| Binding Expression | A JavaScript expression which describes a property's relationship with other properties. The variables in this expression are called the property's dependencies. The QML engine enforces the relationship between a property and its dependencies. When any of the dependencies change in value, the QML engine automatically re-evaluates the binding expression and assigns the new result to the property. |
+
+Here is an example that shows both kinds of values being assigned to properties:
+
+```qml
+import QtQuick 2.0
+
+Rectangle {
+    // both of these are static value assignments on initialization
+    width: 400
+    height: 200
+
+    Rectangle {
+        // both of these are binding expression value assignments on initialization
+        width: parent.width / 2
+        height: parent.height
+    }
+}
+```
+
+Note: To assign a binding expression imperatively, the binding expression must be contained in a function that is passed into Qt.binding(), and then the value returned by [Qt.binding](https://doc.qt.io/qt-6/qml-qtqml-qt.html#binding-method)() must be assigned to the property. In contrast, Qt.binding() must not be used when assigning a binding expression upon initialization. See [Property Binding](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html) for more information.
+
+* Type Safety
+
+Properties are type safe. A property can only be assigned a value that matches the property type.
+
+For example, if a property is a real, and if you try to assign a string to it, you will get an error:
+
+```qml
+property int volume: "four"  // generates an error; the property's object will not be loaded
+```
+
+Likewise if a property is assigned a value of the wrong type during run time, the new value will not be assigned, and an error will be generated.
+
+Some property types do not have a natural value representation, and for those property types the QML engine automatically performs string-to-typed-value conversion. So, for example, even though properties of the color type store colors and not strings, you are able to assign the string "red" to a color property, without an error being reported.
+
+See [QML Value Types](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html) for a list of the types of properties that are supported by default. Additionally, any available [QML object type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html) may also be used as a property type.
+
+* Special Property Types
+
+* Object List Property Attributes
+
+A [list](https://doc.qt.io/qt-6/qml-list.html) type property can be assigned a list of QML object-type values. The syntax for defining an object list value is a comma-separated list surrounded by square brackets:
+
+```qml
+[ <item 1>, <item 2>, ... ]
+```
+
+For example, the [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type has a [states](https://doc.qt.io/qt-6/qml-qtquick-item.html#states-prop) property that is used to hold a list of [State](https://doc.qt.io/qt-6/qml-qtquick-state.html) type objects. The code below initializes the value of this property to a list of three [State](https://doc.qt.io/qt-6/qml-qtquick-state.html) objects:
+
+```qml
+import QtQuick 2.0
+
+Item {
+    states: [
+        State { name: "loading" },
+        State { name: "running" },
+        State { name: "stopped" }
+    ]
+}
+```
+
+If the list contains a single item, the square brackets may be omitted:
+
+```qml
+import QtQuick 2.0
+
+Item {
+    states: State { name: "running" }
+}
+```
+
+A [list](https://doc.qt.io/qt-6/qml-list.html) type property may be specified in an object declaration with the following syntax:
+
+```qml
+[default] property list<<objectType>> propertyName
+```
+
+and, like other property declarations, a property initialization may be combined with the property declaration with the following syntax:
+
+```qml
+[default] property list<<objectType>> propertyName: <value>
+```
+
+An example of list property declaration follows:
+
+```qml
+import QtQuick 2.0
+
+Rectangle {
+    // declaration without initialization
+    property list<Rectangle> siblingRects
+
+    // declaration with initialization
+    property list<Rectangle> childRects: [
+        Rectangle { color: "red" },
+        Rectangle { color: "blue"}
+    ]
+}
+```
+
+If you wish to declare a property to store a list of values which are not necessarily QML object-type values, you should declare a [var](https://doc.qt.io/qt-6/qml-var.html) property instead.
+
+* Grouped Properties
+
+In some cases properties contain a logical group of sub-property attributes. These sub-property attributes can be assigned to using either the dot notation or group notation.
+
+For example, the [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) type has a [font](https://doc.qt.io/qt-6/qml-qtquick-text.html#font.family-prop) group property. Below, the first [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object initializes its font values using dot notation, while the second uses group notation:
+
+```qml
+Text {
+    //dot notation
+    font.pixelSize: 12
+    font.b: true
+}
+
+Text {
+    //group notation
+    font { pixelSize: 12; b: true }
+}
+```
+
+Grouped property types are types which have subproperties. If a grouped property type is an object type (as opposed to a value type), the property that holds it must be read-only. This is to prevent you from replacing the object the subproperties belong to.
+
+* Property Aliases
+
+Property aliases are properties which hold a reference to another property. Unlike an ordinary property definition, which allocates a new, unique storage space for the property, a property alias connects the newly declared property (called the aliasing property) as a direct reference to an existing property (the aliased property).
+
+A property alias declaration looks like an ordinary property definition, except that it requires the alias keyword instead of a property type, and the right-hand-side of the property declaration must be a valid alias reference:
+
+```qml
+[default] property alias <name>: <alias reference>
+```
+
+Unlike an ordinary property, an alias has the following restrictions:
+
+- It can only refer to an object, or the property of an object, that is within the scope of the [type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html) within which the alias is declared.
+- It cannot contain arbitrary JavaScript expressions
+- It cannot refer to objects declared outside of the scope of its type.
+- The alias reference is not optional, unlike the optional default value for an ordinary property; the alias reference must be provided when the alias is first declared.
+- It cannot refer to [attached properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#attached-properties-and-attached-signal-handlers).
+- It cannot refer to properties inside a hierarchy with depth 3 or greater. The following code will not work:
+
+```qml
+property alias color: myItem.myRect.border.color
+
+Item {
+    id: myItem
+    property Rectangle myRect
+}
+```
+
+However, aliases to properties that are up to two levels deep will work.
+
+```qml
+property alias color: rectangle.border.color
+
+Rectangle {
+    id: rectangle
+}
+```
+
+For example, below is a Button type with a buttonText aliased property which is connected to the text object of the [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) child:
+
+```qml
+// Button.qml
+import QtQuick 2.0
+
+Rectangle {
+    property alias buttonText: textItem.text
+
+    width: 100; height: 30; color: "yellow"
+
+    Text { id: textItem }
+}
+```
+
+The following code would create a Button with a defined text string for the child [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object:
+
+```qml
+Button { buttonText: "Click Me" }
+```
+
+Here, modifying buttonText directly modifies the textItem.text value; it does not change some other value that then updates textItem.text. If buttonText was not an alias, changing its value would not actually change the displayed text at all, as property bindings are not bi-directional: the buttonText value would have changed if textItem.text was changed, but not the other way around.
+
+* Considerations for Property Aliases
+
+Aliases are only activated once a component has been fully initialized. An error is generated when an uninitialized alias is referenced. Likewise, aliasing an aliasing property will also result in an error.
+
+```qml
+property alias widgetLabel: label
+
+//will generate an error
+//widgetLabel.text: "Initial text"
+
+//will generate an error
+//property alias widgetLabelText: widgetLabel.text
+
+Component.onCompleted: widgetLabel.text = "Alias completed Initialization"
+```
+
+When importing a [QML object type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html) with a property alias in the root object, however, the property appear as a regular Qt property and consequently can be used in alias references.
+
+It is possible for an aliasing property to have the same name as an existing property, effectively overwriting the existing property. For example, the following QML type has a color alias property, named the same as the built-in [Rectangle::color](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html#color-prop) property:
+
+```qml
+Rectangle {
+    id: coloredrectangle
+    property alias color: bluerectangle.color
+    color: "red"
+
+    Rectangle {
+        id: bluerectangle
+        color: "#1234ff"
+    }
+
+    Component.onCompleted: {
+        console.log (coloredrectangle.color)    //prints "#1234ff"
+        setInternalColor()
+        console.log (coloredrectangle.color)    //prints "#111111"
+        coloredrectangle.color = "#884646"
+        console.log (coloredrectangle.color)    //prints #884646
+    }
+
+    //internal function that has access to internal properties
+    function setInternalColor() {
+        color = "#111111"
+    }
+}
+```
+
+Any object that use this type and refer to its color property will be referring to the alias rather than the ordinary [Rectangle::color](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html#color-prop) property. Internally, however, the rectangle can correctly set its color property and refer to the actual defined property rather than the alias.
+
+* Property Aliases and Types
+
+Property aliases cannot have explicit type specifications. The type of a property alias is the declared type of the property or object it refers to. Therefore, if you create an alias to an object referenced via id with extra properties declared inline, the extra properties won't be accessible through the alias:
+
+```qml
+// MyItem.qml
+Item {
+    property alias inner: innerItem
+
+    Item {
+        id: innerItem
+        property int extraProperty
+    }
+}
+```
+
+You cannot initialize inner.extraProperty from outside of this component, as inner is only an Item:
+
+```qml
+// main.qml
+MyItem {
+    inner.extraProperty: 5 // fails
+}
+```
+
+However, if you extract the inner object into a separate component with a dedicated .qml file, you can instantiate that component instead and have all its properties available through the alias:
+
+```qml
+// MainItem.qml
+Item {
+    // Now you can access inner.extraProperty, as inner is now an ExtraItem
+    property alias inner: innerItem
+
+    ExtraItem {
+        id: innerItem
+    }
+}
+
+// ExtraItem.qml
+Item {
+    property int extraProperty
+}
+```
+
+* Default Properties
+
+An object definition can have a single default property. A default property is the property to which a value is assigned if an object is declared within another object's definition without declaring it as a value for a particular property.
+
+Declaring a property with the optional default keyword marks it as the default property. For example, say there is a file MyLabel.qml with a default property someText:
+
+```qml
+// MyLabel.qml
+import QtQuick 2.0
+
+Text {
+    default property var someText
+
+    text: "Hello, " + someText.text
+}
+```
+
+```qml
+The someText value could be assigned to in a MyLabel object definition, like this:
+
+MyLabel {
+    Text { text: "world!" }
+}
+```
+
+This has exactly the same effect as the following:
+
+```qml
+MyLabel {
+    someText: Text { text: "world!" }
+}
+```
+
+However, since the someText property has been marked as the default property, it is not necessary to explicitly assign the [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object to this property.
+
+You will notice that child objects can be added to any [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)-based type without explicitly adding them to the [children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) property. This is because the default property of [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) is its data property, and any items added to this list for an [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) are automatically added to its list of [children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop).
+
+Default properties can be useful for reassigning the children of an item. For example:
+
+```qml
+Item {
+    default property alias content: inner.children
+
+    Item {
+        id: inner
+     }
+}
+```
+
+By setting the default property alias to inner.children, any object assigned as a child of the outer item is automatically reassigned as a child of the inner item.
+
+* Required Properties
+
+An object declaration may define a property as required, using the required keyword. The syntax is
+
+```qml
+required property <propertyType> <propertyName>
+```
+
+As the name suggests, required properties must be set when an instance of the object is created. Violation of this rule will result in QML applications not starting if it can be detected statically. In case of dynamically instantiated QML components (for instance via [Qt.createComponent](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createComponent-method)()), violating this rule results in a warning and a null return value.
+
+It's possible to make an existing property required with
+
+```qml
+required <propertyName>
+```
+
+The following example shows how to create a custom Rectangle component, in which the color property always needs to be specified.
+
+```qml
+// ColorRectangle.qml
+Rectangle {
+    required color
+}
+```
+
+Note: You can't assign an initial value to a required property from QML, as that would go directly against the intended usage of required properties.
+
+Required properties play a special role in model-view-delegate code: If the delegate of a view has required properties whose names match with the role names of the view's model, then those properties will be initialized with the model's corresponding values. For more information, visit the [Models and Views in Qt Quick](https://doc.qt.io/qt-6/qtquick-modelviewsdata-modelview.html) page.
+
+See [QQmlComponent::createWithInitialProperties](https://doc.qt.io/qt-6/qqmlcomponent.html#createWithInitialProperties), [QQmlApplicationEngine::setInitialProperties](https://doc.qt.io/qt-6/qqmlapplicationengine.html#setInitialProperties) and [QQuickView::setInitialProperties](https://doc.qt.io/qt-6/qquickview.html#setInitialProperties) for ways to initialize required properties from C++.
+
+* Read-Only Properties
+
+An object declaration may define a read-only property using the readonly keyword, with the following syntax:
+
+```qml
+readonly property <propertyType> <propertyName> : <value>
+```
+
+Read-only properties must be assigned a static value or a binding expression on initialization. After a read-only property is initialized, you cannot change its static value or binding expression anymore.
+
+For example, the code in the Component.onCompleted block below is invalid:
+
+```qml
+Item {
+    readonly property int someNumber: 10
+
+    Component.onCompleted: someNumber = 20  // TypeError: Cannot assign to read-only property
+}
+```
+
+Note: A read-only property cannot also be a [default](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties) property.
+
+* Property Modifier Objects
+
+Properties can have [property value modifier objects](https://doc.qt.io/qt-6/qtqml-cppintegration-definetypes.html#property-modifier-types) associated with them. The syntax for declaring an instance of a property modifier type associated with a particular property is as follows:
+
+```qml
+<PropertyModifierTypeName> on <propertyName> {
+    // attributes of the object instance
+}
+```
+
+This is commonly referred to as "on" syntax.
+
+It is important to note that the above syntax is in fact an [object declaration](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations) which will instantiate an object which acts on a pre-existing property.
+
+Certain property modifier types may only be applicable to specific property types, however this is not enforced by the language. For example, the NumberAnimation type provided by QtQuick will only animate numeric-type (such as int or real) properties. Attempting to use a NumberAnimation with non-numeric property will not result in an error, however the non-numeric property will not be animated. The behavior of a property modifier type when associated with a particular property type is defined by its implementation.
+
+* Signal Attributes
+
+A signal is a notification from an object that some event has occurred: for example, a property has changed, an animation has started or stopped, or when an image has been downloaded. The [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) type, for example, has a [clicked](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html#clicked-signal) signal that is emitted when the user clicks within the mouse area.
+
+An object can be notified through a [signal handler](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes) whenever a particular signal is emitted. A signal handler is declared with the syntax on<Signal> where <Signal> is the name of the signal, with the first letter capitalized. The signal handler must be declared within the definition of the object that emits the signal, and the handler should contain the block of JavaScript code to be executed when the signal handler is invoked.
+
+For example, the onClicked signal handler below is declared within the [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) object definition, and is invoked when the [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) is clicked, causing a console message to be printed:
+
+```qml
+import QtQuick 2.0
+
+Item {
+    width: 100; height: 100
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            console.log("Click!")
+        }
+    }
+}
+```
+
+* Defining Signal Attributes
+
+A signal may be defined for a type in C++ by registering a [Q_SIGNAL](https://doc.qt.io/qt-6/qobject.html#Q_SIGNAL) of a class which is then registered with the QML type system. Alternatively, a custom signal for an object type may be defined in an object declaration in a QML document with the following syntax:
+
+```qml
+signal <signalName>[([<parameterName>: <parameterType>[, ...]])]
+```
+
+Attempting to declare two signals or methods with the same name in the same type block is an error. However, a new signal may reuse the name of an existing signal on the type. (This should be done with caution, as the existing signal may be hidden and become inaccessible.)
+
+Here are three examples of signal declarations:
+
+```qml
+import QtQuick 2.0
+
+Item {
+    signal clicked
+    signal hovered()
+    signal actionPerformed(action: string, actionResult: int)
+}
+```
+
+You can also specify signal parameters in property style syntax:
+
+```qml
+signal actionCanceled(string action)
+```
+
+In order to be consistent with method declarations, you should prefer the type declarations using colons.
+
+If the signal has no parameters, the "()" brackets are optional. If parameters are used, the parameter types must be declared, as for the string and var arguments for the actionPerformed signal above. The allowed parameter types are the same as those listed under [Defining Property Attributes](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#defining-property-attributes) on this page.
+
+To emit a signal, invoke it as a method. Any relevant [signal handlers](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes) will be invoked when the signal is emitted, and handlers can use the defined signal argument names to access the respective arguments.
+
+* Property Change Signals
+
+QML types also provide built-in property change signals that are emitted whenever a property value changes, as previously described in the section on [property attributes](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#property-attributes). See the upcoming section on [property change signal handlers](https://doc.qt.io/qt-6/qtqml-syntax-signals.html#property-change-signal-handlers) for more information about why these signals are useful, and how to use them.
+
+* Signal Handler Attributes
+
+Signal handlers are a special sort of [method attribute](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#method-attributes), where the method implementation is invoked by the QML engine whenever the associated signal is emitted. Adding a signal to an object definition in QML will automatically add an associated signal handler to the object definition, which has, by default, an empty implementation. Clients can provide an implementation, to implement program logic.
+
+Consider the following SquareButton type, whose definition is provided in the SquareButton.qml file as shown below, with signals activated and deactivated:
+
+```qml
+// SquareButton.qml
+Rectangle {
+    id: root
+
+    signal activated(xPosition: real, yPosition: real)
+    signal deactivated
+
+    property int side: 100
+    width: side; height: side
+
+    MouseArea {
+        anchors.fill: parent
+        onReleased: root.deactivated()
+        onPressed: (mouse)=> root.activated(mouse.x, mouse.y)
+    }
+}
+```
+
+These signals could be received by any SquareButton objects in another QML file in the same directory, where implementations for the signal handlers are provided by the client:
+
+```qml
+// myapplication.qml
+SquareButton {
+    onDeactivated: console.log("Deactivated!")
+    onActivated: (xPosition, yPosition)=> console.log("Activated at " + xPosition + "," + yPosition)
+}
+```
+
+Signal handlers don't have to declare their parameter types because the signal already specifies them. The arrow function syntax shown above does not support type annotations.
+
+See the [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html) for more details on use of signals.
+
+* Property Change Signal Handlers
+
+Signal handlers for property change signal take the syntax form on<Property>Changed where <Property> is the name of the property, with the first letter capitalized. For example, although the [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) type documentation does not document a textChanged signal, this signal is implicitly available through the fact that [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) has a [text](https://doc.qt.io/qt-6/qml-qtquick-textinput.html#text-prop) property and so it is possible to write an onTextChanged signal handler to be called whenever this property changes:
+
 
 
 
