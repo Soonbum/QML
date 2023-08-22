@@ -625,11 +625,11 @@ Rectangle {
 }
 ```
 
-Any object that use this type and refer to its color property will be referring to the alias rather than the ordinary [Rectangle::color](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html#color-prop) property. Internally, however, the rectangle can correctly set its color property and refer to the actual defined property rather than the alias.
+이 type을 사용하고 color property를 참조하는 모든 object는 일반적인 [Rectangle::color](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html#color-prop) property가 아닌 alias를 참조할 것입니다. 그러나 내부적으로 Rectangle은 color property를 올바르게 설정하고 alias가 아닌 실제 정의된 property를 참조할 수 있습니다.
 
 * Property Alias와 Type
 
-Property aliases cannot have explicit type specifications. The type of a property alias is the declared type of the property or object it refers to. Therefore, if you create an alias to an object referenced via id with extra properties declared inline, the extra properties won't be accessible through the alias:
+Property alias는 명시적인 type 사양을 가질 수 없습니다. property alias의 type은 이것이 참조하는 property 또는 object의 선언된 type입니다. 그러므로 id와 인라인으로 선언된 추가 property들을 통해 참조된 object에 대한 alias를 생성하면, alias를 통해 추가 property에 접근할 수 없습니다:
 
 ```qml
 // MyItem.qml
@@ -643,21 +643,21 @@ Item {
 }
 ```
 
-You cannot initialize inner.extraProperty from outside of this component, as inner is only an Item:
+inner는 단지 항목일 뿐이기 때문에 당신은 이 component의 밖에서 inner.extraProperty를 초기화할 수 없습니다:
 
 ```qml
 // main.qml
 MyItem {
-    inner.extraProperty: 5 // fails
+    inner.extraProperty: 5 // 실패
 }
 ```
 
-However, if you extract the inner object into a separate component with a dedicated .qml file, you can instantiate that component instead and have all its properties available through the alias:
+그러나 전용 .qml 파일을 사용하여 inner object를 별도의 component로 추출하면, 당신은 그 component를 인스턴스화 할 수 있고 alias를 통해 그것의 모든 property에 접근할 수 있습니다:
 
 ```qml
 // MainItem.qml
 Item {
-    // Now you can access inner.extraProperty, as inner is now an ExtraItem
+    // 이제 당신은 inner.extraProperty에 접근할 수 있습니다. 왜냐하면 inner는 이제 ExtraItem이기 때문입니다.
     property alias inner: innerItem
 
     ExtraItem {
@@ -671,11 +671,11 @@ Item {
 }
 ```
 
-* Default Properties
+* 기본 Properties
 
-An object definition can have a single default property. A default property is the property to which a value is assigned if an object is declared within another object's definition without declaring it as a value for a particular property.
+object 정의는 하나의 기본 property를 가질 수 있습니다. 기본 property란 특정 property에 대한 값을 선언하지 않고 또 다른 object의 정의 안에서 어떤 object를 선언했을 때 값이 할당되는 property입니다.
 
-Declaring a property with the optional default keyword marks it as the default property. For example, say there is a file MyLabel.qml with a default property someText:
+선택적인 default 키워드를 사용하여 property를 선언하면 기본 property로 표시됩니다. 예를 들어, 기본 property someText를 가진 MyLabel.qml이 있다고 가정합니다:
 
 ```qml
 // MyLabel.qml
@@ -688,9 +688,9 @@ Text {
 }
 ```
 
-```qml
 The someText value could be assigned to in a MyLabel object definition, like this:
 
+```qml
 MyLabel {
     Text { text: "world!" }
 }
