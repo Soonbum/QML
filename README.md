@@ -58,17 +58,17 @@ ApplicationWindow {
 | --- | --- |
 | QML | QML 앱에서 작성할 때 사용하는 언어입니다. 언어 구조 및 엔진은 Qt QML 모듈에 의해 구현됩니다. |
 | Qt Quick | QML 언어에 대한 타입들에 대한 표준 라이브러리와 기능은 Qt Quick 모듈이 제공합니다. "import [QtQuick](https://doc.qt.io/qt-6/qtquick-module.html)"로 접근할 수 있습니다. |
-| Type | QML에는 [Value Type](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html) 또는 [QML Object Type](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)이라는 타입이 있습니다. QML 언어는 많은 내장 [value 타입](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html)을 제공합니다. 그리고 Qt Quick 모듈은 QML 앱을 만들기 위한 다양한 [Qt Quick 타입](https://doc.qt.io/qt-6/qtquick-qmlmodule.html)을 제공합니다. 또, 서드파티 개발자들이 [모듈](https://doc.qt.io/qt-6/qtqml-modules-topic.html)을 통해, 혹은 앱 개발자가 [QML 문서](https://doc.qt.io/qt-6/qtqml-documents-definetypes.html)를 통해 앱에서 자체적으로 타입을 제공할 수도 있습니다. 자세한 것은 [QML Type System](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)을 보십시오. |
-| Value Type | [Value Type](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)은 int, string, bool과 같은 단순한 타입입니다. [Object type](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)과 달리 Object는 Value Type으로부터 인스턴스를 만들 수 없습니다. 예를 들어, 프로퍼티, 메서드, 시그널 등을 이용하여 int Object를 만들 수 없습니다. Object type 뿐만 아니라 Value type도 [QML 모듈](https://doc.qt.io/qt-6/qtqml-modules-topic.html)에 속해 있습니다. 이것들을 사용하려면 모듈을 import해야 합니다. 일부 타입들은 언어에 내장되어 있습니다. 예를 들면 int, bool, double, string과 [QtObject](https://doc.qt.io/qt-6/qml-qtqml-qtobject.html)와 Component가 있습니다. 자세한 것은 [QML Type System](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)을 보십시오. |
-| Object Type | [QML Object Type](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)은 QML 엔진에 의해 인스턴스화 할 수 있는 타입을 의미합니다. QML Type은 대문자로 시작하는 .qml 파일 내 도큐먼트, 혹은 [QObject](https://doc.qt.io/qt-6/qobject.html)-기반 C++ 클래스에 의해 정의될 수 있습니다. 자세한 것은 [QML Type System](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)을 보십시오. |
-| Object | QML Object는 [QML Object Type](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)의 인스턴스입니다. 이 객체들은 [객체 선언](https://doc.qt.io/qt-6/qtqml-syntax-basics.html)을 처리할 때 엔진에 의해 생성됩니다. 객체 선언에는 생성될 객체를 정의하거나 객 객체에 대하여 정의되는 속성이 있습니다. 게다가 Object는 Component.createObject()와 Qt.createQmlObject() 함수를 통해 런타임 시에 동적으로 생성될 수 있습니다. [Lazy Instantiation](https://doc.qt.io/qt-6/qml-glossary.html#lazy-instantiation)도 보십시오. |
-| Component | Component는 QML Object 또는 Object tree가 생성되는 템플릿입니다. QML 엔진에 의해 도큐먼트가 로드될 때 Component가 생성됩니다. 일단 한 번 로드되면 그것을 표현하는 Object 또는 Object tree를 인스턴스화 하는 데 사용될 수 있습니다. 게다가 [Component](https://doc.qt.io/qt-6/qml-qtqml-component.html) type은 도큐먼트 안에서 인라인으로 선언하는 데 사용될 수 있는 특수 타입입니다. Component object들은 동적으로 QML object들을 생성하는 Qt.createComponent()를 통해서도 동적으로 생성될 수 있습니다. |
-| Document | [QML Document](https://doc.qt.io/qt-6/qtqml-documents-topic.html)는 1개 이상의 import 구문으로 시작하고 단일 최상위 레벨 object 선언을 포함하는 자체 포함 QML 소스 코드 조각입니다. Document는 .qml 파일 또는 텍스트 문자열 안에 있을 수 있습니다. 만약 도큐먼트가 대문자로 시작하는 이름을 가진 .qml 파일 안에 있다면, 엔진은 이 파일이 QML 타입의 정의라고 인식합니다. 최상위 레벨 Object 선언은 타입에 의해 인스턴스화될 Object tree를 캡슐화합니다. |
-| Property | 이름을 가지고 있으며 연관된 값을 가진 Object type의 속성입니다. 이 값은 외부에서 읽혀질 수 있습니다. (그리고 대부분의 경우 쓰여질 수도 있습니다.) Object는 여러 개의 Property를 가질 수 있습니다. 여타 Property들은 해당 Type에 대한 데이터인 반면(예. [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 타입의 "text" Property), 몇 가지 Property들은 canvas와 연관되어 있습니다(예. x, y, width, height, opacity). 자세한 것은 [QML Object Attributes](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html)를 보십시오. |
-| Binding | Binding은 Property와 "결합"되어 있는 JavaScript 표현식을 의미합니다. Property의 값은 해당 표현식을 평가하여 리턴되는 값입니다. 자세한 것은 [Property Binding](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)을 보십시오. |
-| Signal | Signal은 QML Object로부터의 알림을 의미합니다. 어떤 Object가 Signal을 방출(emit)하면, 다른 Object들은 이것을 듣고 [Signal Handler](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes)를 통해 Signal을 처리할 수 있습니다. QML Object의 대부분의 Property들은 Change Signal을 가지고 있습니다. 그리고 기능을 구현하기 위해 클라이언트가 정의한 연관된 Change Signal Handler도 가지고 있습니다. 예를 들어 앱에서 정의된 MouseArea type 인스턴스의 "onClicked()" Handler는 사운드 재생을 발생시킬 수 있습니다. 자세한 것은 [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)을 보십시오. |
-| Signal Handler | Signal Handler는 Signal에 의해 트리거되는 표현식(또는 함수)입니다. C++에서는 이것을 "slot"이라고도 합니다. 자세한 것은 [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)을 보십시오. |
-| Lazy Instantiation | 필요할 때까지 불필요한 작업을 하지 않기 위해 Object Instance는 런타임 시 "늦게" 인스턴스화 될 수 있습니다. Qt Quick은 편하게 Lazy Instantiation을 구현하기 위해 [Loader](https://doc.qt.io/qt-6/qml-qtquick-loader.html) Type을 제공합니다. |
+| 타입(Type) | QML에는 [Value Type](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html) 또는 [QML Object Type](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)이라는 타입이 있습니다. QML 언어는 많은 내장 [Value 타입](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html)을 제공합니다. 그리고 Qt Quick 모듈은 QML 앱을 만들기 위한 다양한 [Qt Quick 타입](https://doc.qt.io/qt-6/qtquick-qmlmodule.html)을 제공합니다. 또, 서드파티 개발자들이 [모듈](https://doc.qt.io/qt-6/qtqml-modules-topic.html)을 통해, 혹은 앱 개발자가 [QML 문서](https://doc.qt.io/qt-6/qtqml-documents-definetypes.html)를 통해 앱에서 자체적으로 타입을 제공할 수도 있습니다. 자세한 것은 [QML Type System](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)을 보십시오. |
+| 값(Value) Type | [Value Type](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)은 int, string, bool과 같은 단순한 타입입니다. [Object type](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)과 달리 Object는 Value Type으로부터 인스턴스를 만들 수 없습니다. 예를 들어, 프로퍼티, 메서드, 시그널 등을 이용하여 int Object를 만들 수 없습니다. Object type 뿐만 아니라 Value type도 [QML 모듈](https://doc.qt.io/qt-6/qtqml-modules-topic.html)에 속해 있습니다. 이것들을 사용하려면 모듈을 import해야 합니다. 일부 타입들은 언어에 내장되어 있습니다. 예를 들면 int, bool, double, string과 [QtObject](https://doc.qt.io/qt-6/qml-qtqml-qtobject.html)와 Component가 있습니다. 자세한 것은 [QML Type System](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)을 보십시오. |
+| 객체(Object) Type | [QML Object Type](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)은 QML 엔진에 의해 인스턴스화 할 수 있는 타입을 의미합니다. QML Type은 대문자로 시작하는 .qml 파일 내 도큐먼트, 혹은 [QObject](https://doc.qt.io/qt-6/qobject.html)-기반 C++ 클래스에 의해 정의될 수 있습니다. 자세한 것은 [QML Type System](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)을 보십시오. |
+| 객체(Object) | QML Object는 [QML Object Type](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)의 인스턴스입니다. 이 객체들은 [객체 선언](https://doc.qt.io/qt-6/qtqml-syntax-basics.html)을 처리할 때 엔진에 의해 생성됩니다. 객체 선언에는 생성될 객체를 정의하거나 객 객체에 대하여 정의되는 속성이 있습니다. 게다가 객체는 Component.createObject()와 Qt.createQmlObject() 함수를 통해 런타임 시에 동적으로 생성될 수 있습니다. [Lazy Instantiation](https://doc.qt.io/qt-6/qml-glossary.html#lazy-instantiation)도 보십시오. |
+| 컴포넌트(Component) | 컴포넌트는 QML Object 또는 Object tree가 생성되는 템플릿입니다. QML 엔진에 의해 도큐먼트가 로드될 때 컴포넌트가 생성됩니다. 일단 한 번 로드되면 그것을 표현하는 Object 또는 Object tree를 인스턴스화 하는 데 사용될 수 있습니다. 게다가 [컴포넌트](https://doc.qt.io/qt-6/qml-qtqml-component.html) 타입은 도큐먼트 안에서 인라인으로 선언하는 데 사용될 수 있는 특수 타입입니다. 컴포넌트 객체들은 동적으로 QML object들을 생성하는 Qt.createComponent()를 통해서도 동적으로 생성될 수 있습니다. |
+| 도큐먼트(Document) | [QML Document](https://doc.qt.io/qt-6/qtqml-documents-topic.html)는 1개 이상의 import 구문으로 시작하고 단일 최상위 레벨 object 선언을 포함하는 자체 포함 QML 소스 코드 조각입니다. 도큐먼트는 .qml 파일 또는 텍스트 문자열 안에 있을 수 있습니다. 만약 도큐먼트가 대문자로 시작하는 이름을 가진 .qml 파일 안에 있다면, 엔진은 이 파일이 QML 타입의 정의라고 인식합니다. 최상위 레벨 Object 선언은 타입에 의해 인스턴스화될 Object tree를 캡슐화합니다. |
+| 프로퍼티(Property) | 이름을 가지고 있으며 연관된 값을 가진 Object type의 속성입니다. 이 값은 외부에서 읽혀질 수 있습니다. (그리고 대부분의 경우 쓰여질 수도 있습니다.) 객체는 여러 개의 프로퍼티를 가질 수 있습니다. 여타 프로퍼티들은 해당 타입에 대한 데이터인 반면(예. [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 타입의 "text" Property), 몇 가지 프로퍼티들은 canvas와 연관되어 있습니다(예. x, y, width, height, opacity). 자세한 것은 [QML Object Attributes](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html)를 보십시오. |
+| 바인딩(Binding) | 바인딩은 프로퍼티와 "결합"되어 있는 JavaScript 표현식을 의미합니다. 프로퍼티의 값은 해당 표현식을 평가하여 리턴되는 값입니다. 자세한 것은 [Property Binding](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)을 보십시오. |
+| 시그널(Signal) | 시그널은 QML Object로부터의 알림을 의미합니다. 어떤 객체가 시그널을 방출(emit)하면, 다른 객체들은 이것을 듣고 [시그널 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes)를 통해 시그널을 처리할 수 있습니다. QML Object의 대부분의 프로퍼티들은 Change Signal을 가지고 있습니다. 그리고 기능을 구현하기 위해 클라이언트가 정의한 연관된 Change Signal Handler도 가지고 있습니다. 예를 들어 앱에서 정의된 MouseArea 타입 인스턴스의 "onClicked()" 핸들러는 사운드 재생을 발생시킬 수 있습니다. 자세한 것은 [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)을 보십시오. |
+| 시그널 핸들러(Signal Handler) | 시그널 핸들러는 시그널에 의해 트리거되는 표현식(또는 함수)입니다. C++에서는 이것을 "슬롯(slot)"이라고도 합니다. 자세한 것은 [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)을 보십시오. |
+| 늦은 인스턴스화(Lazy Instantiation) | 필요할 때까지 불필요한 작업을 하지 않기 위해 객체 인스턴스는 런타임 시 "늦게" 인스턴스화 될 수 있습니다. Qt Quick은 편하게 Lazy Instantiation을 구현하기 위해 [Loader](https://doc.qt.io/qt-6/qml-qtquick-loader.html) Type을 제공합니다. |
 
 ### [QML 레퍼런스](https://doc.qt.io/qt-6/qmlreference.html)
 
@@ -822,9 +822,9 @@ Item {
 signal <signalName>[([<parameterName>: <parameterType>[, ...]])]
 ```
 
-Attempting to declare two signals or methods with the same name in the same type block is an error. However, a new signal may reuse the name of an existing signal on the type. (This should be done with caution, as the existing signal may be hidden and become inaccessible.)
+동일한 type 블럭에서 같은 이름을 가진 2개의 signal 또는 메서드를 선언하려고 하는 것은 오류입니다. 그러나 새로운 signal은 type에 있는 기존 signal의 이름을 재사용할 수 있습니다. (이렇게 하면 기존 signal은 숨겨져서 접근할 수 없게 되므로 주의해서 수행해야 합니다)
 
-Here are three examples of signal declarations:
+다음은 signal 선언에 대한 3가지 예제입니다:
 
 ```qml
 import QtQuick 2.0
@@ -836,27 +836,27 @@ Item {
 }
 ```
 
-You can also specify signal parameters in property style syntax:
+또한 property 스타일 구문으로 signal 파라미터를 지정할 수도 있습니다:
 
 ```qml
 signal actionCanceled(string action)
 ```
 
-In order to be consistent with method declarations, you should prefer the type declarations using colons.
+메서드 선언과 일치하려면, 콜론(:)을 사용한 type 선언을 사용해야 합니다.
 
-If the signal has no parameters, the "()" brackets are optional. If parameters are used, the parameter types must be declared, as for the string and var arguments for the actionPerformed signal above. The allowed parameter types are the same as those listed under [Defining Property Attributes](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#defining-property-attributes) on this page.
+만약 signal이 파라미터가 없을 경우, ()는 선택사항입니다. 만약 파라미터를 사용한다면 위의 actionPerformed signal에 대한 string과 var 인수와 같이 파라미터 type을 반드시 선언해야 합니다. 허용된 파라미터 type은 이 페이지에 있는 [Property Attributes 정의하기](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#defining-property-attributes)에 나열되어 있는 것과 같습니다.
 
-To emit a signal, invoke it as a method. Any relevant [signal handlers](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes) will be invoked when the signal is emitted, and handlers can use the defined signal argument names to access the respective arguments.
+signal을 방출(emit)하려면 메서드로 호출해야 합니다. signal을 방출할 때 연관된 [signal 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes)가 호출되고 핸들러는 정의된 signal 인수 이름을 사용하여 각 인수에 접근할 수 있습니다.
 
 * Property Change Signals
 
-QML types also provide built-in property change signals that are emitted whenever a property value changes, as previously described in the section on [property attributes](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#property-attributes). See the upcoming section on [property change signal handlers](https://doc.qt.io/qt-6/qtqml-syntax-signals.html#property-change-signal-handlers) for more information about why these signals are useful, and how to use them.
+QML type은 [property attributes](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#property-attributes)에 대한 섹션에서 설명했던 것처럼 property 값이 바뀔 때마다 방출되는 내장 property change signal도 제공합니다. 이러한 signal이 왜 유용한지, 그리고 어떻게 사용하는지에 대한 정보는 다음에 나오는 [property change signal 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-signals.html#property-change-signal-handlers)을 보십시오.
 
 * Signal Handler Attributes
 
-Signal handlers are a special sort of [method attribute](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#method-attributes), where the method implementation is invoked by the QML engine whenever the associated signal is emitted. Adding a signal to an object definition in QML will automatically add an associated signal handler to the object definition, which has, by default, an empty implementation. Clients can provide an implementation, to implement program logic.
+signal 핸들러는 특수한 종류의 [method attribute](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#method-attributes)입니다. 여기서 메서드 구현은 연관된 signal이 방출될 때마다 QML 엔진에 의해 호출됩니다. QML에서 object 정의에 signal을 추가하면 연관된 signal 핸들러가 object 정의에 자동으로 추가되며, 이는 기본적으로 빈 구현을 가지고 있습니다. 클라이언트는 프로그램 로직을 구현하기 위해 구현을 제공할 수 있습니다.
 
-Consider the following SquareButton type, whose definition is provided in the SquareButton.qml file as shown below, with signals activated and deactivated:
+다음과 같은 SquareButton.qml 파일에서 signal이 활성화 및 비활성화된 상태로 정의가 제공되는 SquareButton type을 생각해 보십시오:
 
 ```qml
 // SquareButton.qml
@@ -877,7 +877,7 @@ Rectangle {
 }
 ```
 
-These signals could be received by any SquareButton objects in another QML file in the same directory, where implementations for the signal handlers are provided by the client:
+이러한 signal은 동일한 디렉토리에 있는 다른 QML 파일의 SquareButton object에서 수신할 수 있습니다. 여기서 signal 핸들러에 대한 구현은 클라이언트에 의해 제공됩니다:
 
 ```qml
 // myapplication.qml
@@ -887,13 +887,13 @@ SquareButton {
 }
 ```
 
-Signal handlers don't have to declare their parameter types because the signal already specifies them. The arrow function syntax shown above does not support type annotations.
+signal이 이미 파라미터 type을 지정하고 있으므로 signal 핸들러는 파라미터 type을 선언할 필요가 없습니다. 위에 표시된 화살표 함수 구문은 type 표기법을 지원하지 않습니다.
 
-See the [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html) for more details on use of signals.
+signal 사용에 대한 자세한 내용은 [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)을 보십시오.
 
 * Property Change Signal Handlers
 
-Signal handlers for property change signal take the syntax form on<Property>Changed where <Property> is the name of the property, with the first letter capitalized. For example, although the [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) type documentation does not document a textChanged signal, this signal is implicitly available through the fact that [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) has a [text](https://doc.qt.io/qt-6/qml-qtquick-textinput.html#text-prop) property and so it is possible to write an onTextChanged signal handler to be called whenever this property changes:
+property change signal에 대한 signal 핸들러는 on<Property>Changed 형태의 구문을 갖습니다. 여기서 <Property>는 property의 이름이며 첫 글자는 대문자입니다. 예를 들면, [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) type 도큐먼트는 TextChanged signal을 문서화하지 않지만 [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html)이 [text](https://doc.qt.io/qt-6/qml-qtquick-textinput.html#text-prop) property를 가지고 있고 이 property가 변경될 때마다 호출되는 OnTextChanged signal 핸들러를 작성할 수 있으므로 이 signal은 암묵적으로 이용 가능합니다:
 
 ```qml
 import QtQuick 2.0
