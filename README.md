@@ -491,47 +491,47 @@ Rectangle {
 }
 ```
 
-If you wish to declare a property to store a list of values which are not necessarily QML object-type values, you should declare a [var](https://doc.qt.io/qt-6/qml-var.html) property instead.
+만약 QML object-type 값이 아닌 값 list를 저장할 property를 선언하려면 [var](https://doc.qt.io/qt-6/qml-var.html) property를 대신 선언해야 합니다.
 
-* Grouped Properties
+* 그룹화된 Properties
 
-In some cases properties contain a logical group of sub-property attributes. These sub-property attributes can be assigned to using either the dot notation or group notation.
+일부 경우에서는 property가 sub-property attribute의 논리적 그룹을 포함하고 있습니다. 이 sub-property attribute들은 도트 표기법 또는 그룹 표기법을 사용하여 할당할 수 있습니다.
 
-For example, the [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) type has a [font](https://doc.qt.io/qt-6/qml-qtquick-text.html#font.family-prop) group property. Below, the first [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object initializes its font values using dot notation, while the second uses group notation:
+예를 들어, [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) type이 [font](https://doc.qt.io/qt-6/qml-qtquick-text.html#font.family-prop) group property를 갖고 있다고 가정합니다. 아래에서 1번째는 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object가 도트 표기법으로 font 값을 초기화하고 있습니다. 2번째는 그룹 표기법을 사용하고 있습니다:
 
 ```qml
 Text {
-    //dot notation
+    // 도트 표기법
     font.pixelSize: 12
     font.b: true
 }
 
 Text {
-    //group notation
+    // 그룹 표기법
     font { pixelSize: 12; b: true }
 }
 ```
 
-Grouped property types are types which have subproperties. If a grouped property type is an object type (as opposed to a value type), the property that holds it must be read-only. This is to prevent you from replacing the object the subproperties belong to.
+그룹화된 property type은 subproperty를 갖고 있는 type입니다. 만약 그룹화된 property type이 (value type이 아닌) object type이라면, 이 property는 읽기-전용이어야 합니다. 이것은 subproperty가 속한 object를 바꾸지 못하게 합니다.
 
-* Property Aliases
+* Property Alias(별명)
 
-Property aliases are properties which hold a reference to another property. Unlike an ordinary property definition, which allocates a new, unique storage space for the property, a property alias connects the newly declared property (called the aliasing property) as a direct reference to an existing property (the aliased property).
+Property Alias는 또 다른 property에 대한 참조를 갖고 있는 property입니다. property에 대한 새로운 고유의 저장 공간을 할당하는 일반적인 property 정의와 달리, property alias는 (aliasing property라고 하는) 새로 선언된 property를 기존 property(aliased property)에 직접 참조로 연결합니다.
 
-A property alias declaration looks like an ordinary property definition, except that it requires the alias keyword instead of a property type, and the right-hand-side of the property declaration must be a valid alias reference:
+property alias 선언은 property type과 달리 alias 키워드가 필요하고 property 선언의 오른쪽에 유효한 alias 참조가 있어야 한다는 점만 제외하면 일반적인 property 정의와 비슷합니다:
 
 ```qml
 [default] property alias <name>: <alias reference>
 ```
 
-Unlike an ordinary property, an alias has the following restrictions:
+일반적인 property와 달리 alias는 다음과 같은 제한사항을 가지고 있습니다:
 
-- It can only refer to an object, or the property of an object, that is within the scope of the [type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html) within which the alias is declared.
-- It cannot contain arbitrary JavaScript expressions
-- It cannot refer to objects declared outside of the scope of its type.
-- The alias reference is not optional, unlike the optional default value for an ordinary property; the alias reference must be provided when the alias is first declared.
-- It cannot refer to [attached properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#attached-properties-and-attached-signal-handlers).
-- It cannot refer to properties inside a hierarchy with depth 3 or greater. The following code will not work:
+- alias가 선언된 [type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)의 범위 내에 있는 object, 또는 object의 property만 참조할 수 있습니다.
+- 임의의 JavaScript 표현식을 포함할 수 없습니다.
+- 해당 type의 범위 밖에서 선언된 object를 참조할 수 없습니다.
+- 일반적인 property의 경우 기본값이 선택적이지만 alias 참조는 선택적이지 않습니다; alias 참조는 alias가 처음 선언될 때 제공되어야 합니다.
+- [부착된 property](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#attached-properties-and-attached-signal-handlers)를 참조할 수 없습니다.
+- 깊이가 3 이상인 계층 내부의 property를 참조할 수 없습니다. 다음 코드는 작동하지 않습니다:
 
 ```qml
 property alias color: myItem.myRect.border.color
@@ -542,7 +542,7 @@ Item {
 }
 ```
 
-However, aliases to properties that are up to two levels deep will work.
+그러나 최대 2레벨 깊이까지의 property에 대한 alias는 작동합니다.
 
 ```qml
 property alias color: rectangle.border.color
@@ -552,7 +552,7 @@ Rectangle {
 }
 ```
 
-For example, below is a Button type with a buttonText aliased property which is connected to the text object of the [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) child:
+예를 들어, 다음은 alias property인 buttonText를 가진 Button type입니다. buttonText는 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) child의 text object에 연결되어 있습니다:
 
 ```qml
 // Button.qml
@@ -567,33 +567,33 @@ Rectangle {
 }
 ```
 
-The following code would create a Button with a defined text string for the child [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object:
+다음 코드는 child [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object에 대하여 정의된 text string을 가진 Button을 생성할 것입니다:
 
 ```qml
 Button { buttonText: "Click Me" }
 ```
 
-Here, modifying buttonText directly modifies the textItem.text value; it does not change some other value that then updates textItem.text. If buttonText was not an alias, changing its value would not actually change the displayed text at all, as property bindings are not bi-directional: the buttonText value would have changed if textItem.text was changed, but not the other way around.
+여기서 buttonText를 수정하면 textItem.text 값이 직접 바뀝니다; 다른 값을 바꾸지 않고 textItem.text을 업데이트합니다. 만약 buttonText가 alias가 아니었더라면 이 값을 바꾸는 것은 표시되는 텍스트를 실제로 바꾸지 않을 것입니다. 왜냐하면 property binding이 쌍방향이 아니기 때문입니다: 만약 textItem.text가 바뀌었다면 buttonText도 바뀌겠지만 그 반대로는 변경되지 않습니다.
 
-* Considerations for Property Aliases
+* Property Alias에 대해 고려할 사항
 
-Aliases are only activated once a component has been fully initialized. An error is generated when an uninitialized alias is referenced. Likewise, aliasing an aliasing property will also result in an error.
+Alias는 일단 component가 완전히 초기화되었을 때에만 활성화됩니다. 초기화되지 않은 alias를 참조하면 오류가 발생합니다. 마찬가지로 aliasing property를 aliasing하는 것도 오류가 발생합니다.
 
 ```qml
 property alias widgetLabel: label
 
-//will generate an error
+//오류가 발생함
 //widgetLabel.text: "Initial text"
 
-//will generate an error
+//오류가 발생함
 //property alias widgetLabelText: widgetLabel.text
 
 Component.onCompleted: widgetLabel.text = "Alias completed Initialization"
 ```
 
-When importing a [QML object type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html) with a property alias in the root object, however, the property appear as a regular Qt property and consequently can be used in alias references.
+그러나 root object에 property alias를 갖고 있는 [QML object type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)을 가져올 때에는 property가 일반 Qt property로 나타나므로 alias 참조에 사용할 수 있습니다.
 
-It is possible for an aliasing property to have the same name as an existing property, effectively overwriting the existing property. For example, the following QML type has a color alias property, named the same as the built-in [Rectangle::color](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html#color-prop) property:
+aliasing property가 기존 property와 같은 이름을 갖는 것이 가능하므로 사실상 기존 property를 덮어쓸 수 있습니다. 예를 들어, 다음 QML type은 내장된 [Rectangle::color](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html#color-prop) property와 동일한 이름을 가진 color alias property를 갖고 있습니다:
 
 ```qml
 Rectangle {
@@ -607,14 +607,14 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        console.log (coloredrectangle.color)    //prints "#1234ff"
+        console.log (coloredrectangle.color)    // "#1234ff" 출력함
         setInternalColor()
-        console.log (coloredrectangle.color)    //prints "#111111"
+        console.log (coloredrectangle.color)    // "#111111" 출력함
         coloredrectangle.color = "#884646"
-        console.log (coloredrectangle.color)    //prints #884646
+        console.log (coloredrectangle.color)    // "#884646" 출력함
     }
 
-    //internal function that has access to internal properties
+    // 내부 property에 접근할 수 있는 내부 함수
     function setInternalColor() {
         color = "#111111"
     }
@@ -623,7 +623,7 @@ Rectangle {
 
 Any object that use this type and refer to its color property will be referring to the alias rather than the ordinary [Rectangle::color](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html#color-prop) property. Internally, however, the rectangle can correctly set its color property and refer to the actual defined property rather than the alias.
 
-* Property Aliases and Types
+* Property Alias와 Type
 
 Property aliases cannot have explicit type specifications. The type of a property alias is the declared type of the property or object it refers to. Therefore, if you create an alias to an object referenced via id with extra properties declared inline, the extra properties won't be accessible through the alias:
 
@@ -891,6 +891,204 @@ See the [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-si
 
 Signal handlers for property change signal take the syntax form on<Property>Changed where <Property> is the name of the property, with the first letter capitalized. For example, although the [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) type documentation does not document a textChanged signal, this signal is implicitly available through the fact that [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) has a [text](https://doc.qt.io/qt-6/qml-qtquick-textinput.html#text-prop) property and so it is possible to write an onTextChanged signal handler to be called whenever this property changes:
 
+```qml
+import QtQuick 2.0
+
+TextInput {
+    text: "Change this!"
+
+    onTextChanged: console.log("Text has changed to:", text)
+}
+```
+
+* Method Attributes
+
+A method of an object type is a function which may be called to perform some processing or trigger further events. A method can be connected to a signal so that it is automatically invoked whenever the signal is emitted. See [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html) for more details.
+
+* Defining Method Attributes
+
+A method may be defined for a type in C++ by tagging a function of a class which is then registered with the QML type system with [Q_INVOKABLE](https://doc.qt.io/qt-6/qobject.html#Q_INVOKABLE) or by registering it as a [Q_SLOT](https://doc.qt.io/qt-6/qobject.html#Q_SLOT) of the class. Alternatively, a custom method can be added to an object declaration in a QML document with the following syntax:
+
+```qml
+function <functionName>([<parameterName>[: <parameterType>][, ...]]) [: <returnType>] { <body> }
+```
+
+Methods can be added to a QML type in order to define standalone, reusable blocks of JavaScript code. These methods can be invoked either internally or by external objects.
+
+Unlike signals, method parameter types do not have to be declared as they default to the var type. You should, however, declare them in order to help qmlcachegen generate more performant code, and to improve maintainability.
+
+Attempting to declare two methods or signals with the same name in the same type block is an error. However, a new method may reuse the name of an existing method on the type. (This should be done with caution, as the existing method may be hidden and become inaccessible.)
+
+Below is a [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) with a calculateHeight() method that is called when assigning the height value:
+
+```qml
+import QtQuick 2.0
+Rectangle {
+    id: rect
+
+    function calculateHeight() : real {
+        return rect.width / 2;
+    }
+
+    width: 100
+    height: calculateHeight()
+}
+```
+
+If the method has parameters, they are accessible by name within the method. Below, when the [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) is clicked it invokes the moveTo() method which can then refer to the received newX and newY parameters to reposition the text:
+
+```qml
+import QtQuick 2.0
+
+Item {
+    width: 200; height: 200
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: (mouse)=> label.moveTo(mouse.x, mouse.y)
+    }
+
+    Text {
+        id: label
+
+        function moveTo(newX: real, newY: real) {
+            label.x = newX;
+            label.y = newY;
+        }
+
+        text: "Move me!"
+    }
+}
+```
+
+* Attached Properties and Attached Signal Handlers
+
+Attached properties and attached signal handlers are mechanisms that enable objects to be annotated with extra properties or signal handlers that are otherwise unavailable to the object. In particular, they allow objects to access properties or signals that are specifically relevant to the individual object.
+
+A QML type implementation may choose to [create an attaching type in C++](https://doc.qt.io/qt-6/qtqml-cppintegration-definetypes.html#providing-attached-properties) with particular properties and signals. Instances of this type can then be created and attached to specific objects at run time, allowing those objects to access the properties and signals of the attaching type. These are accessed by prefixing the properties and respective signal handlers with the name of the attaching type.
+
+References to attached properties and handlers take the following syntax form:
+
+```qml
+<AttachingType>.<propertyName>
+<AttachingType>.on<SignalName>
+```
+
+For example, the [ListView](https://doc.qt.io/qt-6/qml-qtquick-listview.html) type has an attached property [ListView.isCurrentItem](https://doc.qt.io/qt-6/qml-qtquick-listview.html#isCurrentItem-attached-prop) that is available to each delegate object in a [ListView](https://doc.qt.io/qt-6/qml-qtquick-listview.html). This can be used by each individual delegate object to determine whether it is the currently selected item in the view:
+
+```qml
+import QtQuick 2.0
+
+ListView {
+    width: 240; height: 320
+    model: 3
+    delegate: Rectangle {
+        width: 100; height: 30
+        color: ListView.isCurrentItem ? "red" : "yellow"
+    }
+}
+```
+
+In this case, the name of the attaching type is ListView and the property in question is isCurrentItem, hence the attached property is referred to as ListView.isCurrentItem.
+
+An attached signal handler is referred to in the same way. For example, the [Component.onCompleted](https://doc.qt.io/qt-6/qml-qtqml-component.html#completed-signal) attached signal handler is commonly used to execute some JavaScript code when a component's creation process has been completed. In the example below, once the [ListModel](https://doc.qt.io/qt-6/qml-qtqml-models-listmodel.html) has been fully created, its Component.onCompleted signal handler will automatically be invoked to populate the model:
+
+```qml
+import QtQuick 2.0
+
+ListView {
+    width: 240; height: 320
+    model: ListModel {
+        id: listModel
+        Component.onCompleted: {
+            for (var i = 0; i < 10; i++)
+                listModel.append({"Name": "Item " + i})
+        }
+    }
+    delegate: Text { text: index }
+}
+```
+
+Since the name of the attaching type is Component and that type has a [completed](https://doc.qt.io/qt-6/qml-qtqml-component.html#completed-signal) signal, the attached signal handler is referred to as Component.onCompleted.
+
+* A Note About Accessing Attached Properties and Signal Handlers
+
+A common error is to assume that attached properties and signal handlers are directly accessible from the children of the object to which these attributes have been attached. This is not the case. The instance of the attaching type is only attached to specific objects, not to the object and all of its children.
+
+For example, below is a modified version of the earlier example involving attached properties. This time, the delegate is an [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) and the colored [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) is a child of that item:
+
+```qml
+import QtQuick 2.0
+
+ListView {
+    width: 240; height: 320
+    model: 3
+    delegate: Item {
+        width: 100; height: 30
+
+        Rectangle {
+            width: 100; height: 30
+            color: ListView.isCurrentItem ? "red" : "yellow"    // WRONG! This won't work.
+        }
+    }
+}
+```
+
+This does not work as expected because ListView.isCurrentItem is attached only to the root delegate object, and not its children. Since the [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) is a child of the delegate, rather than being the delegate itself, it cannot access the isCurrentItem attached property as ListView.isCurrentItem. So instead, the rectangle should access isCurrentItem through the root delegate:
+
+```qml
+ListView {
+    //....
+    delegate: Item {
+        id: delegateItem
+        width: 100; height: 30
+
+        Rectangle {
+            width: 100; height: 30
+            color: delegateItem.ListView.isCurrentItem ? "red" : "yellow"   // correct
+        }
+    }
+}
+```
+
+Now delegateItem.ListView.isCurrentItem correctly refers to the isCurrentItem attached property of the delegate.
+
+* Enumeration Attributes
+
+Enumerations provide a fixed set of named choices. They can be declared in QML using the enum keyword:
+
+```qml
+// MyText.qml
+Text {
+    enum TextType {
+        Normal,
+        Heading
+    }
+}
+```
+
+As shown above, enumeration types (e.g. TextType) and values (e.g. Normal) must begin with an uppercase letter.
+
+Values are referred to via <Type>.<EnumerationType>.<Value> or <Type>.<Value>.
+
+```qml
+// MyText.qml
+Text {
+    enum TextType {
+        Normal,
+        Heading
+    }
+
+    property int textType: MyText.TextType.Normal
+
+    font.bold: textType == MyText.TextType.Heading
+    font.pixelSize: textType == MyText.TextType.Heading ? 24 : 12
+}
+```
+
+More information on enumeration usage in QML can be found in the [QML Value Types](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html) [enumeration](https://doc.qt.io/qt-6/qml-enumeration.html) documentation.
+
+The ability to declare enumerations in QML was introduced in Qt 5.10.
 
 
 
