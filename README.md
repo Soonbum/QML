@@ -328,51 +328,49 @@ property Rectangle someRectangle
 
 또한 이것은 [커스텀 QML types](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html#defining-object-types-from-qml)에 적용됩니다. 만약 QML type이 파일 ColorfulButton.qml(클라이언트가 가져온 디렉토리 안)에 정의되어 있다면, type ColorfulButton의 property 역시 유효합니다.
 
-...
+* Property Attribute에 값 할당하기
 
-* Assigning Values to Property Attributes
+object 인스턴스의 property의 값은 2가지 방식으로 지정할 수 있습니다:
 
-The value of a property of an object instance may be specified in two separate ways:
+- 초기화 시에 값 할당
+- 명령형 값 할당
 
-- a value assignment on initialization
-- an imperative value assignment
+두 경우 모두 값은 정적이거나 바인딩 표현식 값일 수 있습니다.
 
-In either case, the value may be either a static value or a binding expression value.
+* 초기화 시에 값 할당
 
-* Value Assignment on Initialization
-
-The syntax for assigning a value to a property on initialization is:
+초기화 시에 property에 값을 할당하는 구문은 다음과 같습니다:
 
 ```qml
 <propertyName> : <value>
 ```
 
-An initialization value assignment may be combined with a property definition in an object declaration, if desired. In that case, the syntax of the property definition becomes:
+초기값 할당은 만약 원한다면 object 선언에서 property 정의와 결합될 수 있습니다. 이 경우 property 정의 구문은 다음과 같습니다:
 
 ```qml
 [default] property <propertyType> <propertyName> : <value>
 ```
 
-An example of property value initialization follows:
+property 값 초기화 예제는 다음과 같습니다:
 
 ```qml
 import QtQuick 2.0
 
 Rectangle {
     color: "red"
-    property color nextColor: "blue" // combined property declaration and initialization
+    property color nextColor: "blue" // 결합된 property 선언 및 초기화
 }
 ```
 
-* Imperative Value Assignment
+* 명령형 값 할당
 
-An imperative value assignment is where a property value (either static value or binding expression) is assigned to a property from imperative JavaScript code. The syntax of an imperative value assignment is just the JavaScript assignment operator, as shown below:
+명령형 값 할당은 명령형 JavaScript 코드로부터 property 값(정적인 값 또는 바인딩 표현식)이 property에 할당되는 것입니다. 명령형 값 할당의 구문은 다음과 같이 JavaScript 할당 연산자를 사용합니다:
 
 ```qml
 [<objectId>.]<propertyName> = value
 ```
 
-An example of imperative value assignment follows:
+명령형 값 할당의 예제는 다음과 같습니다:
 
 ```qml
 import QtQuick 2.0
@@ -385,62 +383,62 @@ Rectangle {
 }
 ```
 
-* Static Values and Binding Expression Values
+* 정적인 값 및 바인딩 표현식 값
 
-As previously noted, there are two kinds of values which may be assigned to a property: static values, and binding expression values. The latter are also known as [property bindings](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html).
+위에서 봤듯이, property에 할당되는 값은 두 종류가 있습니다: 정적인 값, 그리고 바인딩 표현식 값. 후자의 경우를 [property binding](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)이라고도 합니다.
 
-| Kind | Semantics |
+| 종류 | 의미 |
 | --- | --- |
-| Static Value | A constant value which does not depend on other properties. |
-| Binding Expression | A JavaScript expression which describes a property's relationship with other properties. The variables in this expression are called the property's dependencies. The QML engine enforces the relationship between a property and its dependencies. When any of the dependencies change in value, the QML engine automatically re-evaluates the binding expression and assigns the new result to the property. |
+| 정적인 값 | 다른 property에 의존하지 않는 상수 값입니다. |
+| 바인딩 표현식 | 어떤 property와 다른 property들과의 관계를 설명하는 JavaScript 표현식입니다. 이 표현식에서 변수는 property의 의존성이라고도 합니다. QML 엔진은 어떤 property와 의존성 간의 관계를 만들어냅니다. 값에서 의존성 변화가 생기면 QML 엔진은 자동으로 바인딩 표현식을 다시 연산하고 property에 새로운 결과를 할당합니다. |
 
-Here is an example that shows both kinds of values being assigned to properties:
+다음은 property에 할당되는 두 종류의 값을 보여주는 예제입니다:
 
 ```qml
 import QtQuick 2.0
 
 Rectangle {
-    // both of these are static value assignments on initialization
+    // 다음은 초기화 시에 정적인 값을 할당함
     width: 400
     height: 200
 
     Rectangle {
-        // both of these are binding expression value assignments on initialization
+        // 다음은 초기화 시에 바인딩 표현식 값을 할당함
         width: parent.width / 2
         height: parent.height
     }
 }
 ```
 
-Note: To assign a binding expression imperatively, the binding expression must be contained in a function that is passed into Qt.binding(), and then the value returned by [Qt.binding](https://doc.qt.io/qt-6/qml-qtqml-qt.html#binding-method)() must be assigned to the property. In contrast, Qt.binding() must not be used when assigning a binding expression upon initialization. See [Property Binding](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html) for more information.
+주의: 바인딩 표현식을 명령형으로 할당하려면 바인딩 표현식을 Qt.binding()에 전달된 함수 안에 포함시켜야 합니다. 그리고 나서 [Qt.binding](https://doc.qt.io/qt-6/qml-qtqml-qt.html#binding-method)()이 리턴한 값을 property에 할당해야 합니다. 반대로 초기화 시에 바인딩 표현식을 할당할 때에는 Qt.binding()을 사용하지 말아야 합니다. 더 많은 정보는 [Property Binding](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)을 보십시오.
 
 * Type Safety
 
-Properties are type safe. A property can only be assigned a value that matches the property type.
+property는 타입 safe입니다. property에는 property type이 일치하는 값만 할당할 수 있습니다.
 
-For example, if a property is a real, and if you try to assign a string to it, you will get an error:
+예를 들어, 만약 property가 real 타입인데 string을 할당하려고 시도한다면 다음과 같은 오류가 발생할 것입니다:
 
 ```qml
-property int volume: "four"  // generates an error; the property's object will not be loaded
+property int volume: "four"  // 오류가 발생함; property의 object가 로드되지 않을 것입니다.
 ```
 
-Likewise if a property is assigned a value of the wrong type during run time, the new value will not be assigned, and an error will be generated.
+마찬가지로 런타임 중에 property에 잘못된 type의 값이 할당되면 새로운 값이 할당되지 않고 오류가 발생할 것입니다.
 
-Some property types do not have a natural value representation, and for those property types the QML engine automatically performs string-to-typed-value conversion. So, for example, even though properties of the color type store colors and not strings, you are able to assign the string "red" to a color property, without an error being reported.
+일부 property type들은 자연 값 표현식을 갖고 있지 않으며 이러한 property type에 대해서는 QML 엔진이 자동으로 string-to-typed-value 변환을 수행합니다. 예를 들면, color type의 property에 문자열이 아닌 컬러를 저장해도 오류가 보고되지 않으며 color property에 문자열 "red"를 할당할 수 있습니다.
 
-See [QML Value Types](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html) for a list of the types of properties that are supported by default. Additionally, any available [QML object type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html) may also be used as a property type.
+기본적으로 지원되는 property의 type 목록은 [QML Value Types](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html)를 보십시오. 게다가 사용 가능한 [QML object type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)은 property type으로도 사용할 수 있습니다.
 
-* Special Property Types
+* 특수 Property Types
 
 * Object List Property Attributes
 
-A [list](https://doc.qt.io/qt-6/qml-list.html) type property can be assigned a list of QML object-type values. The syntax for defining an object list value is a comma-separated list surrounded by square brackets:
+[list](https://doc.qt.io/qt-6/qml-list.html) type property는 QML object-type 값들의 리스트를 할당할 수 있습니다. object list 값을 정의하는 구문은 []로 감싸고 ,로 분리된 list입니다:
 
 ```qml
 [ <item 1>, <item 2>, ... ]
 ```
 
-For example, the [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type has a [states](https://doc.qt.io/qt-6/qml-qtquick-item.html#states-prop) property that is used to hold a list of [State](https://doc.qt.io/qt-6/qml-qtquick-state.html) type objects. The code below initializes the value of this property to a list of three [State](https://doc.qt.io/qt-6/qml-qtquick-state.html) objects:
+예를 들어, [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type은 [states](https://doc.qt.io/qt-6/qml-qtquick-item.html#states-prop) property를 가지고 있는데 이것은 [State](https://doc.qt.io/qt-6/qml-qtquick-state.html) type object들의 리스트를 저장하는 데 사용합니다. 아래 코드는 3개의 [State](https://doc.qt.io/qt-6/qml-qtquick-state.html) object의 list에 이 property의 값을 초기화합니다:
 
 ```qml
 import QtQuick 2.0
@@ -454,7 +452,7 @@ Item {
 }
 ```
 
-If the list contains a single item, the square brackets may be omitted:
+만약 list가 1개의 항목을 포함하고 있다면, []은 생략할 수 있습니다:
 
 ```qml
 import QtQuick 2.0
@@ -464,28 +462,28 @@ Item {
 }
 ```
 
-A [list](https://doc.qt.io/qt-6/qml-list.html) type property may be specified in an object declaration with the following syntax:
+object 선언할 때 [list](https://doc.qt.io/qt-6/qml-list.html) type property를 지정하는 구문은 다음과 같습니다:
 
 ```qml
 [default] property list<<objectType>> propertyName
 ```
 
-and, like other property declarations, a property initialization may be combined with the property declaration with the following syntax:
+그리고 다른 property 선언과 마찬가지로 다음 구문처럼 property 초기화는 property 선언과 결합될 수 있습니다:
 
 ```qml
 [default] property list<<objectType>> propertyName: <value>
 ```
 
-An example of list property declaration follows:
+list property 선언 예제는 다음과 같습니다:
 
 ```qml
 import QtQuick 2.0
 
 Rectangle {
-    // declaration without initialization
+    // 초기화 없는 선언
     property list<Rectangle> siblingRects
 
-    // declaration with initialization
+    // 초기화 + 선언
     property list<Rectangle> childRects: [
         Rectangle { color: "red" },
         Rectangle { color: "blue"}
