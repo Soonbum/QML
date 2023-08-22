@@ -688,7 +688,7 @@ Text {
 }
 ```
 
-The someText value could be assigned to in a MyLabel object definition, like this:
+다음과 같이 someText 값은 MyLabel object 정의에 할당될 수 있습니다:
 
 ```qml
 MyLabel {
@@ -696,7 +696,7 @@ MyLabel {
 }
 ```
 
-This has exactly the same effect as the following:
+다음은 정확하게 같은 효과가 있습니다:
 
 ```qml
 MyLabel {
@@ -704,11 +704,11 @@ MyLabel {
 }
 ```
 
-However, since the someText property has been marked as the default property, it is not necessary to explicitly assign the [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object to this property.
+그러나 someText property가 기본 property로 표시되었으므로 이 property에 명시적으로 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object를 할당할 필요는 없습니다.
 
-You will notice that child objects can be added to any [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)-based type without explicitly adding them to the [children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) property. This is because the default property of [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) is its data property, and any items added to this list for an [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) are automatically added to its list of [children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop).
+[children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) property에 명시적으로 추가하지 않고도 child object를 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)-기반 type에 추가할 수 있습니다. 이는 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)의 기본 property가 그것의 데이터 property이며 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)에 대해 이 list에 추가되는 모든 항목은 [children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop)의 list에 자동으로 추가되기 때문입니다.
 
-Default properties can be useful for reassigning the children of an item. For example:
+기본 property는 항목의 children을 재할당하는 데 유용합니다. 예를 들면:
 
 ```qml
 Item {
@@ -720,25 +720,25 @@ Item {
 }
 ```
 
-By setting the default property alias to inner.children, any object assigned as a child of the outer item is automatically reassigned as a child of the inner item.
+기본 property alias를 inner.children으로 설정하면 외부 항목의 child로 할당된 모든 object는 자동으로 내부 항목의 child로 재할당됩니다.
 
-* Required Properties
+* 필수 Properties
 
-An object declaration may define a property as required, using the required keyword. The syntax is
+required 키워드를 사용하면 object 선언을 할 때 어떤 property를 필수로 정의할 수도 있습니다. 구문은 다음과 같습니다.
 
 ```qml
 required property <propertyType> <propertyName>
 ```
 
-As the name suggests, required properties must be set when an instance of the object is created. Violation of this rule will result in QML applications not starting if it can be detected statically. In case of dynamically instantiated QML components (for instance via [Qt.createComponent](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createComponent-method)()), violating this rule results in a warning and a null return value.
+이름에서 알 수 있듯이 object의 인스턴스를 생성할 때 필수 property는 반드시 설정해야 합니다. 이 규칙을 위반하면 정적으로 탐지될 경우 QML 앱은 작동하지 않게 됩니다. 동적으로 인스턴스화한 QML component([Qt.createComponent](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createComponent-method)()를 통한 인스턴스)의 경우, 이 규칙을 위반하면 경고와 null 리턴 값이 나오게 됩니다.
 
-It's possible to make an existing property required with
+다음과 같이 기존의 property를 required로 만들 수 있습니다.
 
 ```qml
 required <propertyName>
 ```
 
-The following example shows how to create a custom Rectangle component, in which the color property always needs to be specified.
+다음 예제는 커스텀 Rectangle component를 만드는 방법을 보여줍니다. 여기서 color property는 항상 지정해야 합니다.
 
 ```qml
 // ColorRectangle.qml
@@ -747,49 +747,49 @@ Rectangle {
 }
 ```
 
-Note: You can't assign an initial value to a required property from QML, as that would go directly against the intended usage of required properties.
+주의: QML로부터 필수 property에 초기값을 할당할 수 없습니다. 왜냐하면 필수 property의 사용 의도에 직접적으로 위배되기 때문입니다.
 
-Required properties play a special role in model-view-delegate code: If the delegate of a view has required properties whose names match with the role names of the view's model, then those properties will be initialized with the model's corresponding values. For more information, visit the [Models and Views in Qt Quick](https://doc.qt.io/qt-6/qtquick-modelviewsdata-modelview.html) page.
+필수 property는 model-view-delegate 코드에서 특수한 역할을 하게 됩니다: 만약 view의 delegate가 view의 model의 역할 이름과 같은 필수 property를 가지고 있다면, 이 property는 model의 해당 값으로 초기될 것입니다. 더 많은 정보는 [Models and Views in Qt Quick](https://doc.qt.io/qt-6/qtquick-modelviewsdata-modelview.html) 페이지를 보십시오.
 
-See [QQmlComponent::createWithInitialProperties](https://doc.qt.io/qt-6/qqmlcomponent.html#createWithInitialProperties), [QQmlApplicationEngine::setInitialProperties](https://doc.qt.io/qt-6/qqmlapplicationengine.html#setInitialProperties) and [QQuickView::setInitialProperties](https://doc.qt.io/qt-6/qquickview.html#setInitialProperties) for ways to initialize required properties from C++.
+C++로부터 필수 property를 초기화하는 방법에 대해서는 [QQmlComponent::createWithInitialProperties](https://doc.qt.io/qt-6/qqmlcomponent.html#createWithInitialProperties), [QQmlApplicationEngine::setInitialProperties](https://doc.qt.io/qt-6/qqmlapplicationengine.html#setInitialProperties), [QQuickView::setInitialProperties](https://doc.qt.io/qt-6/qquickview.html#setInitialProperties)를 보십시오.
 
-* Read-Only Properties
+* 읽기-전용 Properties
 
-An object declaration may define a read-only property using the readonly keyword, with the following syntax:
+object 선언을 할 때 readonly 키워드를 사용하여 읽기-전용 property를 정의할 수 있습니다. 구문은 다음과 같습니다:
 
 ```qml
 readonly property <propertyType> <propertyName> : <value>
 ```
 
-Read-only properties must be assigned a static value or a binding expression on initialization. After a read-only property is initialized, you cannot change its static value or binding expression anymore.
+읽기-전용 property는 반드시 초기화 할 때 정적인 값 또는 바인딕 표현식을 할당해야 합니다. 일단 읽기-전용 property가 초기화된 후에는 더 이상 변경할 수 없습니다.
 
-For example, the code in the Component.onCompleted block below is invalid:
+예를 들어, 아래의 Component.onCompleted 블럭에 있는 코드는 유효하지 않습니다:
 
 ```qml
 Item {
     readonly property int someNumber: 10
 
-    Component.onCompleted: someNumber = 20  // TypeError: Cannot assign to read-only property
+    Component.onCompleted: someNumber = 20  // TypeError: 읽기-전용 property에 할당할 수 없음
 }
 ```
 
-Note: A read-only property cannot also be a [default](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties) property.
+주의: 읽기-전용 property는 [기본](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties) property가 될 수 없습니다.
 
 * Property Modifier Objects
 
-Properties can have [property value modifier objects](https://doc.qt.io/qt-6/qtqml-cppintegration-definetypes.html#property-modifier-types) associated with them. The syntax for declaring an instance of a property modifier type associated with a particular property is as follows:
+property는 그것과 연관된 [property value modifier objects](https://doc.qt.io/qt-6/qtqml-cppintegration-definetypes.html#property-modifier-types)를 가질 수 있습니다. 특정 property와 연관된 property modifier type의 인스턴스를 선언하는 구문은 다음과 같습니다:
 
 ```qml
 <PropertyModifierTypeName> on <propertyName> {
-    // attributes of the object instance
+    // object 인스턴스의 attributes
 }
 ```
 
-This is commonly referred to as "on" syntax.
+이것을 일반적으로 "on" 구문이라고 합니다.
 
-It is important to note that the above syntax is in fact an [object declaration](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations) which will instantiate an object which acts on a pre-existing property.
+위의 구문은 실제로 기존 property에서 작동하는 object를 인스턴스화하는 [object 선언](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations)입니다.
 
-Certain property modifier types may only be applicable to specific property types, however this is not enforced by the language. For example, the NumberAnimation type provided by QtQuick will only animate numeric-type (such as int or real) properties. Attempting to use a NumberAnimation with non-numeric property will not result in an error, however the non-numeric property will not be animated. The behavior of a property modifier type when associated with a particular property type is defined by its implementation.
+어떤 property modifier type은 특정 property type에만 적용할 수 있지만 언어에 의해 강요되지는 않습니다. 예를 들어, QtQuick이 제공하는 NumberAnimation type은 (int, real 같은) 숫자-type property만 애니메이트 합니다. 숫자가 아닌 property와 함께 NumberAnimation을 사용하려고 하면 오류는 발생하지 않지만 숫자가 아닌 property는 애니메이트 되지 않을 것입니다. 특정 property type과 연관된 경우 property modifier type의 동작은 구현에 의해 정의됩니다.
 
 ##### Signal Attributes
 
@@ -1093,11 +1093,6 @@ Text {
 More information on enumeration usage in QML can be found in the [QML Value Types](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html) [enumeration](https://doc.qt.io/qt-6/qml-enumeration.html) documentation.
 
 The ability to declare enumerations in QML was introduced in Qt 5.10.
-
-
-
-
-
 
 #### 프로퍼티 바인딩
 
