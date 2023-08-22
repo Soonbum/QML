@@ -793,7 +793,7 @@ property는 그것과 연관된 [property value modifier objects](https://doc.qt
 
 ##### Signal Attributes
 
-A signal is a notification from an object that some event has occurred: for example, a property has changed, an animation has started or stopped, or when an image has been downloaded. The [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) type, for example, has a [clicked](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html#clicked-signal) signal that is emitted when the user clicks within the mouse area.
+signal은 어떤 이벤트가 발생했을 때 object로부터 나오는 공지(notification)입니다: 예를 들면 어떤 property가 변경되었을 때, 애니메이션이 시작했거나 끝났을 때, 또는 이미지를 다운로드 했을 때 같은 경우입니다. 예를 들면, [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) type은 사용자가 마우스 영역 안을 클릭했을 때 방출(emit)되는 [clicked](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html#clicked-signal) signal을 갖고 있습니다.
 
 An object can be notified through a [signal handler](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes) whenever a particular signal is emitted. A signal handler is declared with the syntax on<Signal> where <Signal> is the name of the signal, with the first letter capitalized. The signal handler must be declared within the definition of the object that emits the signal, and the handler should contain the block of JavaScript code to be executed when the signal handler is invoked.
 
