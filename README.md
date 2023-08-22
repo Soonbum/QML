@@ -795,9 +795,9 @@ property는 그것과 연관된 [property value modifier objects](https://doc.qt
 
 signal은 어떤 이벤트가 발생했을 때 object로부터 나오는 공지(notification)입니다: 예를 들면 어떤 property가 변경되었을 때, 애니메이션이 시작했거나 끝났을 때, 또는 이미지를 다운로드 했을 때 같은 경우입니다. 예를 들면, [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) type은 사용자가 마우스 영역 안을 클릭했을 때 방출(emit)되는 [clicked](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html#clicked-signal) signal을 갖고 있습니다.
 
-An object can be notified through a [signal handler](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes) whenever a particular signal is emitted. A signal handler is declared with the syntax on<Signal> where <Signal> is the name of the signal, with the first letter capitalized. The signal handler must be declared within the definition of the object that emits the signal, and the handler should contain the block of JavaScript code to be executed when the signal handler is invoked.
+특정 signal이 방출될 때 [signal 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes)를 통해 공지를 받을 수 있습니다. signal 핸들러는 구문 on<Signal>으로 선언할 수 있습니다. 여기서 <Signal>은 signal의 이름이며 1번째 글자는 대문자입니다. signal 핸들러는 signal을 방출하는 object 정의 안에서 선언해야 하며, 핸들러는 signal 핸들러가 호출될 때 실행될 JavaScript 코드의 블럭을 포함해야 합니다.
 
-For example, the onClicked signal handler below is declared within the [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) object definition, and is invoked when the [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) is clicked, causing a console message to be printed:
+예를 들어, 아래의 onClicked signal 핸들러는 [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) object 정의 안에서 선언되며, [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html)를 클릭했을 때 호출되어 콘솔 메시지가 프린트됩니다.
 
 ```qml
 import QtQuick 2.0
@@ -814,9 +814,9 @@ Item {
 }
 ```
 
-* Defining Signal Attributes
+* Signal Attributes 정의하기
 
-A signal may be defined for a type in C++ by registering a [Q_SIGNAL](https://doc.qt.io/qt-6/qobject.html#Q_SIGNAL) of a class which is then registered with the QML type system. Alternatively, a custom signal for an object type may be defined in an object declaration in a QML document with the following syntax:
+클래스의 [Q_SIGNAL](https://doc.qt.io/qt-6/qobject.html#Q_SIGNAL)을 등록하고 QML type 시스템에 등록함으로써 C++에서 type에 대한 signal을 정의할 수 있습니다. 아니면 다음과 같은 구문처럼 object 타입에 대한 커스텀 signal은 QML 도큐먼트의 object 선언에서 정의할 수도 있습니다.
 
 ```qml
 signal <signalName>[([<parameterName>: <parameterType>[, ...]])]
