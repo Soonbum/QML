@@ -14,6 +14,10 @@
     * [Object 선언 내에서의 Attribute](#object-선언-내에서의-attribute)
     * [id attribute](#id-attribute)
     * [Property Attributes](#property-attributes)
+    * [Signal Attributes](#signal-attributes)
+    * [Method Attributes](#method-attributes)
+    * [부착된 Properties와 부착된 Signal Handlers](#부착된-properties와-부착된-signal-handlers)
+    * [Enumeration Attributes](#enumeration-attributes)
   - [프로퍼티 바인딩](#프로퍼티-바인딩)
   - [시그널과 핸들러 이벤트 시스템](#시그널과-핸들러-이벤트-시스템)
   - [QML과 JavaScript 통합하기](#qml과-javascript-통합하기)
@@ -236,8 +240,8 @@ QML object-type attribute type의 집합은 다음과 같습니다:
 * signal attribute
 * signal handler attribute
 * method attribute
-* 부착된 property들과 부착된 여러 개의 signal handler attribute
-* 여러 개의 enumeration attribute
+* 부착된 Properties와 부착된 Signal Handlers
+* Enumeration Attributes
 
 이 attribute들은 아래에서 자세히 논의할 것입니다.
 
@@ -787,7 +791,7 @@ It is important to note that the above syntax is in fact an [object declaration]
 
 Certain property modifier types may only be applicable to specific property types, however this is not enforced by the language. For example, the NumberAnimation type provided by QtQuick will only animate numeric-type (such as int or real) properties. Attempting to use a NumberAnimation with non-numeric property will not result in an error, however the non-numeric property will not be animated. The behavior of a property modifier type when associated with a particular property type is defined by its implementation.
 
-* Signal Attributes
+##### Signal Attributes
 
 A signal is a notification from an object that some event has occurred: for example, a property has changed, an animation has started or stopped, or when an image has been downloaded. The [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) type, for example, has a [clicked](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html#clicked-signal) signal that is emitted when the user clicks within the mouse area.
 
@@ -901,7 +905,7 @@ TextInput {
 }
 ```
 
-* Method Attributes
+##### Method Attributes
 
 A method of an object type is a function which may be called to perform some processing or trigger further events. A method can be connected to a signal so that it is automatically invoked whenever the signal is emitted. See [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html) for more details.
 
@@ -961,7 +965,7 @@ Item {
 }
 ```
 
-* Attached Properties and Attached Signal Handlers
+##### 부착된 Properties와 부착된 Signal Handlers
 
 Attached properties and attached signal handlers are mechanisms that enable objects to be annotated with extra properties or signal handlers that are otherwise unavailable to the object. In particular, they allow objects to access properties or signals that are specifically relevant to the individual object.
 
@@ -1053,7 +1057,7 @@ ListView {
 
 Now delegateItem.ListView.isCurrentItem correctly refers to the isCurrentItem attached property of the delegate.
 
-* Enumeration Attributes
+##### Enumeration Attributes
 
 Enumerations provide a fixed set of named choices. They can be declared in QML using the enum keyword:
 
