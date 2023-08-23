@@ -42,6 +42,7 @@
     * [리소스 로딩 및 네트워크 투명성](#리소스-로딩-및-네트워크-투명성)
     * [범위 및 네이밍 규칙](#범위-및-네이밍-규칙)
 
+---
 
 ### QML의 예시
 
@@ -87,12 +88,13 @@ ApplicationWindow {
 | 시그널 핸들러(Signal Handler) | 시그널 핸들러는 시그널에 의해 트리거되는 표현식(또는 함수)입니다. C++에서는 이것을 "슬롯(slot)"이라고도 합니다. 자세한 것은 [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)을 보십시오. |
 | 늦은 인스턴스화(Lazy Instantiation) | 필요할 때까지 불필요한 작업을 하지 않기 위해 객체 인스턴스는 런타임 시 "늦게" 인스턴스화 될 수 있습니다. Qt Quick은 편하게 Lazy Instantiation을 구현하기 위해 [Loader](https://doc.qt.io/qt-6/qml-qtquick-loader.html) 타입을 제공합니다. |
 
+---
+
 ### [QML 레퍼런스](https://doc.qt.io/qt-6/qmlreference.html)
 
 QML은 고도의 동적 앱을 만들기 위한 멀티 패러다임 언어입니다. QML을 이용하면 UI 컴포넌트 같은 앱 빌딩 블럭을 선언할 수 있고 앱 동작을 정의할 수 있는 다양한 프로퍼티 집합이 있습니다. 앱 동작은 JavaScript를 통해서도 스크립팅이 가능합니다. 게다가 QML은 Qt를 많이 사용하므로 QML 앱에서 타입 및 기타 Qt 기능에 직접 접근할 수 있습니다.
 
 이 레퍼런스 가이드는 QML 언어의 기능에 대해 설명합니다. 이 가이드에 있는 많은 QML 타입들은 [Qt QML](https://doc.qt.io/qt-6/qtqml-index.html) 또는 [Qt Quick](https://doc.qt.io/qt-6/qtquick-index.html) 모듈에 기원을 두고 있습니다.
-
 
 #### QML 구문 기초
 
@@ -243,6 +245,7 @@ Text {
 
 위의 예제에서 Text 객체는 일반적인 불투명도를 갖게 될 것입니다. 왜냐하면 opacity: 0.5가 코멘트로 변했기 때문입니다.
 
+---
 
 #### QML 객체 애트리뷰트
 
@@ -1113,6 +1116,7 @@ QML에서 열거형 사용법에 대한 정보는 [QML 값 타입](https://doc.q
 
 QML에서 열거형을 선언할 수 있는 기능은 Qt 5.10에서 도입되었습니다.
 
+---
 
 #### 프로퍼티 바인딩
 
@@ -1274,6 +1278,7 @@ Item {
 
 주의: this의 값은 프로퍼티 바인딩의 외부에서 정의되지 않습니다. 자세한 것은 [JavaScript 환경 제한](https://doc.qt.io/qt-6/qtqml-javascript-hostenvironment.html#javascript-environment-restrictions)을 보십시오.
 
+---
 
 #### 시그널과 핸들러 이벤트 시스템
 
@@ -1552,6 +1557,7 @@ output:
     Send clicked
 ```
 
+---
 
 #### QML과 JavaScript 통합하기
 
@@ -1614,6 +1620,7 @@ QML 엔진은 웹 브라우저에서 제공하는 JavaScript 환경과 일부 �
 
 -
 
+---
 
 #### QML 타입 시스템
 
@@ -1639,6 +1646,7 @@ QML 엔진은 웹 브라우저에서 제공하는 JavaScript 환경과 일부 �
 
 -
 
+---
 
 #### QML 모듈
 
@@ -1664,6 +1672,7 @@ QML 엔진은 웹 브라우저에서 제공하는 JavaScript 환경과 일부 �
 
 -
 
+---
 
 #### QML 도큐먼트
 
