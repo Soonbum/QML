@@ -7,8 +7,8 @@
 * [QML 레퍼런스](#qml-레퍼런스)
   - [QML 구문 기초](#qml-구문-기초)
     * [import 구문](#import-구문)
-    * [Object 선언](#object-선언)
-    * [Child Objects](#child-objects)
+    * [객체 선언](#객체-선언)
+    * [자식 객체](#자식-객체)
     * [코멘트](#코멘트)
   - [QML 객체 애트리뷰트](#qml-객체-애트리뷰트)
     * [객체 선언 내에서의 애트리뷰트](#객체-선언-내에서의-애트리뷰트)
@@ -75,6 +75,7 @@ ApplicationWindow {
 QML은 고도의 동적 앱을 만들기 위한 멀티 패러다임 언어입니다. QML을 이용하면 UI 컴포넌트 같은 앱 빌딩 블럭을 선언할 수 있고 앱 동작을 정의할 수 있는 다양한 프로퍼티 집합이 있습니다. 앱 동작은 JavaScript를 통해서도 스크립팅이 가능합니다. 게다가 QML은 Qt를 많이 사용하므로 QML 앱에서 타입 및 기타 Qt 기능에 직접 접근할 수 있습니다.
 
 이 레퍼런스 가이드는 QML 언어의 기능에 대해 설명합니다. 이 가이드에 있는 많은 QML 타입들은 [Qt QML](https://doc.qt.io/qt-6/qtqml-index.html) 또는 [Qt Quick](https://doc.qt.io/qt-6/qtquick-index.html) 모듈에 기원을 두고 있습니다.
+
 
 #### QML 구문 기초
 
@@ -224,6 +225,7 @@ Text {
 ```
 
 위의 예제에서 Text 객체는 일반적인 불투명도를 갖게 될 것입니다. 왜냐하면 opacity: 0.5가 코멘트로 변했기 때문입니다.
+
 
 #### QML 객체 애트리뷰트
 
@@ -907,23 +909,23 @@ TextInput {
 
 ##### 메서드 애트리뷰트
 
-A method of an object type is a function which may be called to perform some processing or trigger further events. A method can be connected to a signal so that it is automatically invoked whenever the signal is emitted. See [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html) for more details.
+객체 타입의 메서드는 연산 처리 혹은 트리거 이벤트 등을 수행하기 위해 호출될 수 있는 함수입니다. 메서드는 시그널과 연결될 수 있기 때문에 시그널이 방출될 때마다 자동으로 호출됩니다. 자세한 것은 [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)을 보십시오.
 
-* Defining Method Attributes
+* 메서드 애트리뷰트 정의하기
 
-A method may be defined for a type in C++ by tagging a function of a class which is then registered with the QML type system with [Q_INVOKABLE](https://doc.qt.io/qt-6/qobject.html#Q_INVOKABLE) or by registering it as a [Q_SLOT](https://doc.qt.io/qt-6/qobject.html#Q_SLOT) of the class. Alternatively, a custom method can be added to an object declaration in a QML document with the following syntax:
+C++에서 클래스의 함수에 [Q_INVOKABLE](https://doc.qt.io/qt-6/qobject.html#Q_INVOKABLE)을 태깅하여 QML 타입 시스템에 등록하거나, 클래스의 [Q_SLOT](https://doc.qt.io/qt-6/qobject.html#Q_SLOT)에 등록하여 메서드를 타입으로 정의할 수 있습니다. 아니면 다음과 같은 구문으로 QML 도큐먼트에서 커스텀 메서드를 객체 선언에 추가할 수도 있습니다:
 
 ```qml
 function <functionName>([<parameterName>[: <parameterType>][, ...]]) [: <returnType>] { <body> }
 ```
 
-Methods can be added to a QML type in order to define standalone, reusable blocks of JavaScript code. These methods can be invoked either internally or by external objects.
+독립형, 재활용 가능한 JavaScript 코드 블럭을 정의하기 위해 메서드를 QML 타입에 추가할 수 있습니다. 이 메서드는 내부 혹은 외부 객체에서 호출할 수 있습니다.
 
-Unlike signals, method parameter types do not have to be declared as they default to the var type. You should, however, declare them in order to help qmlcachegen generate more performant code, and to improve maintainability.
+시그널과 달리, 메서드 파라미터 타입은 기본적으로 var 타입으로 선언할 필요가 없습니다. 그러나 qmlcachegen이 고성능 코드를 생성하고 유지보수성을 향상시키기 위해 var 타입으로 선언하는 것이 좋습니다.
 
-Attempting to declare two methods or signals with the same name in the same type block is an error. However, a new method may reuse the name of an existing method on the type. (This should be done with caution, as the existing method may be hidden and become inaccessible.)
+동일한 타입 블럭에서 같은 이름으로 2개의 메서드 혹은 시그널을 선언하려고 하면 오류가 발생합니다. 그러나 새로운 메서드가 타입에 있는 기존 메서드의 이름을 재활용할 수 있습니다. (이렇게 하면 기존 메서드는 숨겨지고 접근할 수 없게 되므로 주의해서 수행해야 합니다)
 
-Below is a [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) with a calculateHeight() method that is called when assigning the height value:
+다음은 높이 값을 할당할 때 호출되는 calculateHeight() 메서드를 가진 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)입니다:
 
 ```qml
 import QtQuick 2.0
@@ -939,7 +941,7 @@ Rectangle {
 }
 ```
 
-If the method has parameters, they are accessible by name within the method. Below, when the [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) is clicked it invokes the moveTo() method which can then refer to the received newX and newY parameters to reposition the text:
+만약 메서드가 파라미터를 갖고 있다면, 메서드 안에서 이름으로 파라미터에 접근할 수 있습니다. 아래는 [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html)를 클릭했을 때 moveTo() 메서드가 호출되는 예제입니다. moveTo() 메서드는 text의 위치를 조정하기 위해 수신한 newX와 newY 파라미터를 참조합니다:
 
 ```qml
 import QtQuick 2.0
@@ -967,18 +969,18 @@ Item {
 
 ##### 부착된 프로퍼티와 부착된 시그널 핸들러
 
-Attached properties and attached signal handlers are mechanisms that enable objects to be annotated with extra properties or signal handlers that are otherwise unavailable to the object. In particular, they allow objects to access properties or signals that are specifically relevant to the individual object.
+부착된 프로퍼티와 부착된 시그널 핸들러는 객체에 추가 프로퍼티와 시그널 핸들러로 주석을 달 수 있도록 해주는 메커니즘입니다. 특히 객체가 개별 객체와 특별히 관련된 프로퍼티 또는 시그널에 접근할 수 있도록 해줍니다.
 
-A QML type implementation may choose to [create an attaching type in C++](https://doc.qt.io/qt-6/qtqml-cppintegration-definetypes.html#providing-attached-properties) with particular properties and signals. Instances of this type can then be created and attached to specific objects at run time, allowing those objects to access the properties and signals of the attaching type. These are accessed by prefixing the properties and respective signal handlers with the name of the attaching type.
+QML 타입 구현은 특별한 프로퍼티와 시그널을 [C++에서 부착 타입을 생성](https://doc.qt.io/qt-6/qtqml-cppintegration-definetypes.html#providing-attached-properties)하도록 선택할 수 있습니다. 이러한 타입의 인스턴스는 런타임 시에 생성되고 특정 객체에 부착되어, 객체들이 부착 타입의 프로퍼티와 시그널에 접근할 수 있게 해줍니다. 부착 타입의 이름을 프로퍼티와 각 시그널 핸들러 앞에 접두사로 붙이면 접근할 수 있습니다.
 
-References to attached properties and handlers take the following syntax form:
+부착된 프로퍼티와 핸들러에 대한 참조는 다음 구문 형태를 따릅니다:
 
 ```qml
 <AttachingType>.<propertyName>
 <AttachingType>.on<SignalName>
 ```
 
-For example, the [ListView](https://doc.qt.io/qt-6/qml-qtquick-listview.html) type has an attached property [ListView.isCurrentItem](https://doc.qt.io/qt-6/qml-qtquick-listview.html#isCurrentItem-attached-prop) that is available to each delegate object in a [ListView](https://doc.qt.io/qt-6/qml-qtquick-listview.html). This can be used by each individual delegate object to determine whether it is the currently selected item in the view:
+예를 들면, [ListView](https://doc.qt.io/qt-6/qml-qtquick-listview.html) 타입은 [ListView](https://doc.qt.io/qt-6/qml-qtquick-listview.html)의 각 위임(delegate) 객체에서 사용할 수 있는 프로퍼티 [ListView.isCurrentItem](https://doc.qt.io/qt-6/qml-qtquick-listview.html#isCurrentItem-attached-prop)을 갖고 있습니다. 이 프로퍼티는 각 위임 객체가 view에서 현재 선택한 항목인지 여부를 확인하는 데 사용할 수 있습니다:
 
 ```qml
 import QtQuick 2.0
@@ -993,9 +995,9 @@ ListView {
 }
 ```
 
-In this case, the name of the attaching type is ListView and the property in question is isCurrentItem, hence the attached property is referred to as ListView.isCurrentItem.
+이 경우, 부착 타입의 이름은 ListView이고 문제의 프로퍼티는 isCurrentItem이므로 부착된 프로퍼티를 ListView.isCurrentItem이라고 합니다.
 
-An attached signal handler is referred to in the same way. For example, the [Component.onCompleted](https://doc.qt.io/qt-6/qml-qtqml-component.html#completed-signal) attached signal handler is commonly used to execute some JavaScript code when a component's creation process has been completed. In the example below, once the [ListModel](https://doc.qt.io/qt-6/qml-qtqml-models-listmodel.html) has been fully created, its Component.onCompleted signal handler will automatically be invoked to populate the model:
+부착된 시그널 핸들러도 같은 방식으로 언급됩니다. 예를 들면, [Component.onCompleted](https://doc.qt.io/qt-6/qml-qtqml-component.html#completed-signal) 부착된 시그널 핸들러는 일반적으로 컴포넌트의 생성 프로세스가 완료되었을 때 일부 JavaScript 코드를 실행하는 데 사용됩니다. 아래의 예제에서는 [ListModel](https://doc.qt.io/qt-6/qml-qtqml-models-listmodel.html)이 완전히 생성되면 해당 Component.onCompleted 시그널 핸들러가 자동으로 호출되어 모델을 채웁니다:
 
 ```qml
 import QtQuick 2.0
@@ -1013,13 +1015,13 @@ ListView {
 }
 ```
 
-Since the name of the attaching type is Component and that type has a [completed](https://doc.qt.io/qt-6/qml-qtqml-component.html#completed-signal) signal, the attached signal handler is referred to as Component.onCompleted.
+부착 타입의 이름이 Component이고 해당 타입이 [completed](https://doc.qt.io/qt-6/qml-qtqml-component.html#completed-signal) 시그널을 가지므로 부착된 시그널 핸들러를 Component.onCompleted라고 합니다.
 
-* A Note About Accessing Attached Properties and Signal Handlers
+* 부착된 프로퍼티와 시그널 핸들러에 접근할 때 유의사항
 
-A common error is to assume that attached properties and signal handlers are directly accessible from the children of the object to which these attributes have been attached. This is not the case. The instance of the attaching type is only attached to specific objects, not to the object and all of its children.
+일반적인 오류는 이러한 애트리뷰트가 부착된 객체의 자식으로부터 부착된 프로퍼티와 시그널 핸들러에 직접 접근할 수 있다고 가정하는 것입니다. 이는 해당되지 않습니다. 부착 타입의 인스턴스는 특정 객체에만 부착되고 객체와 모든 객체의 자식에는 연결되지 않습니다.
 
-For example, below is a modified version of the earlier example involving attached properties. This time, the delegate is an [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) and the colored [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) is a child of that item:
+예를 들면, 다음은 부착된 프로퍼티를 포함하는 이전 예제의 수정된 버전입니다. 이번에는 위임자가 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)이고 색상이 지정된 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)은 해당 Item의 자식입니다:
 
 ```qml
 import QtQuick 2.0
@@ -1032,13 +1034,13 @@ ListView {
 
         Rectangle {
             width: 100; height: 30
-            color: ListView.isCurrentItem ? "red" : "yellow"    // WRONG! This won't work.
+            color: ListView.isCurrentItem ? "red" : "yellow"    // 잘못됨! 이것은 작동하지 않습니다.
         }
     }
 }
 ```
 
-This does not work as expected because ListView.isCurrentItem is attached only to the root delegate object, and not its children. Since the [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) is a child of the delegate, rather than being the delegate itself, it cannot access the isCurrentItem attached property as ListView.isCurrentItem. So instead, the rectangle should access isCurrentItem through the root delegate:
+ListView.isCurrentItem은 루트 위임자 객체에만 부착되어 있고 하위 객체에는 부착되어 있지 않기 때문에 예상대로 작동하지 않습니다. [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)은 위임자 자체가 아닌 위임자의 자식 객체이므로 isCurrentItem 부착 프로퍼티에 ListView.isCurrentItem으로 접근할 수 없습니다. 따라서 대신 Rectangle은 루트 위임자를 통해 isCurrentItem에 접근해야 합니다:
 
 ```qml
 ListView {
@@ -1049,17 +1051,17 @@ ListView {
 
         Rectangle {
             width: 100; height: 30
-            color: delegateItem.ListView.isCurrentItem ? "red" : "yellow"   // correct
+            color: delegateItem.ListView.isCurrentItem ? "red" : "yellow"   // 올바름
         }
     }
 }
 ```
 
-Now delegateItem.ListView.isCurrentItem correctly refers to the isCurrentItem attached property of the delegate.
+이제 delegateItem.ListView.isCurrentItem은 위임자의 isCurrentItem 부착 프로퍼티를 올바르게 참조합니다.
 
 ##### 열거형 애트리뷰트
 
-Enumerations provide a fixed set of named choices. They can be declared in QML using the enum keyword:
+열거형은 명명된 선택의 고정 집합을 제공합니다. 이러한 선택은 enum 키워드를 사용하여 QML에서 선언할 수 있습니다:
 
 ```qml
 // MyText.qml
@@ -1071,9 +1073,9 @@ Text {
 }
 ```
 
-As shown above, enumeration types (e.g. TextType) and values (e.g. Normal) must begin with an uppercase letter.
+위와 같이 열거형 타입(예: TextType)과 값(예: Normal)은 대문자로 시작해야 합니다.
 
-Values are referred to via <Type>.<EnumerationType>.<Value> or <Type>.<Value>.
+값은 <Type>.<EnumerationType>.<Value> 또는 <Type>.<Value>을 통해 참조해야 합니다.
 
 ```qml
 // MyText.qml
@@ -1090,18 +1092,456 @@ Text {
 }
 ```
 
-More information on enumeration usage in QML can be found in the [QML Value Types](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html) [enumeration](https://doc.qt.io/qt-6/qml-enumeration.html) documentation.
+QML에서 열거형 사용법에 대한 정보는 [QML 값 타입](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html), [열거형](https://doc.qt.io/qt-6/qml-enumeration.html) 문서를 보십시오.
 
-The ability to declare enumerations in QML was introduced in Qt 5.10.
+QML에서 열거형을 선언할 수 있는 기능은 Qt 5.10에서 도입되었습니다.
+
 
 #### 프로퍼티 바인딩
 
+An object's property can be assigned a static value which stays constant until it is explicitly assigned a new value. However, to make the fullest use of QML and its built-in support for dynamic object behaviors, most QML objects use property bindings.
+
+Property bindings are a core feature of QML that lets developers specify relationships between different object properties. When a property's dependencies change in value, the property is automatically updated according to the specified relationship.
+
+Behind the scenes, the QML engine monitors the property's dependencies (that is, the variables in the binding expression). When a change is detected, the QML engine re-evaluates the binding expression and applies the new result to the property.
+
+* Overview
+
+To create a property binding, a property is assigned a JavaScript expression that evaluates to the desired value. At its simplest, a binding may be a reference to another property. Take the following example, where the blue Rectangle's height is bound to the height of its parent:
+
+```qml
+Rectangle {
+    width: 200; height: 200
+
+    Rectangle {
+        width: 100
+        height: parent.height
+        color: "blue"
+    }
+}
+```
+
+Whenever the height of the parent rectangle changes, the height of the blue rectangle automatically updates to be of the same value.
+
+A binding can contain any valid JavaScript expression or statement, as QML uses a standards compliant JavaScript engine. Bindings can access object properties, call methods and use built-in JavaScript objects such as Date and Math. Below are other possible bindings for the previous example:
+
+```qml
+height: parent.height / 2
+
+height: Math.min(parent.width, parent.height)
+
+height: parent.height > 100 ? parent.height : parent.height/2
+
+height: {
+    if (parent.height > 100)
+        return parent.height
+    else
+        return parent.height / 2
+}
+
+height: someMethodThatReturnsHeight()
+```
+
+Below is a more complex example involving more objects and types:
+
+```qml
+Column {
+    id: column
+    width: 200
+    height: 200
+
+    Rectangle {
+        id: topRect
+        width: Math.max(bottomRect.width, parent.width/2)
+        height: (parent.height / 3) + 10
+        color: "yellow"
+
+        TextInput {
+            id: myTextInput
+            text: "Hello QML!"
+        }
+    }
+
+    Rectangle {
+        id: bottomRect
+        width: 100
+        height: 50
+        color: myTextInput.text.length <= 10 ? "red" : "blue"
+    }
+}
+```
+
+In the previous example,
+
+- topRect.width depends on bottomRect.width and column.width
+- topRect.height depends on column.height
+- bottomRect.color depends on myTextInput.text.length
+
+Syntactically, bindings are allowed to be of arbitrary complexity. However, if a binding is overly complex - such as involving multiple lines, or imperative loops - it could indicate that the binding is being used for more than describing property relationships. Complex bindings can reduce code performance, readability, and maintainability. It may be a good idea to redesign components that have complex bindings, or at least factor the binding out into a separate function. As a general rule, users should not rely on the evaluation order of bindings.
+
+* Creating Property Bindings from JavaScript
+
+A property with a binding is automatically updated as necessary. However, if the property is later assigned a static value from a JavaScript statement, the binding will be removed.
+
+For example, the Rectangle below initially ensures that its height is always twice its width. However, when the space key is pressed, the current value of width*3 will be assigned to height as a static value. After that, the height will remain fixed at this value, even if the width changes. The assignment of the static value removes the binding.
+
+```qml
+import QtQuick 2.0
+
+Rectangle {
+    width: 100
+    height: width * 2
+
+    focus: true
+    Keys.onSpacePressed: {
+        height = width * 3
+    }
+}
+```
+
+If the intention is to give the rectangle a fixed height and stop automatic updates, then this is not a problem. However, if the intention is to establish a new relationship between width and height, then the new binding expression must be wrapped in the Qt.binding() function instead:
+
+```qml
+import QtQuick 2.0
+
+Rectangle {
+    width: 100
+    height: width * 2
+
+    focus: true
+    Keys.onSpacePressed: {
+        height = Qt.binding(function() { return width * 3 })
+    }
+}
+```
+
+Now, after the space key is pressed, the rectangle's height will continue auto-updating to always be three times its width.
+
+* Debugging overwriting of bindings
+
+A common cause of bugs in QML applications is accidentally overwriting bindings with static values from JavaScript statements. To help developers track down problems of this kind, the QML engine is able to emit messages whenever a binding is lost due to imperative assignments.
+
+In order to generate such messages, you need to enable the informational output for the qt.qml.binding.removal logging category, for instance by calling:
+
+```qml
+QLoggingCategory::setFilterRules(QStringLiteral("qt.qml.binding.removal.info=true"));
+```
+
+Please refer to the QLoggingCategory documentation for more information about enabling output from logging categories.
+
+Note that is perfectly reasonable in some circumstances to overwrite bindings. Any message generated by the QML engine should be treated as a diagnostic aid, and not necessarily as evidence of a problem without further investigation.
+
+* Using this with Property Binding
+
+When creating a property binding from JavaScript, the this keyword can be used to refer to the object which receives the binding. This is helpful for resolving ambiguities with property names.
+
+For example, the Component.onCompleted handler below is defined within the scope of the Item. In this scope, width refers to the Item's width, not the Rectangle's width. To bind the Rectangle's height to its own width, the binding expression must explicitly refer to this.width (or alternatively, rect.width):
+
+```qml
+Item {
+    width: 500
+    height: 500
+
+    Rectangle {
+        id: rect
+        width: 100
+        color: "yellow"
+    }
+
+    Component.onCompleted: {
+        rect.height = Qt.binding(function() { return this.width * 2 })
+        console.log("rect.height = " + rect.height) // prints 200, not 1000
+    }
+}
+```
+
+Note: The value of this is not defined outside of property bindings. See JavaScript Environment Restrictions for details.
+
+
 #### 시그널과 핸들러 이벤트 시스템
+
+Application and user interface components need to communicate with each other. For example, a button needs to know that the user has clicked on it. The button may change colors to indicate its state or perform some logic. As well, application needs to know whether the user is clicking the button. The application may need to relay this clicking event to other applications.
+
+QML has a signal and handler mechanism, where the signal is the event and the signal is responded to through a signal handler. When a signal is emitted, the corresponding signal handler is invoked. Placing logic such as a script or other operations in the handler allows the component to respond to the event.
+
+* Receiving signals with signal handlers
+
+To receive a notification when a particular signal is emitted for a particular object, the object definition should declare a signal handler named on<Signal>, where <Signal> is the name of the signal, with the first letter capitalized. The signal handler should contain the JavaScript code to be executed when the signal handler is invoked.
+
+For example, the Button type from the Qt Quick Controls module has a clicked signal, which is emitted whenever the button is clicked. In this case, the signal handler for receiving this signal should be onClicked. In the example below, whenever the button is clicked, the onClicked handler is invoked, applying a random color to the parent Rectangle:
+
+```qml
+import QtQuick
+import QtQuick.Controls
+
+Rectangle {
+    id: rect
+    width: 250; height: 250
+
+    Button {
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: "Change color!"
+        onClicked: {
+            rect.color = Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
+        }
+    }
+}
+```
+
+* Property change signal handlers
+
+A signal is automatically emitted when the value of a QML property changes. This type of signal is a property change signal and signal handlers for these signals are written in the form on<Property>Changed, where <Property> is the name of the property, with the first letter capitalized.
+
+For example, the MouseArea type has a pressed property. To receive a notification whenever this property changes, write a signal handler named onPressedChanged:
+
+```qml
+import QtQuick
+
+Rectangle {
+    id: rect
+    width: 100; height: 100
+
+    TapHandler {
+        onPressedChanged: console.log("taphandler pressed?", pressed)
+    }
+}
+```
+
+Even though the TapHandler documentation does not document a signal handler named onPressedChanged, the signal is implicitly provided by the fact that the pressed property exists.
+
+* Signal parameters
+
+Signals might have parameters. To access those, you should assign a function to the handler. Both arrow functions and anonymous functions work.
+
+For the following examples, consider a Status component with an errorOccurred signal (see Adding signals to custom QML types for more information about how signals can be added to QML components).
+
+```qml
+// Status.qml
+import QtQuick
+
+Item {
+    id: myitem
+    signal errorOccurred(message: string, line: int, column: int)
+}
+```
+
+```qml
+Status {
+    onErrorOccurred: (mgs, line, col) => console.log(`${line}:${col}: ${msg}`)
+}
+```
+
+Note: The names of the formal parameters in the function do not have to match those in the signal.
+
+If you do not need to handle all parameters, it is possible to omit trailing ones:
+
+```qml
+Status {
+    onErrorOccurred: function (message) { console.log(message) }
+}
+```
+
+It is not possible to leave out leading parameters you are interested in, however you can use some placeholder name to indicate to readers that they are not important:
+
+```qml
+Status {
+    onErrorOccurred: (_, _, col) => console.log(`Error happened at column ${col}`)
+}
+```
+
+Note: Instead of using a function, it is possible, but discouraged, to use a plain code block. In that case all signal parameters get injected into the scope of the block. However, this can make code difficult to read as it's unclear where the parameters come from, and results in slower lookups in the QML engine. Injecting parameters in this way is deprecated, and will cause runtime warnings if the parameter is actually used.
+
+* Using the Connections type
+
+In some cases it may be desirable to access a signal outside of the object that emits it. For these purposes, the QtQuick module provides the Connections type for connecting to signals of arbitrary objects. A Connections object can receive any signal from its specified target.
+
+For example, the onClicked handler in the earlier example could have been received by the root Rectangle instead, by placing the onClicked handler in a Connections object that has its target set to the button:
+
+```qml
+import QtQuick
+import QtQuick.Controls
+
+Rectangle {
+    id: rect
+    width: 250; height: 250
+
+    Button {
+        id: button
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: "Change color!"
+    }
+
+    Connections {
+        target: button
+        function onClicked() {
+            rect.color = Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
+        }
+    }
+}
+```
+
+* Attached signal handlers
+
+An attached signal handler receives a signal from an attaching type rather than the object within which the handler is declared.
+
+For example, Component.onCompleted is an attached signal handler. It is often used to execute some JavaScript code when its creation process is complete. Here is an example:
+
+```qml
+import QtQuick
+
+Rectangle {
+    width: 200; height: 200
+    color: Qt.rgba(Qt.random(), Qt.random(), Qt.random(), 1)
+
+    Component.onCompleted: {
+        console.log("The rectangle's color is", color)
+    }
+}
+```
+
+The onCompleted handler is not responding to a completed signal from the Rectangle type. Instead, an object of the Component attaching type with a completed signal has automatically been attached to the Rectangle object by the QML engine. The engine emits this signal when the Rectangle object is created, thus triggering the Component.onCompleted signal handler.
+
+Attached signal handlers allow objects to be notified of particular signals that are significant to each individual object. If there was no Component.onCompleted attached signal handler, for example, an object could not receive this notification without registering for some special signal from some special object. The attached signal handler mechanism enables objects to receive particular signals without extra code.
+
+See Attached properties and attached signal handlers for more information on attached signal handlers.
+
+* Adding signals to custom QML types
+
+Signals can be added to custom QML types through the signal keyword.
+
+The syntax for defining a new signal is:
+
+```qml
+signal <name>[([<type> <parameter name>[, ...]])]
+```
+
+A signal is emitted by invoking the signal as a method.
+
+For example, the code below is defined in a file named SquareButton.qml. The root Rectangle object has an activated signal, which is emitted whenever the child TapHandler is tapped. In this particular example the activated signal is emitted with the x and y coordinates of the mouse click:
+
+```qml
+// SquareButton.qml
+import QtQuick
+
+Rectangle {
+    id: root
+
+    signal activated(real xPosition, real yPosition)
+    property point mouseXY
+    property int side: 100
+    width: side; height: side
+
+    TapHandler {
+        id: handler
+        onTapped: root.activated(root.mouseXY.x, root.mouseXY.y)
+        onPressedChanged: root.mouseXY = handler.point.position
+    }
+}
+```
+
+Now any objects of the SquareButton can connect to the activated signal using an onActivated signal handler:
+
+```qml
+// myapplication.qml
+SquareButton {
+    onActivated: (xPosition, yPosition)=> console.log("Activated at " + xPosition + "," + yPosition)
+}
+```
+
+See Signal Attributes for more details on writing signals for custom QML types.
+
+* Connecting signals to methods and signals
+
+Signal objects have a connect() method to a connect a signal either to a method or another signal. When a signal is connected to a method, the method is automatically invoked whenever the signal is emitted. This mechanism enables a signal to be received by a method instead of a signal handler.
+
+Below, the messageReceived signal is connected to three methods using the connect() method:
+
+```qml
+import QtQuick
+
+Rectangle {
+    id: relay
+
+    signal messageReceived(string person, string notice)
+
+    Component.onCompleted: {
+        relay.messageReceived.connect(sendToPost)
+        relay.messageReceived.connect(sendToTelegraph)
+        relay.messageReceived.connect(sendToEmail)
+        relay.messageReceived("Tom", "Happy Birthday")
+    }
+
+    function sendToPost(person, notice) {
+        console.log("Sending to post: " + person + ", " + notice)
+    }
+    function sendToTelegraph(person, notice) {
+        console.log("Sending to telegraph: " + person + ", " + notice)
+    }
+    function sendToEmail(person, notice) {
+        console.log("Sending to email: " + person + ", " + notice)
+    }
+}
+```
+
+In many cases it is sufficient to receive signals through signal handlers rather than using the connect() function. However, using the connect method allows a signal to be received by multiple methods as shown earlier, which would not be possible with signal handlers as they must be uniquely named. Also, the connect method is useful when connecting signals to dynamically created objects.
+
+There is a corresponding disconnect() method for removing connected signals:
+
+```qml
+Rectangle {
+    id: relay
+    //...
+
+    function removeTelegraphSignal() {
+        relay.messageReceived.disconnect(sendToTelegraph)
+    }
+}
+```
+
+* Signal to signal connect
+
+By connecting signals to other signals, the connect() method can form different signal chains.
+
+```qml
+import QtQuick
+
+Rectangle {
+    id: forwarder
+    width: 100; height: 100
+
+    signal send()
+    onSend: console.log("Send clicked")
+
+    TapHandler {
+        id: mousearea
+        anchors.fill: parent
+        onTapped: console.log("Mouse clicked")
+    }
+
+    Component.onCompleted: {
+        mousearea.tapped.connect(send)
+    }
+}
+```
+
+Whenever the TapHandler's tapped signal is emitted, the send signal will automatically be emitted as well.
+
+```qml
+output:
+    MouseArea clicked
+    Send clicked
+```
+
 
 #### QML과 JavaScript 통합하기
 
+
 #### QML 타입 시스템
 
+
 #### QML 모듈
+
 
 #### QML 도큐먼트
