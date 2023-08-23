@@ -10,14 +10,14 @@
     * [Object 선언](#object-선언)
     * [Child Objects](#child-objects)
     * [코멘트](#코멘트)
-  - [QML Object Attributes](#qml-object-attributes)
-    * [Object 선언 내에서의 Attribute](#object-선언-내에서의-attribute)
-    * [id attribute](#id-attribute)
-    * [Property Attributes](#property-attributes)
-    * [Signal Attributes](#signal-attributes)
-    * [Method Attributes](#method-attributes)
-    * [부착된 Properties와 부착된 Signal Handlers](#부착된-properties와-부착된-signal-handlers)
-    * [Enumeration Attributes](#enumeration-attributes)
+  - [QML 객체 애트리뷰트](#qml-객체-애트리뷰트)
+    * [객체 선언 내에서의 애트리뷰트](#객체-선언-내에서의-애트리뷰트)
+    * [id 애트리뷰트](#id-애트리뷰트)
+    * [프로퍼티 애트리뷰트](#프로퍼티-애트리뷰트)
+    * [시그널 애트리뷰트](#시그널-애트리뷰트)
+    * [메서드 애트리뷰트](#메서드-애트리뷰트)
+    * [부착된 프로퍼티와 부착된 시그널 핸들러](#부착된-프로퍼티와-부착된-시그널-핸들러)
+    * [열거형 애트리뷰트](#열거형-애트리뷰트)
   - [프로퍼티 바인딩](#프로퍼티-바인딩)
   - [시그널과 핸들러 이벤트 시스템](#시그널과-핸들러-이벤트-시스템)
   - [QML과 JavaScript 통합하기](#qml과-javascript-통합하기)
@@ -150,9 +150,9 @@ Rectangle { width: 100; height: 100; color: "red" }
 
 ##### 자식 객체
 
-어떤 object 선언이라도 nested object 선언을 통해 child object들을 정의할 수 있습니다. 이런 식으로 **object 선언은 여러 개의 child object를 포함하는 object 트리를 선언할 수 있습니다**.
+어떤 객체 선언이라도 중첩된 객체 선언을 통해 자식 객체들을 정의할 수 있습니다. 이런 식으로 **객체 선언은 여러 개의 자식 객체를 포함하는 객체 트리를 선언할 수 있습니다**.
 
-예를 들어, 아래의 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object 선언은 하나의 [Gradient](https://doc.qt.io/qt-6/qml-qtquick-gradient.html) object 선언을 포함하고 있으며 또 이것은 2개의 [GradientStop](https://doc.qt.io/qt-6/qml-qtquick-gradientstop.html) 선언을 포함하고 있습니다:
+예를 들어, 아래의 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) 객체 선언은 하나의 [Gradient](https://doc.qt.io/qt-6/qml-qtquick-gradient.html) 객체 선언을 포함하고 있으며 또 이것은 2개의 [GradientStop](https://doc.qt.io/qt-6/qml-qtquick-gradientstop.html) 선언을 포함하고 있습니다:
 
 ```qml
 import QtQuick 2.0
@@ -168,9 +168,9 @@ Rectangle {
 }
 ```
 
-엔진이 이 코드를 로드하면, 이것은 루트가 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object인 object 트리를 생성합니다; 이 object는 [Gradient](https://doc.qt.io/qt-6/qml-qtquick-gradient.html) child object를 가지고 있습니다. 또 이것은 2개의 [GradientStop](https://doc.qt.io/qt-6/qml-qtquick-gradientstop.html) child를 갖고 있습니다.
+엔진이 이 코드를 로드하면, 이것은 루트가 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) 객체인 객체 트리를 생성합니다; 이 객체는 [Gradient](https://doc.qt.io/qt-6/qml-qtquick-gradient.html) child object를 가지고 있습니다. 또 이것은 2개의 [GradientStop](https://doc.qt.io/qt-6/qml-qtquick-gradientstop.html) 자식을 갖고 있습니다.
 
-그러나 이것은 시각적 장면의 문맥 QML object 트리의 문맥 상에서의 parent-child 관계라는 점을 유의하십시오. 대부분의 QML object들이 시각적으로 렌더링되기 때문에 시각적 장면에서의 parent-child 관계의 개념은 대부분의 QML type에 대한 base type인 QtQuick 모듈의 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type에 의해 제공됩니다. 예를 들어, [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)과 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html)는 모두 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)-기반 type이며, 아래의 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object는 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object의 시각적 child로 선언되었습니다:
+그러나 이것은 시각적 장면의 문맥 QML 자식 트리의 문맥 상에서의 부모-자식 관계라는 점을 유의하십시오. 대부분의 QML 객체들이 시각적으로 렌더링되기 때문에 시각적 장면에서의 부모-자식 관계의 개념은 대부분의 QML 타입에 대한 베이스 타입인 QtQuick 모듈의 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 타입에 의해 제공됩니다. 예를 들어, [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)과 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html)는 모두 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)-기반 타입이며, 아래의 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 객체는 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object의 시각적 자식으로 선언되었습니다:
 
 ```qml
 import QtQuick 2.0
@@ -187,11 +187,11 @@ Rectangle {
 }
 ```
 
-[Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object가 위의 코드에서 [parent](https://doc.qt.io/qt-6/qml-qtquick-item.html#parent-prop) 값을 참조할 때, object 트리의 parent가 아닌 시각적 parent를 참조합니다. 이 경우 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) object는 QML object 트리에서나 시각적 장면의 문맥에서나 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object의 parent입니다. 그러나 시각적 parent를 변경하기 위해 [parent](https://doc.qt.io/qt-6/qml-qtquick-item.html#parent-prop) property를 수정할 수는 있어도 object 트리의 문맥 상에서 QML로부터 object의 parent를 변경할 수는 없습니다.
+[Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 객체가 위의 코드에서 [parent](https://doc.qt.io/qt-6/qml-qtquick-item.html#parent-prop) 값을 참조할 때, 객체 트리의 부모가 아닌 시각적 부모를 참조합니다. 이 경우 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) 객체는 QML 객체 트리에서나 시각적 장면의 문맥에서나 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 객체의 부모입니다. 그러나 시각적 부모를 변경하기 위해 [부모](https://doc.qt.io/qt-6/qml-qtquick-item.html#parent-prop) 프로퍼티를 수정할 수는 있어도 객체 트리의 문맥 상에서 QML로부터 객체의 부모를 변경할 수는 없습니다.
 
-(게다가 직사각형의 gradient property에 [Gradient](https://doc.qt.io/qt-6/qml-qtquick-gradient.html) object를 할당한 앞의 예제와 달리 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)의 property에 할당하지 않고 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object가 선언되었음을 주목하십시오. 이것은 더 편리한 구문을 사용하기 위해 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop)의 [children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) property가 타입의 [default property](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties)로 설정되었기 때문입니다.)
+(게다가 직사각형의 gradient 프로퍼티에 [Gradient](https://doc.qt.io/qt-6/qml-qtquick-gradient.html) 객체를 할당한 앞의 예제와 달리 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)의 프로퍼티에 할당하지 않고 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 객체가 선언되었음을 주목하십시오. 이것은 더 편리한 구문을 사용하기 위해 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop)의 [자식](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) 프로퍼티가 타입의 [기본 프로퍼티](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties)로 설정되었기 때문입니다.)
 
-[Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type과 함께 시각적 parenting의 개념에 대한 더 많은 정보를 보려면 [visual parent](https://doc.qt.io/qt-6/qtquick-visualcanvas-visualparent.html) 문서를 보십시오.
+[Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 타입과 함께 시각적 부모 맺기의 개념에 대한 더 많은 정보를 보려면 [시각적 부모](https://doc.qt.io/qt-6/qtquick-visualcanvas-visualparent.html) 문서를 보십시오.
 
 ##### 코멘트
 
@@ -223,35 +223,35 @@ Text {
 }
 ```
 
-위의 예제에서 Text object는 일반적인 불투명도를 갖게 될 것입니다. 왜냐하면 opacity: 0.5가 코멘트로 변했기 때문입니다.
+위의 예제에서 Text 객체는 일반적인 불투명도를 갖게 될 것입니다. 왜냐하면 opacity: 0.5가 코멘트로 변했기 때문입니다.
 
-#### QML Object Attributes
+#### QML 객체 애트리뷰트
 
-모든 QML object type은 정의된 attribute 집합을 갖고 있습니다. object type의 각 인스턴스는 해당 object type에 대해 정의된 attribute 집합을 가지고 생성됩니다. 아래에 나와 있듯이 지정할 수 있는 여러 종류의 attribute들이 있습니다.
+모든 QML 객체 타입은 정의된 애트리뷰트 집합을 갖고 있습니다. 객체 타입의 각 인스턴스는 해당 객체 타입에 대해 정의된 애트리뷰트 집합을 가지고 생성됩니다. 아래에 나와 있듯이 지정할 수 있는 여러 종류의 애트리뷰트들이 있습니다.
 
-##### Object 선언 내에서의 Attribute
+##### 객체 선언 내에서의 애트리뷰트
 
-QML 도큐먼트에서 [object 선언](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations)은 새로운 type을 정의합니다. 또한 인스턴스화될 object 계층을 선언합니다. 새로 정의된 type의 인스턴스가 생성되어야 합니다.
+QML 도큐먼트에서 [객체 선언](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations)은 새로운 타입을 정의합니다. 또한 인스턴스화될 객체 계층을 선언합니다. 새로 정의된 타입의 인스턴스가 생성되어야 합니다.
 
-QML object-type attribute type의 집합은 다음과 같습니다:
+QML 객체-타입 애트리뷰트 타입의 집합은 다음과 같습니다:
 
-* id attribute
-* property attribute
-* signal attribute
-* signal handler attribute
-* method attribute
-* 부착된 Properties와 부착된 Signal Handlers
-* Enumeration Attributes
+* id 애트리뷰트
+* 프로퍼티 애트리뷰트
+* 시그널 애트리뷰트
+* 시그널 핸들러 애트리뷰트
+* 메서드 애트리뷰트
+* 부착된 프로퍼티와 부착된 시그널 핸들러
+* 열거형 애트리뷰트
 
-이 attribute들은 아래에서 자세히 논의할 것입니다.
+이 애트리뷰트들은 아래에서 자세히 논의할 것입니다.
 
-##### id attribute
+##### id 애트리뷰트
 
-모든 QML object type은 단 1개의 id attribute를 갖고 있습니다. 이 attribute는 언어 자체가 제공하며 다른 QML object type에 의해 재정의되거나 오버라이드될 수 없습니다.
+모든 QML 객체 타입은 단 1개의 id 애트리뷰트를 갖고 있습니다. 이 애트리뷰트는 언어 자체가 제공하며 다른 QML 객체 타입에 의해 재정의되거나 오버라이드될 수 없습니다.
 
-object를 식별하고 다른 object가 참조할 수 있도록 object 인스턴스의 id attribute에 어떤 값을 할당할 수 있습니다. 이 id는 반드시 소문자나 밑줄 문자로 시작해야 하며 문자, 숫자, 밑줄 문자 외에 다른 문자는 포함할 수 없습니다.
+객체를 식별하고 다른 객체가 참조할 수 있도록 객체 인스턴스의 id 애트리뷰트에 어떤 값을 할당할 수 있습니다. 이 id는 반드시 소문자나 밑줄 문자로 시작해야 하며 문자, 숫자, 밑줄 문자 외에 다른 문자는 포함할 수 없습니다.
 
-아래는 [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) object와 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object입니다. [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) object의 id 값은 "myTextInput"입니다. [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object는 myTextInput.text를 참조함으로써 [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html)의 text property와 같은 값으로 자신의 text property를 설정합니다:
+아래는 [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) 객체와 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 객체입니다. [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) 객체의 id 값은 "myTextInput"입니다. [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 객체는 myTextInput.text를 참조함으로써 [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html)의 text 프로퍼티와 같은 값으로 자신의 text 프로퍼티를 설정합니다:
 
 ```qml
 import QtQuick 2.0
@@ -265,29 +265,29 @@ Column {
 }
 ```
 
-object는 선언된 component 범위 안이라면 어디서든지 id로 참조할 수 있습니다. 그러므로 id 값은 component 범위 안에서 항상 유일해야 합니다. 더 자세한 것은 [Scope and Naming Resolution](https://doc.qt.io/qt-6/qtqml-documents-scope.html)을 보십시오.
+객체는 선언된 컴포넌트 범위 안이라면 어디서든지 id로 참조할 수 있습니다. 그러므로 id 값은 컴포넌트 범위 안에서 항상 유일해야 합니다. 더 자세한 것은 [Scope and Naming Resolution](https://doc.qt.io/qt-6/qtqml-documents-scope.html)을 보십시오.
 
-일단 object 인스턴스가 생성되면, id attribute의 값은 바꿀 수 없습니다. 이것은 일반 property처럼 보일 수 있지만 id attribute는 일반 property attribute가 아니며 특별한 의미가 적용됩니다. 예를 들어 위의 예제에서는 myTextInput.id에 접근할 수 없습니다.
+일단 객체 인스턴스가 생성되면, id 애트리뷰트의 값은 바꿀 수 없습니다. 이것은 일반 프로퍼티처럼 보일 수 있지만 id 애트리뷰트는 일반 프로퍼티 애트리뷰트가 아니며 특별한 의미가 적용됩니다. 예를 들어 위의 예제에서는 myTextInput.id에 접근할 수 없습니다.
 
-##### Property Attributes
+##### 프로퍼티 애트리뷰트
 
-property는 정적인 값을 할당하거나 동적 표현식에 결합할 수 있는 object의 attribute입니다. property의 값은 다른 object가 읽을 수 있습니다. 일반적으로 특정 QML type이 특정 property에 대해 이것을 명시적으로 허용하지 않는 한 다른 object에 의해 수정될 수 있습니다.
+프로퍼티는 정적인 값을 할당하거나 동적 표현식에 결합할 수 있는 객체의 애트리뷰트입니다. 프로퍼티의 값은 다른 객체가 읽을 수 있습니다. 일반적으로 특정 QML 타입이 특정 프로퍼티에 대해 이것을 명시적으로 허용하지 않는 한 다른 객체에 의해 수정될 수 있습니다.
 
-* Property Attributes 정의하기
+* 프로퍼티 애트리뷰트 정의하기
 
-C++에서 클래스에 Q_PROPERTY를 등록하여 QML type 시스템에 등록함으로써 property는 type으로 정의될 수 있습니다. 또는 다음 구문을 사용하여 QML 도큐먼트에서 object type의 커스텀 property를 object 선언에서 정의할 수도 있습니다.
+C++에서 클래스에 Q_PROPERTY를 등록하여 QML type 시스템에 등록함으로써 프로퍼티는 타입으로 정의될 수 있습니다. 또는 다음 구문을 사용하여 QML 도큐먼트에서 객체 타입의 커스텀 프로퍼티를 객체 선언에서 정의할 수도 있습니다.
 
 ```qml
 [default] [required] [readonly] property <propertyType> <propertyName>
 ```
 
-이런 식으로 object 선언은 object 외부로 [특정 값을 노출](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html#defining-object-types-from-qml)하거나 좀 더 쉽게 몇 가지 내부 상태를 유지할 수 있습니다.
+이런 식으로 객체 선언은 객체 외부로 [특정 값을 노출](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html#defining-object-types-from-qml)하거나 좀 더 쉽게 몇 가지 내부 상태를 유지할 수 있습니다.
 
-property 이름은 반드시 소문자로 시작해야 하며 글자, 숫자, 밑줄문자로만 이루어질 수 있습니다. [JavaScript 예약어](https://developer.mozilla.org/en/JavaScript/Reference/Reserved_Words)는 유효한 property 이름이 아닙니다. default, required, readonly 키워드는 선택적이며 선언될 property의 의미를 수정합니다. [default properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties), [required properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#required-properties), [read-only properties](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#read-only-properties)에 대한 각각의 의미에 대한 자세한 정보는 다음 섹션을 보십시오.
+프로퍼티 이름은 반드시 소문자로 시작해야 하며 글자, 숫자, 밑줄문자로만 이루어질 수 있습니다. [JavaScript 예약어](https://developer.mozilla.org/en/JavaScript/Reference/Reserved_Words)는 유효한 프로퍼티 이름이 아닙니다. default, required, readonly 키워드는 선택적이며 선언될 프로퍼티의 의미를 수정합니다. [기본 프로퍼티](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties), [필수 프로퍼티](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#required-properties), [읽기-전용 프로퍼티](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#read-only-properties)에 대한 각각의 의미에 대한 자세한 정보는 다음 섹션을 보십시오.
 
-커스텀 property를 선언하는 것은 암묵적으로 해당 property에 대하여 value-change [signal](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes)과 이름이 on<PropertyName>Changed인 [signal handler](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes)를 생성합니다. 여기서 <PropertyName>은 property의 이름이며 1번째 글자는 대문자입니다.
+커스텀 프로퍼티를 선언하는 것은 암묵적으로 해당 프로퍼티에 대하여 값-변경 [시그널](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes)과 이름이 on<PropertyName>Changed인 [시그널 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes)를 생성합니다. 여기서 <PropertyName>은 프로퍼티의 이름이며 1번째 글자는 대문자입니다.
 
-예를 들어, 다음 object 선언은 Rectangle base type으로부터 파생된 새로운 type을 정의합니다. 이것은 2개의 새로운 property를 갖고 있습니다. 그 중 하나에 [signal handler](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes)가 구현되어 있습니다:
+예를 들어, 다음 객체 선언은 Rectangle 베이스 타입으로부터 파생된 새로운 타입을 정의합니다. 이것은 2개의 새로운 프로퍼티를 갖고 있습니다. 그 중 하나에 [시그널 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes)가 구현되어 있습니다:
 
 ```qml
 Rectangle {
@@ -297,9 +297,9 @@ Rectangle {
 }
 ```
 
-* 커스텀 property 정의 내에서 유효한 type
+* 커스텀 프로퍼티 정의 내에서 유효한 타입
 
-[enumeration](https://doc.qt.io/qt-6/qml-enumeration.html) type을 제외한 모든 [QML Value Types](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html)은 커스텀 property type으로 사용할 수 있습니다. 예를 들어, 다음은 모두 유효한 property 선언입니다:
+[열거형](https://doc.qt.io/qt-6/qml-enumeration.html) 타입을 제외한 모든 [QML 값 타입](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html)은 커스텀 프로퍼티 타입으로 사용할 수 있습니다. 예를 들어, 다음은 모두 유효한 프로퍼티 선언입니다:
 
 ```qml
 Item {
@@ -309,11 +309,11 @@ Item {
 }
 ```
 
-(Enumeration 값은 단순히 정수 값이며 int type을 대신 참조할 수 있습니다.)
+(열거형 값은 단순히 정수 값이며 int 타입을 대신 참조할 수 있습니다.)
 
-일부 value type은 QtQuick 모듈에서 제공하므로 모듈을 가져오지 않으면 property type으로 사용할 수 없습니다. 자세한 것은 [QML Value Types] 문서를 보십시오.
+일부 값 타입은 QtQuick 모듈에서 제공하므로 모듈을 가져오지 않으면 프로퍼티 타입으로 사용할 수 없습니다. 자세한 것은 [QML 값 타입] 문서를 보십시오.
 
-[var](https://doc.qt.io/qt-6/qml-var.html) value type은 모든 타입의 value, list, object를 보관할 수 있는 generic placeholder type이라는 것을 유의하십시오:
+[var](https://doc.qt.io/qt-6/qml-var.html) 값 타입은 모든 타입의 값, 리스트 객체를 보관할 수 있는 generic placeholder 타입이라는 것을 유의하십시오:
 
 ```qml
 property var someNumber: 1.5
@@ -323,18 +323,18 @@ property var someList: [1, 2, "three", "four"]
 property var someObject: Rectangle { width: 100; height: 100; color: "red" }
 ```
 
-게다가 모든 [QML object type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)은 property type으로 사용할 수 있습니다. 예를 들면:
+게다가 모든 [QML 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)은 프로퍼티 타입으로 사용할 수 있습니다. 예를 들면:
 
 ```qml
 property Item someItem
 property Rectangle someRectangle
 ```
 
-또한 이것은 [커스텀 QML types](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html#defining-object-types-from-qml)에 적용됩니다. 만약 QML type이 파일 ColorfulButton.qml(클라이언트가 가져온 디렉토리 안)에 정의되어 있다면, type ColorfulButton의 property 역시 유효합니다.
+또한 이것은 [커스텀 QML 타입](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html#defining-object-types-from-qml)에 적용됩니다. 만약 QML 타입이 파일 ColorfulButton.qml(클라이언트가 가져온 디렉토리 안)에 정의되어 있다면, 타입 ColorfulButton의 프로퍼티 역시 유효합니다.
 
-* Property Attribute에 값 할당하기
+* 프로퍼티 애트리뷰트에 값 할당하기
 
-object 인스턴스의 property의 값은 2가지 방식으로 지정할 수 있습니다:
+객체 인스턴스의 프로퍼티의 값은 2가지 방식으로 지정할 수 있습니다:
 
 - 초기화 시에 값 할당
 - 명령형 값 할당
@@ -343,32 +343,32 @@ object 인스턴스의 property의 값은 2가지 방식으로 지정할 수 있
 
 * 초기화 시에 값 할당
 
-초기화 시에 property에 값을 할당하는 구문은 다음과 같습니다:
+초기화 시에 프로퍼티에 값을 할당하는 구문은 다음과 같습니다:
 
 ```qml
 <propertyName> : <value>
 ```
 
-초기값 할당은 만약 원한다면 object 선언에서 property 정의와 결합될 수 있습니다. 이 경우 property 정의 구문은 다음과 같습니다:
+초기값 할당은 만약 원한다면 객체 선언에서 프로퍼티 정의와 결합될 수 있습니다. 이 경우 프로퍼티 정의 구문은 다음과 같습니다:
 
 ```qml
 [default] property <propertyType> <propertyName> : <value>
 ```
 
-property 값 초기화 예제는 다음과 같습니다:
+프로퍼티 값 초기화 예제는 다음과 같습니다:
 
 ```qml
 import QtQuick 2.0
 
 Rectangle {
     color: "red"
-    property color nextColor: "blue" // 결합된 property 선언 및 초기화
+    property color nextColor: "blue" // 결합된 프로퍼티 선언 및 초기화
 }
 ```
 
 * 명령형 값 할당
 
-명령형 값 할당은 명령형 JavaScript 코드로부터 property 값(정적인 값 또는 바인딩 표현식)이 property에 할당되는 것입니다. 명령형 값 할당의 구문은 다음과 같이 JavaScript 할당 연산자를 사용합니다:
+명령형 값 할당은 명령형 JavaScript 코드로부터 프로퍼티 값(정적인 값 또는 바인딩 표현식)이 프로퍼티에 할당되는 것입니다. 명령형 값 할당의 구문은 다음과 같이 JavaScript 할당 연산자를 사용합니다:
 
 ```qml
 [<objectId>.]<propertyName> = value
@@ -389,14 +389,14 @@ Rectangle {
 
 * 정적인 값 및 바인딩 표현식 값
 
-위에서 봤듯이, property에 할당되는 값은 두 종류가 있습니다: 정적인 값, 그리고 바인딩 표현식 값. 후자의 경우를 [property binding](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)이라고도 합니다.
+위에서 봤듯이, 프로퍼티에 할당되는 값은 두 종류가 있습니다: 정적인 값, 그리고 바인딩 표현식 값. 후자의 경우를 [프로퍼티 바인딩](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)이라고도 합니다.
 
 | 종류 | 의미 |
 | --- | --- |
-| 정적인 값 | 다른 property에 의존하지 않는 상수 값입니다. |
-| 바인딩 표현식 | 어떤 property와 다른 property들과의 관계를 설명하는 JavaScript 표현식입니다. 이 표현식에서 변수는 property의 의존성이라고도 합니다. QML 엔진은 어떤 property와 의존성 간의 관계를 만들어냅니다. 값에서 의존성 변화가 생기면 QML 엔진은 자동으로 바인딩 표현식을 다시 연산하고 property에 새로운 결과를 할당합니다. |
+| 정적인 값 | 다른 프로퍼티에 의존하지 않는 상수 값입니다. |
+| 바인딩 표현식 | 어떤 프로퍼티와 다른 프로퍼티들과의 관계를 설명하는 JavaScript 표현식입니다. 이 표현식에서 변수는 프로퍼티의 의존성이라고도 합니다. QML 엔진은 어떤 프로퍼티와 의존성 간의 관계를 만들어냅니다. 값에서 의존성 변화가 생기면 QML 엔진은 자동으로 바인딩 표현식을 다시 연산하고 프로퍼티에 새로운 결과를 할당합니다. |
 
-다음은 property에 할당되는 두 종류의 값을 보여주는 예제입니다:
+다음은 프로퍼티에 할당되는 두 종류의 값을 보여주는 예제입니다:
 
 ```qml
 import QtQuick 2.0
@@ -414,35 +414,35 @@ Rectangle {
 }
 ```
 
-주의: 바인딩 표현식을 명령형으로 할당하려면 바인딩 표현식을 Qt.binding()에 전달된 함수 안에 포함시켜야 합니다. 그리고 나서 [Qt.binding](https://doc.qt.io/qt-6/qml-qtqml-qt.html#binding-method)()이 리턴한 값을 property에 할당해야 합니다. 반대로 초기화 시에 바인딩 표현식을 할당할 때에는 Qt.binding()을 사용하지 말아야 합니다. 더 많은 정보는 [Property Binding](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)을 보십시오.
+주의: 바인딩 표현식을 명령형으로 할당하려면 바인딩 표현식을 Qt.binding()에 전달된 함수 안에 포함시켜야 합니다. 그리고 나서 [Qt.binding](https://doc.qt.io/qt-6/qml-qtqml-qt.html#binding-method)()이 리턴한 값을 프로퍼티에 할당해야 합니다. 반대로 초기화 시에 바인딩 표현식을 할당할 때에는 Qt.binding()을 사용하지 말아야 합니다. 더 많은 정보는 [프로퍼티 바인딩](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)을 보십시오.
 
-* Type Safety
+* 타입 세이프티(Safety)
 
-property는 타입 safe입니다. property에는 property type이 일치하는 값만 할당할 수 있습니다.
+프로퍼티는 타입 safe입니다. 프로퍼티에는 프로퍼티 타입이 일치하는 값만 할당할 수 있습니다.
 
-예를 들어, 만약 property가 real 타입인데 string을 할당하려고 시도한다면 다음과 같은 오류가 발생할 것입니다:
+예를 들어, 만약 프로퍼티가 real 타입인데 string을 할당하려고 시도한다면 다음과 같은 오류가 발생할 것입니다:
 
 ```qml
-property int volume: "four"  // 오류가 발생함; property의 object가 로드되지 않을 것입니다.
+property int volume: "four"  // 오류가 발생함; 프로퍼티의 객체가 로드되지 않을 것입니다.
 ```
 
-마찬가지로 런타임 중에 property에 잘못된 type의 값이 할당되면 새로운 값이 할당되지 않고 오류가 발생할 것입니다.
+마찬가지로 런타임 중에 프로퍼티에 잘못된 타입의 값이 할당되면 새로운 값이 할당되지 않고 오류가 발생할 것입니다.
 
-일부 property type들은 자연 값 표현식을 갖고 있지 않으며 이러한 property type에 대해서는 QML 엔진이 자동으로 string-to-typed-value 변환을 수행합니다. 예를 들면, color type의 property에 문자열이 아닌 컬러를 저장해도 오류가 보고되지 않으며 color property에 문자열 "red"를 할당할 수 있습니다.
+일부 프로퍼티 타입들은 자연 값 표현식을 갖고 있지 않으며 이러한 프로퍼티 타입에 대해서는 QML 엔진이 자동으로 string-to-typed-value 변환을 수행합니다. 예를 들면, color 타입의 프로퍼티에 문자열이 아닌 컬러를 저장해도 오류가 보고되지 않으며 color 프로퍼티에 문자열 "red"를 할당할 수 있습니다.
 
-기본적으로 지원되는 property의 type 목록은 [QML Value Types](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html)를 보십시오. 게다가 사용 가능한 [QML object type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)은 property type으로도 사용할 수 있습니다.
+기본적으로 지원되는 프로퍼티의 타입 목록은 [QML Value Types](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html)를 보십시오. 게다가 사용 가능한 [QML 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)은 프로퍼티 타입으로도 사용할 수 있습니다.
 
-* 특수 Property Types
+* 특수 프로퍼티 타입
 
-* Object List Property Attributes
+* 객체 리스트 프로퍼티 애트리뷰트
 
-[list](https://doc.qt.io/qt-6/qml-list.html) type property는 QML object-type 값들의 리스트를 할당할 수 있습니다. object list 값을 정의하는 구문은 []로 감싸고 ,로 분리된 list입니다:
+[리스트](https://doc.qt.io/qt-6/qml-list.html) 타입 프로퍼티는 QML 객체-타입 값들의 리스트를 할당할 수 있습니다. 객체 리스트 값을 정의하는 구문은 []로 감싸고 ,로 분리된 리스트입니다:
 
 ```qml
 [ <item 1>, <item 2>, ... ]
 ```
 
-예를 들어, [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) type은 [states](https://doc.qt.io/qt-6/qml-qtquick-item.html#states-prop) property를 가지고 있는데 이것은 [State](https://doc.qt.io/qt-6/qml-qtquick-state.html) type object들의 리스트를 저장하는 데 사용합니다. 아래 코드는 3개의 [State](https://doc.qt.io/qt-6/qml-qtquick-state.html) object의 list에 이 property의 값을 초기화합니다:
+예를 들어, [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 타입은 [states](https://doc.qt.io/qt-6/qml-qtquick-item.html#states-prop) 프로퍼티를 가지고 있는데 이것은 [State](https://doc.qt.io/qt-6/qml-qtquick-state.html) 타입 객체들의 리스트를 저장하는 데 사용합니다. 아래 코드는 3개의 [State](https://doc.qt.io/qt-6/qml-qtquick-state.html) 객체의 리스트에 이 프로퍼티의 값을 초기화합니다:
 
 ```qml
 import QtQuick 2.0
@@ -456,7 +456,7 @@ Item {
 }
 ```
 
-만약 list가 1개의 항목을 포함하고 있다면, []은 생략할 수 있습니다:
+만약 리스트가 1개의 항목을 포함하고 있다면, []은 생략할 수 있습니다:
 
 ```qml
 import QtQuick 2.0
@@ -466,19 +466,19 @@ Item {
 }
 ```
 
-object 선언할 때 [list](https://doc.qt.io/qt-6/qml-list.html) type property를 지정하는 구문은 다음과 같습니다:
+객체 선언할 때 [리스트](https://doc.qt.io/qt-6/qml-list.html) 타입 프로퍼티를 지정하는 구문은 다음과 같습니다:
 
 ```qml
 [default] property list<<objectType>> propertyName
 ```
 
-그리고 다른 property 선언과 마찬가지로 다음 구문처럼 property 초기화는 property 선언과 결합될 수 있습니다:
+그리고 다른 프로퍼티 선언과 마찬가지로 다음 구문처럼 프로퍼티 초기화는 프로퍼티 선언과 결합될 수 있습니다:
 
 ```qml
 [default] property list<<objectType>> propertyName: <value>
 ```
 
-list property 선언 예제는 다음과 같습니다:
+리스트 프로퍼티 선언 예제는 다음과 같습니다:
 
 ```qml
 import QtQuick 2.0
@@ -495,13 +495,13 @@ Rectangle {
 }
 ```
 
-만약 QML object-type 값이 아닌 값 list를 저장할 property를 선언하려면 [var](https://doc.qt.io/qt-6/qml-var.html) property를 대신 선언해야 합니다.
+만약 QML 객체-타입 값이 아닌 값 리스트를 저장할 프로퍼티를 선언하려면 [var](https://doc.qt.io/qt-6/qml-var.html) 프로퍼티를 대신 선언해야 합니다.
 
-* 그룹화된 Properties
+* 그룹화된 프로퍼티
 
-일부 경우에서는 property가 sub-property attribute의 논리적 그룹을 포함하고 있습니다. 이 sub-property attribute들은 도트 표기법 또는 그룹 표기법을 사용하여 할당할 수 있습니다.
+일부 경우에서는 프로퍼티가 서브-프로퍼티 애트리뷰트의 논리적 그룹을 포함하고 있습니다. 이 서브-프로퍼티 애트리뷰트들은 도트 표기법 또는 그룹 표기법을 사용하여 할당할 수 있습니다.
 
-예를 들어, [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) type이 [font](https://doc.qt.io/qt-6/qml-qtquick-text.html#font.family-prop) group property를 갖고 있다고 가정합니다. 아래에서 1번째는 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object가 도트 표기법으로 font 값을 초기화하고 있습니다. 2번째는 그룹 표기법을 사용하고 있습니다:
+예를 들어, [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 타입이 [font](https://doc.qt.io/qt-6/qml-qtquick-text.html#font.family-prop) 그룹 프로퍼티를 갖고 있다고 가정합니다. 아래에서 1번째는 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 객체가 도트 표기법으로 font 값을 초기화하고 있습니다. 2번째는 그룹 표기법을 사용하고 있습니다:
 
 ```qml
 Text {
@@ -516,26 +516,26 @@ Text {
 }
 ```
 
-그룹화된 property type은 subproperty를 갖고 있는 type입니다. 만약 그룹화된 property type이 (value type이 아닌) object type이라면, 이 property는 읽기-전용이어야 합니다. 이것은 subproperty가 속한 object를 바꾸지 못하게 합니다.
+그룹화된 프로퍼티 타입은 서브-프로퍼티를 갖고 있는 타입입니다. 만약 그룹화된 프로퍼티 타입이 (값 타입이 아닌) 객체 타입이라면, 이 프로퍼티는 읽기-전용이어야 합니다. 이것은 서브-프로퍼티가 속한 객체를 바꾸지 못하게 합니다.
 
-* Property Alias(별명)
+* 프로퍼티 별명(Alias)
 
-Property Alias는 또 다른 property에 대한 참조를 갖고 있는 property입니다. property에 대한 새로운 고유의 저장 공간을 할당하는 일반적인 property 정의와 달리, property alias는 (aliasing property라고 하는) 새로 선언된 property를 기존 property(aliased property)에 직접 참조로 연결합니다.
+프로퍼티 별명은 또 다른 프로퍼티에 대한 참조를 갖고 있는 프로퍼티입니다. 프로퍼티에 대한 새로운 고유의 저장 공간을 할당하는 일반적인 프로퍼티 정의와 달리, 프로퍼티 별명은 (aliasing 프로퍼티라고 하는) 새로 선언된 프로퍼티를 기존 프로퍼티(aliased 프로퍼티)에 직접 참조로 연결합니다.
 
-property alias 선언은 property type과 달리 alias 키워드가 필요하고 property 선언의 오른쪽에 유효한 alias 참조가 있어야 한다는 점만 제외하면 일반적인 property 정의와 비슷합니다:
+프로퍼티 별명 선언은 프로퍼티 타입과 달리 alias 키워드가 필요하고 프로퍼티 선언의 오른쪽에 유효한 alias 참조가 있어야 한다는 점만 제외하면 일반적인 프로퍼티 정의와 비슷합니다:
 
 ```qml
 [default] property alias <name>: <alias reference>
 ```
 
-일반적인 property와 달리 alias는 다음과 같은 제한사항을 가지고 있습니다:
+일반적인 프로퍼티와 달리 alias는 다음과 같은 제한사항을 가지고 있습니다:
 
-- alias가 선언된 [type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)의 범위 내에 있는 object, 또는 object의 property만 참조할 수 있습니다.
+- alias가 선언된 [타입](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)의 범위 내에 있는 객체, 또는 객체의 프로퍼티만 참조할 수 있습니다.
 - 임의의 JavaScript 표현식을 포함할 수 없습니다.
-- 해당 type의 범위 밖에서 선언된 object를 참조할 수 없습니다.
-- 일반적인 property의 경우 기본값이 선택적이지만 alias 참조는 선택적이지 않습니다; alias 참조는 alias가 처음 선언될 때 제공되어야 합니다.
-- [부착된 property](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#attached-properties-and-attached-signal-handlers)를 참조할 수 없습니다.
-- 깊이가 3 이상인 계층 내부의 property를 참조할 수 없습니다. 다음 코드는 작동하지 않습니다:
+- 해당 타입의 범위 밖에서 선언된 객체를 참조할 수 없습니다.
+- 일반적인 프로퍼티의 경우 기본값이 선택적이지만 alias 참조는 선택적이지 않습니다; alias 참조는 alias가 처음 선언될 때 제공되어야 합니다.
+- [부착된 프로퍼티](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#attached-properties-and-attached-signal-handlers)를 참조할 수 없습니다.
+- 깊이가 3 이상인 계층 내부의 프로퍼티를 참조할 수 없습니다. 다음 코드는 작동하지 않습니다:
 
 ```qml
 property alias color: myItem.myRect.border.color
@@ -546,7 +546,7 @@ Item {
 }
 ```
 
-그러나 최대 2레벨 깊이까지의 property에 대한 alias는 작동합니다.
+그러나 최대 2레벨 깊이까지의 프로퍼티에 대한 alias는 작동합니다.
 
 ```qml
 property alias color: rectangle.border.color
@@ -556,7 +556,7 @@ Rectangle {
 }
 ```
 
-예를 들어, 다음은 alias property인 buttonText를 가진 Button type입니다. buttonText는 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) child의 text object에 연결되어 있습니다:
+예를 들어, 다음은 alias 프로퍼티인 buttonText를 가진 Button 타입입니다. buttonText는 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 자식의 text 객체에 연결되어 있습니다:
 
 ```qml
 // Button.qml
@@ -571,17 +571,17 @@ Rectangle {
 }
 ```
 
-다음 코드는 child [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object에 대하여 정의된 text string을 가진 Button을 생성할 것입니다:
+다음 코드는 자식 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 객체에 대하여 정의된 text 문자열을 가진 Button을 생성할 것입니다:
 
 ```qml
 Button { buttonText: "Click Me" }
 ```
 
-여기서 buttonText를 수정하면 textItem.text 값이 직접 바뀝니다; 다른 값을 바꾸지 않고 textItem.text을 업데이트합니다. 만약 buttonText가 alias가 아니었더라면 이 값을 바꾸는 것은 표시되는 텍스트를 실제로 바꾸지 않을 것입니다. 왜냐하면 property binding이 쌍방향이 아니기 때문입니다: 만약 textItem.text가 바뀌었다면 buttonText도 바뀌겠지만 그 반대로는 변경되지 않습니다.
+여기서 buttonText를 수정하면 textItem.text 값이 직접 바뀝니다; 다른 값을 바꾸지 않고 textItem.text을 업데이트합니다. 만약 buttonText가 별명이 아니었더라면 이 값을 바꾸는 것은 표시되는 텍스트를 실제로 바꾸지 않을 것입니다. 왜냐하면 프로퍼티 바인딩이 쌍방향이 아니기 때문입니다: 만약 textItem.text가 바뀌었다면 buttonText도 바뀌겠지만 그 반대로는 변경되지 않습니다.
 
-* Property Alias에 대해 고려할 사항
+* 프로퍼티 별명에 대해 고려할 사항
 
-Alias는 일단 component가 완전히 초기화되었을 때에만 활성화됩니다. 초기화되지 않은 alias를 참조하면 오류가 발생합니다. 마찬가지로 aliasing property를 aliasing하는 것도 오류가 발생합니다.
+별명은 일단 컴포넌트가 완전히 초기화되었을 때에만 활성화됩니다. 초기화되지 않은 별명을 참조하면 오류가 발생합니다. 마찬가지로 aliasing 프로퍼티를 aliasing하는 것도 오류가 발생합니다.
 
 ```qml
 property alias widgetLabel: label
@@ -595,9 +595,9 @@ property alias widgetLabel: label
 Component.onCompleted: widgetLabel.text = "Alias completed Initialization"
 ```
 
-그러나 root object에 property alias를 갖고 있는 [QML object type](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)을 가져올 때에는 property가 일반 Qt property로 나타나므로 alias 참조에 사용할 수 있습니다.
+그러나 객체 객체에 프로퍼티 별명을 갖고 있는 [QML 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)을 가져올 때에는 프로퍼티가 일반 Qt 프로퍼티로 나타나므로 별명 참조에 사용할 수 있습니다.
 
-aliasing property가 기존 property와 같은 이름을 갖는 것이 가능하므로 사실상 기존 property를 덮어쓸 수 있습니다. 예를 들어, 다음 QML type은 내장된 [Rectangle::color](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html#color-prop) property와 동일한 이름을 가진 color alias property를 갖고 있습니다:
+aliasing 프로퍼티가 기존 프로퍼티와 같은 이름을 갖는 것이 가능하므로 사실상 기존 프로퍼티를 덮어쓸 수 있습니다. 예를 들어, 다음 QML type은 내장된 [Rectangle::color](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html#color-prop) 프로퍼티와 동일한 이름을 가진 color 별명 프로퍼티를 갖고 있습니다:
 
 ```qml
 Rectangle {
@@ -625,11 +625,11 @@ Rectangle {
 }
 ```
 
-이 type을 사용하고 color property를 참조하는 모든 object는 일반적인 [Rectangle::color](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html#color-prop) property가 아닌 alias를 참조할 것입니다. 그러나 내부적으로 Rectangle은 color property를 올바르게 설정하고 alias가 아닌 실제 정의된 property를 참조할 수 있습니다.
+이 타입을 사용하고 color 프로퍼티를 참조하는 모든 객체는 일반적인 [Rectangle::color](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html#color-prop) 프로퍼티가 아닌 별명을 참조할 것입니다. 그러나 내부적으로 Rectangle은 color 프로퍼티를 올바르게 설정하고 별명이 아닌 실제 정의된 프로퍼티를 참조할 수 있습니다.
 
-* Property Alias와 Type
+* 프로퍼티 별명과 타입
 
-Property alias는 명시적인 type 사양을 가질 수 없습니다. property alias의 type은 이것이 참조하는 property 또는 object의 선언된 type입니다. 그러므로 id와 인라인으로 선언된 추가 property들을 통해 참조된 object에 대한 alias를 생성하면, alias를 통해 추가 property에 접근할 수 없습니다:
+프로퍼티 별명은 명시적인 타입 사양을 가질 수 없습니다. 프로퍼티 별명의 타입은 이것이 참조하는 프로퍼티 또는 객체의 선언된 타입입니다. 그러므로 id와 인라인으로 선언된 추가 프로퍼티들을 통해 참조된 객체에 대한 별명을 생성하면, alias를 통해 추가 프로퍼티에 접근할 수 없습니다:
 
 ```qml
 // MyItem.qml
@@ -643,7 +643,7 @@ Item {
 }
 ```
 
-inner는 단지 항목일 뿐이기 때문에 당신은 이 component의 밖에서 inner.extraProperty를 초기화할 수 없습니다:
+inner는 단지 항목일 뿐이기 때문에 당신은 이 컴포넌트의 밖에서 inner.extraProperty를 초기화할 수 없습니다:
 
 ```qml
 // main.qml
@@ -652,7 +652,7 @@ MyItem {
 }
 ```
 
-그러나 전용 .qml 파일을 사용하여 inner object를 별도의 component로 추출하면, 당신은 그 component를 인스턴스화 할 수 있고 alias를 통해 그것의 모든 property에 접근할 수 있습니다:
+그러나 전용 .qml 파일을 사용하여 inner 객체를 별도의 컴포넌트로 추출하면, 당신은 그 컴포넌트를 인스턴스화 할 수 있고 별명를 통해 그것의 모든 프로퍼티에 접근할 수 있습니다:
 
 ```qml
 // MainItem.qml
@@ -671,11 +671,11 @@ Item {
 }
 ```
 
-* 기본 Properties
+* 기본 프로퍼티
 
-object 정의는 하나의 기본 property를 가질 수 있습니다. 기본 property란 특정 property에 대한 값을 선언하지 않고 또 다른 object의 정의 안에서 어떤 object를 선언했을 때 값이 할당되는 property입니다.
+객체 정의는 하나의 기본 프로퍼티를 가질 수 있습니다. 기본 프로퍼티란 특정 프로퍼티에 대한 값을 선언하지 않고 또 다른 객체의 정의 안에서 어떤 객체를 선언했을 때 값이 할당되는 프로퍼티입니다.
 
-선택적인 default 키워드를 사용하여 property를 선언하면 기본 property로 표시됩니다. 예를 들어, 기본 property someText를 가진 MyLabel.qml이 있다고 가정합니다:
+선택적인 default 키워드를 사용하여 프로퍼티를 선언하면 기본 프로퍼티로 표시됩니다. 예를 들어, 기본 프로퍼티 someText를 가진 MyLabel.qml이 있다고 가정합니다:
 
 ```qml
 // MyLabel.qml
@@ -688,7 +688,7 @@ Text {
 }
 ```
 
-다음과 같이 someText 값은 MyLabel object 정의에 할당될 수 있습니다:
+다음과 같이 someText 값은 MyLabel 객체 정의에 할당될 수 있습니다:
 
 ```qml
 MyLabel {
@@ -704,11 +704,11 @@ MyLabel {
 }
 ```
 
-그러나 someText property가 기본 property로 표시되었으므로 이 property에 명시적으로 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) object를 할당할 필요는 없습니다.
+그러나 someText 프로퍼티가 기본 프로퍼티로 표시되었으므로 이 프로퍼티에 명시적으로 [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 객체를 할당할 필요는 없습니다.
 
-[children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) property에 명시적으로 추가하지 않고도 child object를 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)-기반 type에 추가할 수 있습니다. 이는 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)의 기본 property가 그것의 데이터 property이며 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)에 대해 이 list에 추가되는 모든 항목은 [children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop)의 list에 자동으로 추가되기 때문입니다.
+[자식](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) 프로퍼티에 명시적으로 추가하지 않고도 자식 객체를 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)-기반 타입에 추가할 수 있습니다. 이는 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)의 기본 프로퍼티가 그것의 데이터 프로퍼티이며 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)에 대해 이 리스트에 추가되는 모든 항목은 [자식](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop)의 리스트에 자동으로 추가되기 때문입니다.
 
-기본 property는 항목의 children을 재할당하는 데 유용합니다. 예를 들면:
+기본 프로퍼티는 항목의 자식을 재할당하는 데 유용합니다. 예를 들면:
 
 ```qml
 Item {
@@ -720,25 +720,25 @@ Item {
 }
 ```
 
-기본 property alias를 inner.children으로 설정하면 외부 항목의 child로 할당된 모든 object는 자동으로 내부 항목의 child로 재할당됩니다.
+기본 프로퍼티 별명을 inner.children으로 설정하면 외부 항목의 자식으로 할당된 모든 객체는 자동으로 내부 항목의 자식으로 재할당됩니다.
 
-* 필수 Properties
+* 필수 프로퍼티
 
-required 키워드를 사용하면 object 선언을 할 때 어떤 property를 필수로 정의할 수도 있습니다. 구문은 다음과 같습니다.
+required 키워드를 사용하면 객체 선언을 할 때 어떤 프로퍼티를 필수로 정의할 수도 있습니다. 구문은 다음과 같습니다.
 
 ```qml
 required property <propertyType> <propertyName>
 ```
 
-이름에서 알 수 있듯이 object의 인스턴스를 생성할 때 필수 property는 반드시 설정해야 합니다. 이 규칙을 위반하면 정적으로 탐지될 경우 QML 앱은 작동하지 않게 됩니다. 동적으로 인스턴스화한 QML component([Qt.createComponent](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createComponent-method)()를 통한 인스턴스)의 경우, 이 규칙을 위반하면 경고와 null 리턴 값이 나오게 됩니다.
+이름에서 알 수 있듯이 객체의 인스턴스를 생성할 때 필수 프로퍼티는 반드시 설정해야 합니다. 이 규칙을 위반하면 정적으로 탐지될 경우 QML 앱은 작동하지 않게 됩니다. 동적으로 인스턴스화한 QML 컴포넌트([Qt.createComponent](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createComponent-method)()를 통한 인스턴스)의 경우, 이 규칙을 위반하면 경고와 null 리턴 값이 나오게 됩니다.
 
-다음과 같이 기존의 property를 required로 만들 수 있습니다.
+다음과 같이 기존의 프로퍼티를 required로 만들 수 있습니다.
 
 ```qml
 required <propertyName>
 ```
 
-다음 예제는 커스텀 Rectangle component를 만드는 방법을 보여줍니다. 여기서 color property는 항상 지정해야 합니다.
+다음 예제는 커스텀 Rectangle 컴포넌트를 만드는 방법을 보여줍니다. 여기서 color 프로퍼티는 항상 지정해야 합니다.
 
 ```qml
 // ColorRectangle.qml
@@ -747,21 +747,21 @@ Rectangle {
 }
 ```
 
-주의: QML로부터 필수 property에 초기값을 할당할 수 없습니다. 왜냐하면 필수 property의 사용 의도에 직접적으로 위배되기 때문입니다.
+주의: QML로부터 필수 프로퍼티에 초기값을 할당할 수 없습니다. 왜냐하면 필수 프로퍼티의 사용 의도에 직접적으로 위배되기 때문입니다.
 
-필수 property는 model-view-delegate 코드에서 특수한 역할을 하게 됩니다: 만약 view의 delegate가 view의 model의 역할 이름과 같은 필수 property를 가지고 있다면, 이 property는 model의 해당 값으로 초기될 것입니다. 더 많은 정보는 [Models and Views in Qt Quick](https://doc.qt.io/qt-6/qtquick-modelviewsdata-modelview.html) 페이지를 보십시오.
+필수 프로퍼티는 model-view-delegate 코드에서 특수한 역할을 하게 됩니다: 만약 view의 delegate가 view의 model의 역할 이름과 같은 필수 프로퍼티를 가지고 있다면, 이 프로퍼티는 model의 해당 값으로 초기될 것입니다. 더 많은 정보는 [Models and Views in Qt Quick](https://doc.qt.io/qt-6/qtquick-modelviewsdata-modelview.html) 페이지를 보십시오.
 
-C++로부터 필수 property를 초기화하는 방법에 대해서는 [QQmlComponent::createWithInitialProperties](https://doc.qt.io/qt-6/qqmlcomponent.html#createWithInitialProperties), [QQmlApplicationEngine::setInitialProperties](https://doc.qt.io/qt-6/qqmlapplicationengine.html#setInitialProperties), [QQuickView::setInitialProperties](https://doc.qt.io/qt-6/qquickview.html#setInitialProperties)를 보십시오.
+C++로부터 필수 프로퍼티를 초기화하는 방법에 대해서는 [QQmlComponent::createWithInitialProperties](https://doc.qt.io/qt-6/qqmlcomponent.html#createWithInitialProperties), [QQmlApplicationEngine::setInitialProperties](https://doc.qt.io/qt-6/qqmlapplicationengine.html#setInitialProperties), [QQuickView::setInitialProperties](https://doc.qt.io/qt-6/qquickview.html#setInitialProperties)를 보십시오.
 
-* 읽기-전용 Properties
+* 읽기-전용 프로퍼티
 
-object 선언을 할 때 readonly 키워드를 사용하여 읽기-전용 property를 정의할 수 있습니다. 구문은 다음과 같습니다:
+객체 선언을 할 때 readonly 키워드를 사용하여 읽기-전용 프로퍼티를 정의할 수 있습니다. 구문은 다음과 같습니다:
 
 ```qml
 readonly property <propertyType> <propertyName> : <value>
 ```
 
-읽기-전용 property는 반드시 초기화 할 때 정적인 값 또는 바인딕 표현식을 할당해야 합니다. 일단 읽기-전용 property가 초기화된 후에는 더 이상 변경할 수 없습니다.
+읽기-전용 프로퍼티는 반드시 초기화 할 때 정적인 값 또는 바인딕 표현식을 할당해야 합니다. 일단 읽기-전용 프로퍼티가 초기화된 후에는 더 이상 변경할 수 없습니다.
 
 예를 들어, 아래의 Component.onCompleted 블럭에 있는 코드는 유효하지 않습니다:
 
@@ -769,35 +769,35 @@ readonly property <propertyType> <propertyName> : <value>
 Item {
     readonly property int someNumber: 10
 
-    Component.onCompleted: someNumber = 20  // TypeError: 읽기-전용 property에 할당할 수 없음
+    Component.onCompleted: someNumber = 20  // TypeError: 읽기-전용 프로퍼티에 할당할 수 없음
 }
 ```
 
-주의: 읽기-전용 property는 [기본](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties) property가 될 수 없습니다.
+주의: 읽기-전용 프로퍼티는 [기본](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#default-properties) 프로퍼티가 될 수 없습니다.
 
-* Property Modifier Objects
+* 프로퍼티 Modifier 객체
 
-property는 그것과 연관된 [property value modifier objects](https://doc.qt.io/qt-6/qtqml-cppintegration-definetypes.html#property-modifier-types)를 가질 수 있습니다. 특정 property와 연관된 property modifier type의 인스턴스를 선언하는 구문은 다음과 같습니다:
+프로퍼티는 그것과 연관된 [프로퍼티 값 modifier 객체](https://doc.qt.io/qt-6/qtqml-cppintegration-definetypes.html#property-modifier-types)를 가질 수 있습니다. 특정 프로퍼티와 연관된 프로퍼티 modifier 타입의 인스턴스를 선언하는 구문은 다음과 같습니다:
 
 ```qml
 <PropertyModifierTypeName> on <propertyName> {
-    // object 인스턴스의 attributes
+    // 객체 인스턴스의 애트리뷰트
 }
 ```
 
 이것을 일반적으로 "on" 구문이라고 합니다.
 
-위의 구문은 실제로 기존 property에서 작동하는 object를 인스턴스화하는 [object 선언](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations)입니다.
+위의 구문은 실제로 기존 프로퍼티에서 작동하는 객체를 인스턴스화하는 [객체 선언](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations)입니다.
 
-어떤 property modifier type은 특정 property type에만 적용할 수 있지만 언어에 의해 강요되지는 않습니다. 예를 들어, QtQuick이 제공하는 NumberAnimation type은 (int, real 같은) 숫자-type property만 애니메이트 합니다. 숫자가 아닌 property와 함께 NumberAnimation을 사용하려고 하면 오류는 발생하지 않지만 숫자가 아닌 property는 애니메이트 되지 않을 것입니다. 특정 property type과 연관된 경우 property modifier type의 동작은 구현에 의해 정의됩니다.
+어떤 프로퍼티 modifier 타입은 특정 프로퍼티 타입에만 적용할 수 있지만 언어에 의해 강요되지는 않습니다. 예를 들어, QtQuick이 제공하는 NumberAnimation 타입은 (int, real 같은) 숫자-타입 프로퍼티만 애니메이트 합니다. 숫자가 아닌 프로퍼티와 함께 NumberAnimation을 사용하려고 하면 오류는 발생하지 않지만 숫자가 아닌 프로퍼티는 애니메이트 되지 않을 것입니다. 특정 프로퍼티 타입과 연관된 경우 프로퍼티 modifier 타입의 동작은 구현에 의해 정의됩니다.
 
-##### Signal Attributes
+##### 시그널 애트리뷰트
 
-signal은 어떤 이벤트가 발생했을 때 object로부터 나오는 공지(notification)입니다: 예를 들면 어떤 property가 변경되었을 때, 애니메이션이 시작했거나 끝났을 때, 또는 이미지를 다운로드 했을 때 같은 경우입니다. 예를 들면, [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) type은 사용자가 마우스 영역 안을 클릭했을 때 방출(emit)되는 [clicked](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html#clicked-signal) signal을 갖고 있습니다.
+시그널은 어떤 이벤트가 발생했을 때 객체로부터 나오는 공지(notification)입니다: 예를 들면 어떤 프로퍼티가 변경되었을 때, 애니메이션이 시작했거나 끝났을 때, 또는 이미지를 다운로드 했을 때 같은 경우입니다. 예를 들면, [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) 타입은 사용자가 마우스 영역 안을 클릭했을 때 방출(emit)되는 [clicked](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html#clicked-signal) 시그널을 갖고 있습니다.
 
-특정 signal이 방출될 때 [signal 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes)를 통해 공지를 받을 수 있습니다. signal 핸들러는 구문 on<Signal>으로 선언할 수 있습니다. 여기서 <Signal>은 signal의 이름이며 1번째 글자는 대문자입니다. signal 핸들러는 signal을 방출하는 object 정의 안에서 선언해야 하며, 핸들러는 signal 핸들러가 호출될 때 실행될 JavaScript 코드의 블럭을 포함해야 합니다.
+특정 시그널이 방출될 때 [시그널 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes)를 통해 공지를 받을 수 있습니다. 시그널 핸들러는 구문 on<Signal>으로 선언할 수 있습니다. 여기서 <Signal>은 signal의 이름이며 1번째 글자는 대문자입니다. 시그널 핸들러는 시그널을 방출하는 객체 정의 안에서 선언해야 하며, 핸들러는 시그널 핸들러가 호출될 때 실행될 JavaScript 코드의 블럭을 포함해야 합니다.
 
-예를 들어, 아래의 onClicked signal 핸들러는 [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) object 정의 안에서 선언되며, [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html)를 클릭했을 때 호출되어 콘솔 메시지가 프린트됩니다.
+예를 들어, 아래의 onClicked 시그널 핸들러는 [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) 객체 정의 안에서 선언되며, [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html)를 클릭했을 때 호출되어 콘솔 메시지가 프린트됩니다.
 
 ```qml
 import QtQuick 2.0
@@ -814,15 +814,15 @@ Item {
 }
 ```
 
-* Signal Attributes 정의하기
+* 시그널 애트리뷰트 정의하기
 
-클래스의 [Q_SIGNAL](https://doc.qt.io/qt-6/qobject.html#Q_SIGNAL)을 등록하고 QML type 시스템에 등록함으로써 C++에서 type에 대한 signal을 정의할 수 있습니다. 아니면 다음과 같은 구문처럼 object 타입에 대한 커스텀 signal은 QML 도큐먼트의 object 선언에서 정의할 수도 있습니다.
+클래스의 [Q_SIGNAL](https://doc.qt.io/qt-6/qobject.html#Q_SIGNAL)을 등록하고 QML 타입 시스템에 등록함으로써 C++에서 타입에 대한 시그널을 정의할 수 있습니다. 아니면 다음과 같은 구문처럼 객체 타입에 대한 커스텀 시그널은 QML 도큐먼트의 객체 선언에서 정의할 수도 있습니다.
 
 ```qml
 signal <signalName>[([<parameterName>: <parameterType>[, ...]])]
 ```
 
-동일한 type 블럭에서 같은 이름을 가진 2개의 signal 또는 메서드를 선언하려고 하는 것은 오류입니다. 그러나 새로운 signal은 type에 있는 기존 signal의 이름을 재사용할 수 있습니다. (이렇게 하면 기존 signal은 숨겨져서 접근할 수 없게 되므로 주의해서 수행해야 합니다)
+동일한 타입 블럭에서 같은 이름을 가진 2개의 시그널 또는 메서드를 선언하려고 하는 것은 오류입니다. 그러나 새로운 시그널은 타입에 있는 기존 시그널의 이름을 재사용할 수 있습니다. (이렇게 하면 기존 시그널은 숨겨져서 접근할 수 없게 되므로 주의해서 수행해야 합니다)
 
 다음은 signal 선언에 대한 3가지 예제입니다:
 
@@ -836,27 +836,27 @@ Item {
 }
 ```
 
-또한 property 스타일 구문으로 signal 파라미터를 지정할 수도 있습니다:
+또한 프로퍼티 스타일 구문으로 시그널 파라미터를 지정할 수도 있습니다:
 
 ```qml
 signal actionCanceled(string action)
 ```
 
-메서드 선언과 일치하려면, 콜론(:)을 사용한 type 선언을 사용해야 합니다.
+메서드 선언과 일치하려면, 콜론(:)을 사용한 타입 선언을 사용해야 합니다.
 
-만약 signal이 파라미터가 없을 경우, ()는 선택사항입니다. 만약 파라미터를 사용한다면 위의 actionPerformed signal에 대한 string과 var 인수와 같이 파라미터 type을 반드시 선언해야 합니다. 허용된 파라미터 type은 이 페이지에 있는 [Property Attributes 정의하기](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#defining-property-attributes)에 나열되어 있는 것과 같습니다.
+만약 시그널이 파라미터가 없을 경우, ()는 선택사항입니다. 만약 파라미터를 사용한다면 위의 actionPerformed 시그널에 대한 string과 var 인수와 같이 파라미터 타입을 반드시 선언해야 합니다. 허용된 파라미터 타입은 이 페이지에 있는 [프로퍼티 애트리뷰트 정의하기](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#defining-property-attributes)에 나열되어 있는 것과 같습니다.
 
-signal을 방출(emit)하려면 메서드로 호출해야 합니다. signal을 방출할 때 연관된 [signal 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes)가 호출되고 핸들러는 정의된 signal 인수 이름을 사용하여 각 인수에 접근할 수 있습니다.
+시그널을 방출(emit)하려면 메서드로 호출해야 합니다. 시그널을 방출할 때 연관된 [시그널 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-handler-attributes)가 호출되고 핸들러는 정의된 시그널 인수 이름을 사용하여 각 인수에 접근할 수 있습니다.
 
-* Property Change Signals
+* 프로퍼티 변경 시그널
 
-QML type은 [property attributes](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#property-attributes)에 대한 섹션에서 설명했던 것처럼 property 값이 바뀔 때마다 방출되는 내장 property change signal도 제공합니다. 이러한 signal이 왜 유용한지, 그리고 어떻게 사용하는지에 대한 정보는 다음에 나오는 [property change signal 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-signals.html#property-change-signal-handlers)을 보십시오.
+QML 타입은 [프로퍼티 애트리뷰트](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#property-attributes)에 대한 섹션에서 설명했던 것처럼 프로퍼티 값이 바뀔 때마다 방출되는 내장 프로퍼티 변경 시그널도 제공합니다. 이러한 시그널이 왜 유용한지, 그리고 어떻게 사용하는지에 대한 정보는 다음에 나오는 [프로퍼티 변경 시그널 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-signals.html#property-change-signal-handlers)을 보십시오.
 
-* Signal Handler Attributes
+* 시그널 핸들러 애트리뷰트
 
-signal 핸들러는 특수한 종류의 [method attribute](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#method-attributes)입니다. 여기서 메서드 구현은 연관된 signal이 방출될 때마다 QML 엔진에 의해 호출됩니다. QML에서 object 정의에 signal을 추가하면 연관된 signal 핸들러가 object 정의에 자동으로 추가되며, 이는 기본적으로 빈 구현을 가지고 있습니다. 클라이언트는 프로그램 로직을 구현하기 위해 구현을 제공할 수 있습니다.
+시그널 핸들러는 특수한 종류의 [메서드 애트리뷰트](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#method-attributes)입니다. 여기서 메서드 구현은 연관된 시그널이 방출될 때마다 QML 엔진에 의해 호출됩니다. QML에서 객체 정의에 시그널을 추가하면 연관된 시그널 핸들러가 객체 정의에 자동으로 추가되며, 이는 기본적으로 빈 구현을 가지고 있습니다. 클라이언트는 프로그램 로직을 구현하기 위해 구현을 제공할 수 있습니다.
 
-다음과 같은 SquareButton.qml 파일에서 signal이 활성화 및 비활성화된 상태로 정의가 제공되는 SquareButton type을 생각해 보십시오:
+다음과 같은 SquareButton.qml 파일에서 시그널이 활성화 및 비활성화된 상태로 정의가 제공되는 SquareButton 타입을 생각해 보십시오:
 
 ```qml
 // SquareButton.qml
@@ -877,7 +877,7 @@ Rectangle {
 }
 ```
 
-이러한 signal은 동일한 디렉토리에 있는 다른 QML 파일의 SquareButton object에서 수신할 수 있습니다. 여기서 signal 핸들러에 대한 구현은 클라이언트에 의해 제공됩니다:
+이러한 시그널은 동일한 디렉토리에 있는 다른 QML 파일의 SquareButton 객체에서 수신할 수 있습니다. 여기서 시그널 핸들러에 대한 구현은 클라이언트에 의해 제공됩니다:
 
 ```qml
 // myapplication.qml
@@ -887,13 +887,13 @@ SquareButton {
 }
 ```
 
-signal이 이미 파라미터 type을 지정하고 있으므로 signal 핸들러는 파라미터 type을 선언할 필요가 없습니다. 위에 표시된 화살표 함수 구문은 type 표기법을 지원하지 않습니다.
+시그널이 이미 파라미터 타입을 지정하고 있으므로 시그널 핸들러는 파라미터 타입을 선언할 필요가 없습니다. 위에 표시된 화살표 함수 구문은 타입 표기법을 지원하지 않습니다.
 
-signal 사용에 대한 자세한 내용은 [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)을 보십시오.
+시그널 사용에 대한 자세한 내용은 [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)을 보십시오.
 
-* Property Change Signal Handlers
+* 프로퍼티 변경 시그널 핸들러
 
-property change signal에 대한 signal 핸들러는 on<Property>Changed 형태의 구문을 갖습니다. 여기서 <Property>는 property의 이름이며 첫 글자는 대문자입니다. 예를 들면, [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) type 도큐먼트는 TextChanged signal을 문서화하지 않지만 [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html)이 [text](https://doc.qt.io/qt-6/qml-qtquick-textinput.html#text-prop) property를 가지고 있고 이 property가 변경될 때마다 호출되는 OnTextChanged signal 핸들러를 작성할 수 있으므로 이 signal은 암묵적으로 이용 가능합니다:
+프로퍼티 변경 시그널에 대한 시그널 핸들러는 on<Property>Changed 형태의 구문을 갖습니다. 여기서 <Property>는 프로퍼티의 이름이며 첫 글자는 대문자입니다. 예를 들면, [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) type 도큐먼트는 TextChanged 시그널을 문서화하지 않지만 [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html)이 [text](https://doc.qt.io/qt-6/qml-qtquick-textinput.html#text-prop) 프로퍼티를 가지고 있고 이 프로퍼티가 변경될 때마다 호출되는 OnTextChanged 시그널 핸들러를 작성할 수 있으므로 이 시그널은 암묵적으로 이용 가능합니다:
 
 ```qml
 import QtQuick 2.0
@@ -905,7 +905,7 @@ TextInput {
 }
 ```
 
-##### Method Attributes
+##### 메서드 애트리뷰트
 
 A method of an object type is a function which may be called to perform some processing or trigger further events. A method can be connected to a signal so that it is automatically invoked whenever the signal is emitted. See [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html) for more details.
 
@@ -965,7 +965,7 @@ Item {
 }
 ```
 
-##### 부착된 Properties와 부착된 Signal Handlers
+##### 부착된 프로퍼티와 부착된 시그널 핸들러
 
 Attached properties and attached signal handlers are mechanisms that enable objects to be annotated with extra properties or signal handlers that are otherwise unavailable to the object. In particular, they allow objects to access properties or signals that are specifically relevant to the individual object.
 
@@ -1057,7 +1057,7 @@ ListView {
 
 Now delegateItem.ListView.isCurrentItem correctly refers to the isCurrentItem attached property of the delegate.
 
-##### Enumeration Attributes
+##### 열거형 애트리뷰트
 
 Enumerations provide a fixed set of named choices. They can be declared in QML using the enum keyword:
 
