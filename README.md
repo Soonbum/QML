@@ -1538,11 +1538,53 @@ output:
 
 #### QML과 JavaScript 통합하기
 
+QML 언어는 JSON과 같은 구문을 사용하며 다양한 표현식과 메서드를 JavaScript 함수로 정의할 수 있습니다. 또한 사용자가 JavaScript 파일을 가져오고 가져온 기능을 사용할 수 있습니다.
+
+이를 통해 개발자와 디자이너는 JavaScript에 대한 지식을 활용하여 사용자 인터페이스와 앱 로직을 모두 신속하게 개발할 수 있습니다.
+
+* JavaScript 표현식
+
+QML은 깊은 JavaScript 통합을 가지고 있으며, [시그널 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes)와 [메서드](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#method-attributes)를 JavaScript로 정의할 수 있습니다. QML의 또 다른 핵심 특징은 JavaScript를 사용하여 정의된 [프로퍼티 바인딩](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)을 사용하여 객체 프로퍼티 간의 관계를 지정하고 강제할 수 있다는 것입니다.
+
+QML에서 JavaScript 표현식을 사용하는 방법에 대한 자세한 내용은 [QML 문서의 JavaScript 표현식](https://doc.qt.io/qt-6/qtqml-javascript-expressions.html) 문서 페이지를 참조하십시오.
+
+* JavaScript 리소스
+
+JavaScript 함수에 정의된 앱 로직은 JavaScript 리소스로 알려진 별도의 JavaScript 파일로 분리될 수 있습니다. JavaScript 리소스에는 여러 가지 다른 종류의 시맨틱스가 있습니다.
+
+QML에 대한 JavaScript 리소스 정의에 대한 자세한 내용은 [QML의 JavaScript 리소스 정의하기](https://doc.qt.io/qt-6/qtqml-javascript-resources.html) 설명서 페이지를 참조하십시오.
+
+* JavaScript 가져오기
+
+QML 문서는 JavaScript 리소스를 가져올 수 있고, JavaScript 리소스는 QML 모듈뿐만 아니라 다른 JavaScript 리소스를 가져올 수 있습니다. 이를 통해 앱 개발자는 모듈형의 자체 포함 파일에서 앱 로직을 제공할 수 있습니다.
+
+JavaScript 리소스를 가져오는 방법과 제공하는 기능을 사용하는 방법에 대한 자세한 내용은 [JavaScript 리소스 가져오기](https://doc.qt.io/qt-6/qtqml-javascript-imports.html)라는 제목의 설명서 페이지를 참조하십시오.
+
+* JavaScript 호스트 환경
+
+QML 엔진은 웹 브라우저에서 제공하는 JavaScript 환경과 일부 다른 점이 있는 JavaScript 환경을 제공하며, 이 환경에서 실행되는 코드에는 일정한 제한이 적용되며, QML 엔진은 JavaScript 개발자에게 생소할 수 있는 루트 컨텍스트의 다양한 객체를 제공합니다.
+
+이러한 제한 및 확장은 QML 엔진에서 제공하는 [JavaScript 호스트 환경](https://doc.qt.io/qt-6/qtqml-javascript-hostenvironment.html)에 대한 설명에 나와 있습니다.
+
+또한 JavaScript 엔진이 사용하는 [메모리 관리](https://doc.qt.io/qt-6/qtqml-javascript-memory.html)에 대한 자세한 설명이 있습니다.
+
+* JavaScript 엔진 구성하기
+
+특수 사용 사례의 경우 JavaScript 엔진이 메모리를 처리하고 JavaScript를 컴파일하는 데 사용하는 일부 파라미터를 재정의할 수 있습니다. 이러한 파라미터에 대한 자세한 내용은 [JavaScript 엔진 구성하기](https://doc.qt.io/qt-6/qtqml-javascript-finetuning.html)를 참조하십시오.
+
+???
+
 
 #### QML 타입 시스템
+
+???
 
 
 #### QML 모듈
 
+???
+
 
 #### QML 도큐먼트
+
+???
