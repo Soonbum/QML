@@ -1598,27 +1598,796 @@ QML 엔진은 웹 브라우저에서 제공하는 JavaScript 환경과 일부 �
 
 ##### QML와 함께 JavaScript 표현식 사용하기
 
--
+The JavaScript Host Environment provided by QML can run valid standard JavaScript constructs such as conditional operators, arrays, variable setting, and loops. In addition to the standard JavaScript properties, the QML Global Object includes a number of helper methods that simplify building UIs and interacting with the QML environment.
+
+The JavaScript environment provided by QML is stricter than that in a web browser. For example, in QML you cannot add to, or modify, members of the JavaScript global object. In regular JavaScript, it is possible to do this accidentally by using a variable without declaring it. In QML this will throw an exception, so all local variables must be explicitly declared. See JavaScript Environment Restrictions for a complete description of the restrictions on JavaScript code executed from QML.
+
+Various parts of QML documents can contain JavaScript code:
+
+1. The body of property bindings. These JavaScript expressions describe relationships between QML object properties. When dependencies of a property change, the property is automatically updated too, according to the specified relationship.
+2. The body of Signal handlers. These JavaScript statements are automatically evaluated whenever a QML object emits the associated signal.
+3. The definition of custom methods. JavaScript functions that are defined within the body of a QML object become methods of that object.
+4. Standalone JavaScript resource (.js) files. These files are actually separate from QML documents, but they can be imported into QML documents. Functions and variables that are defined within the imported files can be used in property bindings, signal handlers, and custom methods.
+
+* JavaScript in property bindings
+
+In the following example, the color property of Rectangle depends on the pressed property of TapHandler. This relationship is described using a conditional expression:
+
+```qml
+import QtQuick 2.12
+
+Rectangle {
+    id: colorbutton
+    width: 200; height: 80;
+
+    color: inputHandler.pressed ? "steelblue" : "lightsteelblue"
+
+    TapHandler {
+        id: inputHandler
+    }
+}
+```
+
+In fact, any JavaScript expression (no matter how complex) may be used in a property binding definition, as long as the result of the expression is a value whose type can be assigned to the property. This includes side effects. However, complex bindings and side effects are discouraged because they can reduce the performance, readability, and maintainability of the code.
+
+There are two ways to define a property binding: the most common one is shown in the example earlier, in a property initialization. The second (and much rarer) way is to assign the property a function returned from the Qt.binding() function, from within imperative JavaScript code, as shown below:
+
+```qml
+import QtQuick 2.12
+
+Rectangle {
+    id: colorbutton
+    width: 200; height: 80;
+
+    color: "red"
+
+    TapHandler {
+        id: inputHandler
+    }
+
+    Component.onCompleted: {
+        color = Qt.binding(function() { return inputHandler.pressed ? "steelblue" : "lightsteelblue" });
+    }
+}
+```
+
+See the property bindings documentation for more information about how to define property bindings, and see the documentation about Property Assignment versus Property Binding for information about how bindings differ from value assignments.
+
+* JavaScript in signal handlers
+
+QML object types can emit signals in reaction to certain events occurring. Those signals can be handled by signal handler functions, which can be defined by clients to implement custom program logic.
+
+Suppose that a button represented by a Rectangle type has a TapHandler and a Text label. The TapHandler emits its tapped signal when the user presses the button. The clients can react to the signal in the onTapped handler using JavaScript expressions. The QML engine executes these JavaScript expressions defined in the handler as required. Typically, a signal handler is bound to JavaScript expressions to initiate other events or to assign property values.
+
+```qml
+import QtQuick 2.12
+
+Rectangle {
+    id: button
+    width: 200; height: 80; color: "lightsteelblue"
+
+    TapHandler {
+        id: inputHandler
+        onTapped: {
+            // arbitrary JavaScript expression
+            console.log("Tapped!")
+        }
+    }
+
+    Text {
+        id: label
+        anchors.centerIn: parent
+        text: inputHandler.pressed ? "Pressed!" : "Press here!"
+    }
+}
+```
+
+For more details about signals and signal handlers, refer to the following topics:
+- Signal and Handler Event System
+- QML Object Attributes
+
+* JavaScript in standalone functions
+
+Program logic can also be defined in JavaScript functions. These functions can be defined inline in QML documents (as custom methods) or externally in imported JavaScript files.
+
+* JavaScript in custom methods
+
+Custom methods can be defined in QML documents and may be called from signal handlers, property bindings, or functions in other QML objects. Such methods are often referred to as inline JavaScript functions because their implementation is included in the QML object type definition (QML document), instead of in an external JavaScript file.
+
+An example of an inline custom method is as follows:
+
+```qml
+import QtQuick 2.12
+
+Item {
+    function fibonacci(n){
+        var arr = [0, 1];
+        for (var i = 2; i < n + 1; i++)
+            arr.push(arr[i - 2] + arr[i -1]);
+
+        return arr;
+    }
+    TapHandler {
+        onTapped: console.log(fibonacci(10))
+    }
+}
+```
+
+The fibonacci function is run whenever the TapHandler emits a tapped signal.
+
+Note: The custom methods defined inline in a QML document are exposed to other objects, and therefore inline functions on the root object in a QML component can be invoked by callers outside the component. If this is not desired, the method can be added to a non-root object or, preferably, written in an external JavaScript file.
+
+See the QML Object Attributes documentation for more information on defining custom methods in QML using JavaScript.
+
+* Functions defined in a JavaScript file
+
+Non-trivial program logic is best separated into a separate JavaScript file. This file can be imported into QML using an import statement, like the QML modules.
+
+For example, the fibonacci() method in the earlier example could be moved into an external file named fib.js, and accessed like this:
+
+```qml
+import QtQuick 2.12
+import "fib.js" as MathFunctions
+
+Item {
+    TapHandler {
+        onTapped: console.log(MathFunctions.fibonacci(10))
+    }
+}
+```
+
+For more information about loading external JavaScript files into QML, read the section about Importing JavaScript Resources in QML.
+
+* Connecting signals to JavaScript functions
+
+QML object types that emit signals also provide default signal handlers for their signals, as described in the previous section. Sometimes, however, a client wants to trigger a function defined in a QML object when another QML object emits a signal. Such scenarios can be handled by a signal connection.
+
+A signal emitted by a QML object may be connected to a JavaScript function by calling the signal's connect() method and passing the JavaScript function as an argument. For example, the following code connects the TapHandler's tapped signal to the jsFunction() in script.js:
+
+```qml
+import QtQuick 2.12
+import "script.js" as MyScript
+
+Item {
+    id: item
+    width: 200; height: 200
+
+    TapHandler {
+        id: inputHandler
+    }
+
+    Component.onCompleted: {
+        inputHandler.tapped.connect(MyScript.jsFunction)
+    }
+}
+```
+
+```qml
+// script.js
+
+function jsFunction() {
+    console.log("Called JavaScript function!")
+}
+```
+
+The jsFunction() is called whenever the TapHandler's tapped signal is emitted.
+
+See Connecting Signals to Methods and Signals for more information.
+
+* JavaScript in application startup code
+
+It is occasionally necessary to run some imperative code at application (or component instance) startup. While it is tempting to just include the startup script as global code in an external script file, this can have severe limitations as the QML environment may not have been fully established. For example, some objects might not have been created or some property bindings may not have been established. See JavaScript Environment Restrictions for the exact limitations of global script code.
+
+A QML object emits the Component.completed attached signal when its instantiation is complete. The JavaScript code in the corresponding Component.onCompleted handler runs after the object is instantiated. Thus, the best place to write application startup code is in the Component.onCompleted handler of the top-level object, because this object emits Component.completed when the QML environment is fully established.
+
+For example:
+
+```qml
+import QtQuick 2.0
+
+Rectangle {
+    function startupFunction() {
+        // ... startup code
+    }
+
+    Component.onCompleted: startupFunction();
+}
+```
+
+Any object in a QML file - including nested objects and nested QML component instances - can use this attached property. If there is more than one onCompleted() handler to execute at startup, they are run sequentially in an undefined order.
+
+Likewise, every Component emits a destruction() signal just before being destroyed.
 
 
 ##### JavaScript에서 동적 QML 객체 생성
 
--
+QML supports the dynamic creation of objects from within JavaScript. This is useful to delay instantiation of objects until necessary, thereby improving application startup time. It also allows visual objects to be dynamically created and added to the scene in reaction to user input or other events.
+
+See the Dynamic Scene example for a demonstration of the concepts discussed on this page.
+
+* Creating Objects Dynamically
+
+There are two ways to create objects dynamically from JavaScript. You can either call Qt.createComponent() to dynamically create a Component object, or use Qt.createQmlObject() to create an object from a string of QML. Creating a component is better if you have an existing component defined in a QML document and you want to dynamically create instances of that component. Otherwise, creating an object from a string of QML is useful when the object QML itself is generated at runtime.
+
+* Creating a Component Dynamically
+
+To dynamically load a component defined in a QML file, call the Qt.createComponent() function in the Qt object. This function takes the URL of the QML file as its only argument and creates a Component object from this URL.
+
+Once you have a Component, you can call its createObject() method to create an instance of the component. This function can take one or two arguments:
+
+- The first is the parent for the new object. The parent can be a graphical object (i.e. of the Item type) or non-graphical object (i.e. of the QtObject or C++ QObject type). Only graphical objects with graphical parent objects will be rendered to the Qt Quick visual canvas. If you wish to set the parent later you can safely pass null to this function.
+- The second is optional and is a map of property-value pairs that define initial any property values for the object. Property values specified by this argument are applied to the object before its creation is finalized, avoiding binding errors that may occur if particular properties must be initialized to enable other property bindings. Additionally, there are small performance benefits when compared to defining property values and bindings after the object is created.
+
+Here is an example. First there is Sprite.qml, which defines a simple QML component:
+
+```qml
+import QtQuick 2.0
+
+Rectangle { width: 80; height: 50; color: "red" }
+```
+
+Our main application file, main.qml, imports a componentCreation.js JavaScript file that will create Sprite objects:
+
+```qml
+import QtQuick 2.0
+import "componentCreation.js" as MyScript
+
+Rectangle {
+    id: appWindow
+    width: 300; height: 300
+
+    Component.onCompleted: MyScript.createSpriteObjects();
+}
+```
+
+Here is componentCreation.js. Notice it checks whether the component status is Component.Ready before calling createObject() in case the QML file is loaded over a network and thus is not ready immediately.
+
+```qml
+var component;
+var sprite;
+
+function createSpriteObjects() {
+    component = Qt.createComponent("Sprite.qml");
+    if (component.status == Component.Ready)
+        finishCreation();
+    else
+        component.statusChanged.connect(finishCreation);
+}
+
+function finishCreation() {
+    if (component.status == Component.Ready) {
+        sprite = component.createObject(appWindow, {x: 100, y: 100});
+        if (sprite == null) {
+            // Error Handling
+            console.log("Error creating object");
+        }
+    } else if (component.status == Component.Error) {
+        // Error Handling
+        console.log("Error loading component:", component.errorString());
+    }
+}
+```
+
+If you are certain the QML file to be loaded is a local file, you could omit the finishCreation() function and call createObject() immediately:
+
+```qml
+function createSpriteObjects() {
+    component = Qt.createComponent("Sprite.qml");
+    sprite = component.createObject(appWindow, {x: 100, y: 100});
+
+    if (sprite == null) {
+        // Error Handling
+        console.log("Error creating object");
+    }
+}
+```
+
+Notice in both instances, createObject() is called with appWindow passed as the parent argument, since the dynamically created object is a visual (Qt Quick) object. The created object will become a child of the appWindow object in main.qml, and appear in the scene.
+
+When using files with relative paths, the path should be relative to the file where Qt.createComponent() is executed.
+
+To connect signals to (or receive signals from) dynamically created objects, use the signal connect() method. See Connecting Signals to Methods and Signals for more information.
+
+It is also possible to instantiate components without blocking via the incubateObject() function.
+
+* Creating an Object from a String of QML
+
+If the QML is not defined until runtime, you can create a QML object from a string of QML using the Qt.createQmlObject() function, as in the following example:
+
+```qml
+const newObject = Qt.createQmlObject(`
+    import QtQuick 2.0
+
+    Rectangle {
+        color: "red"
+        width: 20
+        height: 20
+    }
+    `,
+    parentItem,
+    "myDynamicSnippet"
+);
+```
+
+The first argument is the string of QML to create. Just like in a new file, you will need to import any types you wish to use. The second argument is the parent object for the new object, and the parent argument semantics which apply to components are similarly applicable for createQmlObject(). The third argument is the file path to associate with the new object; this is used for error reporting.
+
+If the string of QML imports files using relative paths, the path should be relative to the file in which the parent object (the second argument to the method) is defined.
+
+Important: When building static QML applications, QML files are scanned to detect import dependencies. That way, all necessary plugins and resources are resolved at compile time. However, only explicit import statements are considered (those found at the top of a QML file), and not import statements enclosed within string literals. To support static builds, you therefore need to ensure that QML files using Qt.createQmlObject(), explicitly contain all necessary imports at the top of the file in addition to inside the string literals.
+
+* Maintaining Dynamically Created Objects
+
+When managing dynamically created objects, you must ensure the creation context outlives the created object. Otherwise, if the creation context is destroyed first, the bindings and signal handlers in the dynamic object will no longer work.
+
+The actual creation context depends on how an object is created:
+- If Qt.createComponent() is used, the creation context is the QQmlContext in which this method is called
+- If Qt.createQmlObject() is called, the creation context is the context of the parent object passed to this method
+- If a Component{} object is defined and createObject() or incubateObject() is called on that object, the creation context is the context in which the Component is defined
+
+Also, note that while dynamically created objects may be used the same as other objects, they do not have an id in QML.
+
+* Deleting Objects Dynamically
+
+In many user interfaces, it is sufficient to set a visual object's opacity to 0 or to move the visual object off the screen instead of deleting it. If you have lots of dynamically created objects, however, you may receive a worthwhile performance benefit if unused objects are deleted.
+
+Note that you should never manually delete objects that were dynamically created by convenience QML object factories (such as Loader and Repeater). Also, you should avoid deleting objects that you did not dynamically create yourself.
+
+Items can be deleted using the destroy() method. This method has an optional argument (which defaults to 0) that specifies the approximate delay in milliseconds before the object is to be destroyed.
+
+Here is an example. The application.qml creates five instances of the SelfDestroyingRect.qml component. Each instance runs a NumberAnimation, and when the animation has finished, calls destroy() on its root object to destroy itself:
+
+application.qml	
+```qml
+import QtQuick 2.0
+
+Item {
+    id: container
+    width: 500; height: 100
+
+    Component.onCompleted: {
+        var component = Qt.createComponent("SelfDestroyingRect.qml");
+        for (var i=0; i<5; i++) {
+            var object = component.createObject(container);
+            object.x = (object.width + 10) * i;
+        }
+    }
+}
+```
+
+SelfDestroyingRect.qml	
+```qml
+import QtQuick 2.0
+
+Rectangle {
+    id: rect
+    width: 80; height: 80
+    color: "red"
+
+    NumberAnimation on opacity {
+        to: 0
+        duration: 1000
+
+        onRunningChanged: {
+            if (!running) {
+                console.log("Destroying...")
+                rect.destroy();
+            }
+        }
+    }
+}
+```
+
+Alternatively, the application.qml could have destroyed the created object by calling object.destroy().
+
+Note that it is safe to call destroy() on an object within that object. Objects are not destroyed the instant destroy() is called, but are cleaned up sometime between the end of that script block and the next frame (unless you specified a non-zero delay).
+
+Note also that if a SelfDestroyingRect instance was created statically like this:
+
+```qml
+Item {
+    SelfDestroyingRect {
+        // ...
+    }
+}
+```
+
+This would result in an error, since objects can only be dynamically destroyed if they were dynamically created.
+
+Objects created with Qt.createQmlObject() can similarly be destroyed using destroy():
+
+```qml
+const newObject = Qt.createQmlObject(`
+    import QtQuick 2.0
+
+    Rectangle {
+        color: "red"
+        width: 20
+        height: 20
+    }
+    `,
+    parentItem,
+    "myDynamicSnippet"
+);
+newObject.destroy(1000);
+```
 
 
 ##### QML에서 JavaScript 리소스 정의하기
 
--
+The program logic for a QML application may be defined in JavaScript. The JavaScript code may either be defined in-line in QML documents, or separated into JavaScript files (known as JavaScript Resources in QML).
+
+There are two different kinds of JavaScript resources which are supported in QML: code-behind implementation files, and shared (library) files. Both kinds of JavaScript resource may be imported by other JavaScript resources, or included in QML modules.
+
+* Code-Behind Implementation Resource
+
+Most JavaScript files imported into a QML document are stateful implementations for the QML document importing them. In these cases, each instance of the QML object type defined in the document requires a separate copy of the JavaScript objects and state in order to behave correctly.
+
+The default behavior when importing JavaScript files is to provide a unique, isolated copy for each QML component instance. If that JavaScript file does not import any resources or modules with a .import statement, its code will run in the same scope as the QML component instance and consequently can access and manipulate the objects and properties declared in that QML component. Otherwise, it will have its own unique scope, and objects and properties of the QML component should be passed to the functions of the JavaScript file as parameters if they are required.
+
+An example of a code-behind implementation resource follows:
+
+```qml
+// MyButton.qml
+import QtQuick 2.0
+import "my_button_impl.js" as Logic // A new instance of this JavaScript resource
+                                    // is loaded for each instance of Button.qml.
+
+Rectangle {
+    id: rect
+    width: 200
+    height: 100
+    color: "red"
+
+    MouseArea {
+        id: mousearea
+        anchors.fill: parent
+        onClicked: Logic.onClicked(rect)
+    }
+}
+```
+
+```qml
+// my_button_impl.js
+var clickCount = 0;   // this state is separate for each instance of MyButton
+function onClicked(button) {
+    clickCount += 1;
+    if ((clickCount % 5) == 0) {
+        button.color = Qt.rgba(1,0,0,1);
+    } else {
+        button.color = Qt.rgba(0,1,0,1);
+    }
+}
+```
+
+In general, simple logic should be defined in-line in the QML file, but more complex logic should be separated into code-behind implementation resources for maintainability and readability.
+
+* Shared JavaScript Resources (Libraries)
+
+By default, JavaScript files imported from QML share their context with the QML component. That means the JavaScript files have access to the same QML objects and can modify them. As a consequence, each import must have a unique copy of these files.
+
+The previous section covers stateful imports of JavaScript files. However, some JavaScript files are stateless and act more like reusable libraries, in the sense that they provide a set of helper functions that do not require anything from where they were imported from. You can save significant amounts of memory and speed up the instantiation of QML components if you mark such libraries with a special pragma, as shown in the following example.
+
+```qml
+// factorial.js
+.pragma library
+
+var factorialCount = 0;
+
+function factorial(a) {
+    a = parseInt(a);
+
+    // factorial recursion
+    if (a > 0)
+        return a * factorial(a - 1);
+
+    // shared state
+    factorialCount += 1;
+
+    // recursion base-case.
+    return 1;
+}
+
+function factorialCallCount() {
+    return factorialCount;
+}
+```
+
+The pragma declaration must appear before any JavaScript code excluding comments.
+
+Note that multiple QML documents can import "factorial.js" and call the factorial and factorialCallCount functions that it provides. The state of the JavaScript import is shared across the QML documents which import it, and thus the return value of the factorialCallCount function may be non-zero when called within a QML document which never calls the factorial function.
+
+For example:
+
+```qml
+// Calculator.qml
+import QtQuick 2.0
+import "factorial.js" as FactorialCalculator // This JavaScript resource is only
+                                             // ever loaded once by the engine,
+                                             // even if multiple instances of
+                                             // Calculator.qml are created.
+
+Text {
+    width: 500
+    height: 100
+    property int input: 17
+    text: "The factorial of " + input + " is: " + FactorialCalculator.factorial(input)
+}
+```
+
+As they are shared, .pragma library files cannot access QML component instance objects or properties directly, although QML values can be passed as function parameters.
 
 
 ##### QML에서 JavaScript 리소스 가져오기
 
--
+JavaScript resources may be imported by QML documents and other JavaScript resources. JavaScript resources may be imported via either relative or absolute URLs. In the case of a relative URL, the location is resolved relative to the location of the QML document or JavaScript Resource that contains the import. If the script file is not accessible, an error will occur. If the JavaScript needs to be fetched from a network resource, the component's status is set to "Loading" until the script has been downloaded.
+
+JavaScript resources may also import QML modules and other JavaScript resources. The syntax of an import statement within a JavaScript resource differs slightly from an import statement within a QML document, which is documented thoroughly below.
+
+* Importing a JavaScript Resource from a QML Document
+
+A QML document may import a JavaScript resource with the following syntax:
+
+```qml
+import "ResourceURL" as Qualifier
+```
+
+For example:
+
+```qml
+import "jsfile.js" as Logic
+```
+
+Imported JavaScript resources are always qualified using the "as" keyword. The qualifier for JavaScript resources must start with an uppercase letter, and must be unique, so there is always a one-to-one mapping between qualifiers and JavaScript files. (This also means qualifiers cannot be named the same as built-in JavaScript objects such as Date and Math).
+
+The functions defined in an imported JavaScript file are available to objects defined in the importing QML document, via the "Qualifier.functionName(params)" syntax. Functions in JavaScript resources may take parameters whose types can be any QML value types or object types, as well as normal JavaScript types. The normal data type conversion rules will apply to parameters and return values when calling such functions from QML.
+
+* Imports Within JavaScript Resources
+
+In QtQuick 2.0, support has been added to allow JavaScript resources to import other JavaScript resources and also QML type namespaces using a variation of the standard QML import syntax (where all of the previously described rules and qualifications apply).
+
+Due to the ability of a JavaScript resource to import another script or QML module in this fashion in QtQuick 2.0, some extra semantics are defined:
+- a script with imports will not inherit imports from the QML document which imported it (so accessing Component.errorString will fail, for example)
+- a script without imports will inherit imports from the QML document which imported it (so accessing Component.errorString will succeed, for example)
+- a shared script (i.e., defined as .pragma library) does not inherit imports from any QML document even if it imports no other scripts or modules
+
+The first semantic is conceptually correct, given that a particular script might be imported by any number of QML files. The second semantic is retained for the purposes of backwards-compatibility. The third semantic remains unchanged from the current semantics for shared scripts, but is clarified here in respect to the newly possible case (where the script imports other scripts or modules).
+
+* Importing a JavaScript Resource from Another JavaScript Resource
+
+A JavaScript resource may import another in the following fashion:
+
+```qml
+import * as MathFunctions from "factorial.mjs";
+```
+
+Or:
+
+```qml
+.import "filename.js" as Qualifier
+```
+
+The former is standard ECMAScript syntax for importing ECMAScript modules, and only works from within ECMAScript modules as denoted by the mjs file extension. The latter is an extension to JavaScript provided by the QML engine and will work also with non-modules. As an extension superseded by the ECMAScript standard, its usage is discouraged.
+
+When a JavaScript file is imported this way, it is imported with a qualifier. The functions in that file are then accessible from the importing script via the qualifier (that is, as Qualifier.functionName(params)).
+
+Sometimes it is desirable to have the functions made available in the importing context without needing to qualify them. In this case ECMAScript modules and the JavaScript import statement should be used without the as qualifier.
+
+For example, the QML code below left calls showCalculations() in script.mjs, which in turn can call factorial() in factorial.mjs, as it has included factorial.mjs using import.
+
+```qml
+import QtQuick 2.0
+import "script.mjs" as MyScript
+
+Item {
+    width: 100; height: 100
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            MyScript.showCalculations(10)
+            console.log("Call factorial() from QML:",
+                MyScript.factorial(10))
+        }
+    }
+}
+```
+
+```qml
+// script.mjs
+import { factorial } from "factorial.mjs"
+export { factorial }
+
+export function showCalculations(value) {
+    console.log(
+        "Call factorial() from script.js:",
+        factorial(value));
+}
+```
+
+```qml
+// factorial.mjs
+export function factorial(a) {
+    a = parseInt(a);
+    if (a <= 0)
+        return 1;
+    else
+        return a * factorial(a - 1);
+}
+```
+
+The Qt.include() function includes one JavaScript file from another without using ECMAScript modules and without qualifying the import. It makes all functions and variables from the other file available in the current file's namespace, but ignores all pragmas and imports defined in that file. This is not a good idea as a function call should never modify the caller's context.
+
+Qt.include() is deprecated and should be avoided. It will be removed in a future version of Qt.
+
+* Importing a QML Module from a JavaScript Resource
+
+A JavaScript resource may import a QML module in the following fashion:
+
+```qml
+.import TypeNamespace MajorVersion.MinorVersion as Qualifier
+```
+
+Below you can see an example that also shows how to use the QML types from a module imported in javascript:
+
+```qml
+.import Qt.test 1.0 as JsQtTest
+
+var importedEnumValue = JsQtTest.MyQmlObject.EnumValue3
+```
+
+In particular, this may be useful in order to access functionality provided via a singleton type; see QML_SINGLETON for more information.
+
+Your JavaScript resource by default can access all imports of the component that imports the resource. It does not have access to the componpents's imports if it is declared as a stateless library (using .pragma library) or contains an explicit .import statment.
+
+Note: The .import syntax doesn't work for scripts used in WorkerScript
+
+See also Defining JavaScript Resources in QML.
 
 
 ##### JavaScript 호스트 환경
 
--
+QML provides a JavaScript host environment tailored to writing QML applications. This environment is different from the host environment provided by a browser or a server-side JavaScript environment such as Node.js. For example, QML does not provide a window object or DOM API as commonly found in a browser environment.
+
+Common Base
+
+Like a browser or server-side JavaScript environment, the QML runtime implements the ECMAScript Language Specification standard. This provides access to all of the built-in types and functions defined by the standard, such as Object, Array, and Math. The QML runtime implements the 7th edition of the standard.
+
+Nullish Coalescing (??) (since Qt 5.15) and Optional Chaining (?.) (since Qt 6.2) are also implemented in the QML runtime.
+
+The standard ECMAScript built-ins are not explicitly documented in the QML documentation. For more information on their use, please refer to the ECMA-262 7th edition standard or one of the many online JavaScript reference and tutorial sites, such as the W3Schools JavaScript Reference (JavaScript Objects Reference section). Many sites focus on JavaScript in the browser, so in some cases you may need to double check the specification to determine whether a given function or object is part of standard ECMAScript or specific to the browser environment. In the case of the W3Schools link above, the JavaScript Objects Reference section generally covers the standard, while the Browser Objects Reference and HTML DOM Objects Reference sections are browser specific (and thus not applicable to QML).
+
+* Type annotations and assertions
+
+Function declarations in QML documents can, and should, contain type annotations. Type annotations are appended to the declaration of arguments and to the function itself, for annotating the return type. The following function takes an int and a string parameter, and returns a QtObject:
+
+```qml
+function doThings(a: int, b: string) : QtObject { ... }
+```
+
+Type annotations help tools like Qt Creator and qmllint to make sense of the code and provide better diagnostics. Moreover, they make functions easier to use from C++. See Interacting with QML Objects from C++ for more information.
+
+By default, type annotations are ignored by the interpreter and the JIT compiler, but enforced by qmlcachegen and qmlsc when compiling to C++. This can lead to differences in behavior if you either pass values that are not actually of the declared type or if you modify instances of QML Value Types passed as typed arguments. Value types are passed by reference by the interpreter and JIT, but by value when compiled to C++.
+
+You can eliminate those differences by either forcing the interpreter and JIT to also respect type annotations or by having qmlcachegen and qmlsc ignore type annotations. The former has a performance cost when using the interpreter or JIT, the latter makes the compilation to C++ avoid any JavaScript functions, and any bindings and signal handlers that call JavaScript functions. Therefore less code will be compiled to C++.
+
+In order to always enforce type annotations, add the following to your QML document:
+
+```qml
+pragma FunctionSignatureBehavior: Enforced
+```
+
+In order to always ignore type annotations, add the following instead:
+
+```qml
+pragma FunctionSignatureBehavior: Ignored
+```
+
+Type assertions (sometimes called as-casts) can also be used in order to cast an object to a different object type. If the object is actually of the given type, then the type assertion returns the same object. If not, it returns null. In the following snippet we assert that the parent object is a Rectangle before accessing a specific member of it.
+
+```qml
+Item {
+    property color parentColor: (parent as Rectangle)?.color || "red"
+}
+```
+
+The optional chaining (?.) avoids throwing an exception if the parent is actually not a rectangle. In that case "red" is chosen as parentColor.
+
+* QML Global Object
+
+The QML JavaScript host environment implements a number of host objects and functions, as detailed in the QML Global Object documentation.
+
+These host objects and functions are always available, regardless of whether any modules have been imported.
+
+* JavaScript Objects and Functions
+
+A list of the JavaScript objects, functions and properties supported by the QML engine can be found in the List of JavaScript Objects and Functions.
+
+Note that QML makes the following modifications to native objects:
+- An arg() function is added to the String prototype.
+- Locale-aware conversion functions are added to the Date and Number prototypes.
+
+In addition, QML also extends the behavior of the instanceof function to allow for type checking against QML types. This means that you may use it to verify that a variable is indeed the type you expect, for example:
+
+```qml
+var v = something();
+if (!v instanceof Item) {
+    throw new TypeError("I need an Item type!");
+}
+
+...
+```
+
+* JavaScript Environment Restrictions
+
+QML implements the following restrictions for JavaScript code:
+
+- JavaScript code written in a .qml file cannot modify the global object. JavaScript code in a .js file can modify the global object, and those modifications will be visible to the .qml file when imported.
+In QML, the global object is constant - existing properties cannot be modified or deleted, and no new properties may be created.
+
+Most JavaScript programs do not intentionally modify the global object. However, JavaScript's automatic creation of undeclared variables is an implicit modification of the global object, and is prohibited in QML.
+
+Assuming that the a variable does not exist in the scope chain, the following code is illegal in QML:
+
+```qml
+// Illegal modification of undeclared variable
+a = 1;
+for (var ii = 1; ii < 10; ++ii)
+    a = a * ii;
+console.log("Result: " + a);
+```
+
+It can be trivially modified to this legal code.
+
+```qml
+var a = 1;
+for (var ii = 1; ii < 10; ++ii)
+    a = a * ii;
+console.log("Result: " + a);
+```
+
+Any attempt to modify the global object - either implicitly or explicitly - will cause an exception. If uncaught, this will result in a warning being printed, that includes the file and line number of the offending code.
+
+- Global code is run in a reduced scope.
+
+During startup, if a QML file includes an external JavaScript file with "global" code, it is executed in a scope that contains only the external file itself and the global object. That is, it will not have access to the QML objects and properties it normally would.
+
+Global code that only accesses script local variables is permitted. This is an example of valid global code.
+
+```qml
+var colors = [ "red", "blue", "green", "orange", "purple" ];
+```
+
+Global code that accesses QML objects will not run correctly.
+
+```qml
+// Invalid global code - the "rootObject" variable is undefined
+var initialPosition = { rootObject.x, rootObject.y }
+```
+
+This restriction exists as the QML environment is not yet fully established. To run code after the environment setup has completed, see JavaScript in Application Startup Code.
+
+- The value of this is undefined in QML in the majority of contexts.
+
+The this keyword is supported when binding properties from JavaScript. In QML binding expressions, QML signal handlers, and QML declared functions, this refers to the scope object. In all other situations, the value of this is undefined in QML.
+
+To refer to a specific object, provide an id. For example:
+
+```qml
+Item {
+    width: 200; height: 100
+    function mouseAreaClicked(area) {
+        console.log("Clicked in area at: " + area.x + ", " + area.y);
+    }
+    // This will pass area to the function
+    MouseArea {
+        id: area
+        y: 50; height: 50; width: 200
+        onClicked: mouseAreaClicked(area)
+    }
+}
+```
+
+See also Scope and Naming Resolution.
 
 ---
 
