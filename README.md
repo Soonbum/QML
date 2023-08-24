@@ -1598,20 +1598,20 @@ QML 엔진은 웹 브라우저에서 제공하는 JavaScript 환경과 일부 �
 
 ##### QML와 함께 JavaScript 표현식 사용하기
 
-The JavaScript Host Environment provided by QML can run valid standard JavaScript constructs such as conditional operators, arrays, variable setting, and loops. In addition to the standard JavaScript properties, the QML Global Object includes a number of helper methods that simplify building UIs and interacting with the QML environment.
+QML에서 제공하는 [JavaScript 호스트 환경](https://doc.qt.io/qt-6/qtqml-javascript-hostenvironment.html)은 조건 연산자, 배열, 변수 설정 및 루프와 같은 유효한 표준 JavaScript 구성을 실행할 수 있습니다. [QML Global Object](https://doc.qt.io/qt-6/qtqml-javascript-qmlglobalobject.html)에는 표준 JavaScript 속성 외에도 UI를 작성하고 QML 환경과 상호 작용하는 것을 단순화하는 여러 helper 메서드가 포함되어 있습니다.
 
-The JavaScript environment provided by QML is stricter than that in a web browser. For example, in QML you cannot add to, or modify, members of the JavaScript global object. In regular JavaScript, it is possible to do this accidentally by using a variable without declaring it. In QML this will throw an exception, so all local variables must be explicitly declared. See JavaScript Environment Restrictions for a complete description of the restrictions on JavaScript code executed from QML.
+QML에서 제공하는 JavaScript 환경은 웹 브라우저에서의 환경보다 더 엄격합니다. 예를 들면, QML에서는 JavaScript 글로벌 객체의 멤버에 추가하거나 수정하는 것이 불가능합니다. 일반 JavaScript에서는 변수를 선언하지 않고 사용하여 우연히 이 작업을 수행할 수 있습니다. QML에서는 예외가 발생하므로 모든 로컬 변수를 명시적으로 선언해야 합니다. QML에서 실행되는 JavaScript 코드의 제한에 대한 전체 설명은 [JavaScript 환경 제한](https://doc.qt.io/qt-6/qtqml-javascript-hostenvironment.html#javascript-environment-restrictions)을 참조하십시오.
 
-Various parts of QML documents can contain JavaScript code:
+[QML 도큐먼트](https://doc.qt.io/qt-6/qtqml-documents-topic.html)의 여러 부분에서 JavaScript 코드가 포함되어 있을 수 있습니다:
 
-1. The body of property bindings. These JavaScript expressions describe relationships between QML object properties. When dependencies of a property change, the property is automatically updated too, according to the specified relationship.
-2. The body of Signal handlers. These JavaScript statements are automatically evaluated whenever a QML object emits the associated signal.
-3. The definition of custom methods. JavaScript functions that are defined within the body of a QML object become methods of that object.
-4. Standalone JavaScript resource (.js) files. These files are actually separate from QML documents, but they can be imported into QML documents. Functions and variables that are defined within the imported files can be used in property bindings, signal handlers, and custom methods.
+1. [프로퍼티 바인딩](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)의 본문입니다. 이 JavaScript 표현식은 QML 객체 [프로퍼티](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#property-attributes) 간의 관계를 설명합니다. 프로퍼티의 종속성이 변경되면 지정된 관계에 따라 프로퍼티가 자동으로 업데이트됩니다.
+2. [시그널 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes)의 본문입니다. 이러한 JavaScript 구문은 QML 객체가 연관된 시그널을 방출할 때마다 자동으로 연산됩니다.
+3. [커스텀 메서드](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#method-attributes) 정의입니다. QML 객체의 본문 내에 정의된 JavaScript 함수는 해당 객체의 메서드가 됩니다.
+4. 독립형 [JavaScript 리소스 (.js) 파일](https://doc.qt.io/qt-6/qtqml-javascript-imports.html)입니다. 이러한 파일은 실제로 QML 도큐먼트와는 별개이지만 QML 도큐먼트로 가져오는 것이 가능합니다. 가져온 파일 내에 정의된 함수와 변수는 프로퍼티 바인딩, 시그널 핸들러, 커스텀 메서드에서 사용할 수 있습니다.
 
-* JavaScript in property bindings
+* 프로퍼티 바인딩에서의 JavaScript
 
-In the following example, the color property of Rectangle depends on the pressed property of TapHandler. This relationship is described using a conditional expression:
+다음 예제에서 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)의 color 프로퍼티는 [TapHandler](https://doc.qt.io/qt-6/qml-qtquick-taphandler.html)의 pressed 프로퍼티에 의존합니다. 이 관계는 조건식을 사용하여 설명됩니다:
 
 ```qml
 import QtQuick 2.12
