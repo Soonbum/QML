@@ -36,9 +36,9 @@
     * [지원되는 QML 모듈 타입 - Identified 모듈](#지원되는-qml-모듈-타입---identified-모듈)
     * [지원되는 QML 모듈 타입 - Legacy 모듈](#지원되는-qml-모듈-타입---legacy-모듈)
     * [C++ 플러그인에서 타입 및 기능 제공하기](#c-플러그인에서-타입-및-기능-제공하기)
-  - [QML 도큐먼트](#qml-도큐먼트)
-    * [QML 도큐먼트의 구조](#qml-도큐먼트의-구조)
-    * [QML 도큐먼트를 통한 객체 타입 정의하기](#qml-도큐먼트를-통한-객체-타입-정의하기)
+  - [QML 문서](#qml-문서)
+    * [QML 문서의 구조](#qml-문서의-구조)
+    * [QML 문서를 통한 객체 타입 정의하기](#qml-문서를-통한-객체-타입-정의하기)
     * [리소스 로딩 및 네트워크 투명성](#리소스-로딩-및-네트워크-투명성)
     * [범위 및 네이밍 규칙](#범위-및-네이밍-규칙)
 
@@ -78,10 +78,10 @@ ApplicationWindow {
 | Qt Quick | QML 언어에 대한 타입들에 대한 표준 라이브러리와 기능은 Qt Quick 모듈이 제공합니다. "import [QtQuick](https://doc.qt.io/qt-6/qtquick-module.html)"로 접근할 수 있습니다. |
 | 타입(Type) | QML에는 [값 타입](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html) 또는 [QML 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)이라는 타입이 있습니다. QML 언어는 많은 내장 [값 타입](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html)을 제공합니다. 그리고 Qt Quick 모듈은 QML 앱을 만들기 위한 다양한 [Qt Quick 타입](https://doc.qt.io/qt-6/qtquick-qmlmodule.html)을 제공합니다. 또, 서드파티 개발자들이 [모듈](https://doc.qt.io/qt-6/qtqml-modules-topic.html)을 통해, 혹은 앱 개발자가 [QML 문서](https://doc.qt.io/qt-6/qtqml-documents-definetypes.html)를 통해 앱에서 자체적으로 타입을 제공할 수도 있습니다. 자세한 것은 [QML 타입 시스템](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)을 보십시오. |
 | 값(Value) 타입 | [값 타입](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)은 int, string, bool과 같은 단순한 타입입니다. [객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)과 달리 객체는 값 타입으로부터 인스턴스를 만들 수 없습니다. 예를 들어, 프로퍼티, 메서드, 시그널 등을 이용하여 int 객체를 만들 수 없습니다. 객체 타입 뿐만 아니라 값 타입도 [QML 모듈](https://doc.qt.io/qt-6/qtqml-modules-topic.html)에 속해 있습니다. 이것들을 사용하려면 모듈을 import해야 합니다. 일부 타입들은 언어에 내장되어 있습니다. 예를 들면 int, bool, double, string과 [QtObject](https://doc.qt.io/qt-6/qml-qtqml-qtobject.html)와 컴포넌트가 있습니다. 자세한 것은 [QML 타입 시스템](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)을 보십시오. |
-| 객체(Object) 타입 | [QML 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)은 QML 엔진에 의해 인스턴스화 할 수 있는 타입을 의미합니다. QML 타입은 대문자로 시작하는 .qml 파일 내 도큐먼트, 혹은 [QObject](https://doc.qt.io/qt-6/qobject.html)-기반 C++ 클래스에 의해 정의될 수 있습니다. 자세한 것은 [QML 타입 시스템](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)을 보십시오. |
+| 객체(Object) 타입 | [QML 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)은 QML 엔진에 의해 인스턴스화 할 수 있는 타입을 의미합니다. QML 타입은 대문자로 시작하는 .qml 파일 내 문서, 혹은 [QObject](https://doc.qt.io/qt-6/qobject.html)-기반 C++ 클래스에 의해 정의될 수 있습니다. 자세한 것은 [QML 타입 시스템](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)을 보십시오. |
 | 객체(Object) | QML Object는 [QML 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)의 인스턴스입니다. 이 객체들은 [객체 선언](https://doc.qt.io/qt-6/qtqml-syntax-basics.html)을 처리할 때 엔진에 의해 생성됩니다. 객체 선언에는 생성될 객체를 정의하거나 객 객체에 대하여 정의되는 속성이 있습니다. 게다가 객체는 Component.createObject()와 Qt.createQmlObject() 함수를 통해 런타임 시에 동적으로 생성될 수 있습니다. [Lazy Instantiation](https://doc.qt.io/qt-6/qml-glossary.html#lazy-instantiation)도 보십시오. |
-| 컴포넌트(Component) | 컴포넌트는 QML Object 또는 Object tree가 생성되는 템플릿입니다. QML 엔진에 의해 도큐먼트가 로드될 때 컴포넌트가 생성됩니다. 일단 한 번 로드되면 그것을 표현하는 Object 또는 Object tree를 인스턴스화 하는 데 사용될 수 있습니다. 게다가 [컴포넌트](https://doc.qt.io/qt-6/qml-qtqml-component.html) 타입은 도큐먼트 안에서 인라인으로 선언하는 데 사용될 수 있는 특수 타입입니다. 컴포넌트 객체들은 동적으로 QML object들을 생성하는 Qt.createComponent()를 통해서도 동적으로 생성될 수 있습니다. |
-| 도큐먼트(Document) | [QML Document](https://doc.qt.io/qt-6/qtqml-documents-topic.html)는 1개 이상의 import 구문으로 시작하고 단일 최상위 레벨 object 선언을 포함하는 자체 포함 QML 소스 코드 조각입니다. 도큐먼트는 .qml 파일 또는 텍스트 문자열 안에 있을 수 있습니다. 만약 도큐먼트가 대문자로 시작하는 이름을 가진 .qml 파일 안에 있다면, 엔진은 이 파일이 QML 타입의 정의라고 인식합니다. 최상위 레벨 객체 선언은 타입에 의해 인스턴스화될 Object tree를 캡슐화합니다. |
+| 컴포넌트(Component) | 컴포넌트는 QML Object 또는 Object tree가 생성되는 템플릿입니다. QML 엔진에 의해 문서가 로드될 때 컴포넌트가 생성됩니다. 일단 한 번 로드되면 그것을 표현하는 Object 또는 Object tree를 인스턴스화 하는 데 사용될 수 있습니다. 게다가 [컴포넌트](https://doc.qt.io/qt-6/qml-qtqml-component.html) 타입은 문서 안에서 인라인으로 선언하는 데 사용될 수 있는 특수 타입입니다. 컴포넌트 객체들은 동적으로 QML object들을 생성하는 Qt.createComponent()를 통해서도 동적으로 생성될 수 있습니다. |
+| 문서(Document) | [QML Document](https://doc.qt.io/qt-6/qtqml-documents-topic.html)는 1개 이상의 import 구문으로 시작하고 단일 최상위 레벨 object 선언을 포함하는 자체 포함 QML 소스 코드 조각입니다. 문서는 .qml 파일 또는 텍스트 문자열 안에 있을 수 있습니다. 만약 문서가 대문자로 시작하는 이름을 가진 .qml 파일 안에 있다면, 엔진은 이 파일이 QML 타입의 정의라고 인식합니다. 최상위 레벨 객체 선언은 타입에 의해 인스턴스화될 Object tree를 캡슐화합니다. |
 | 프로퍼티(Property) | 이름을 가지고 있으며 연관된 값을 가진 객체 타입의 속성입니다. 이 값은 외부에서 읽혀질 수 있습니다. (그리고 대부분의 경우 쓰여질 수도 있습니다.) 객체는 여러 개의 프로퍼티를 가질 수 있습니다. 여타 프로퍼티들은 해당 타입에 대한 데이터인 반면(예. [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 타입의 "text" 프로퍼티), 몇 가지 프로퍼티들은 canvas와 연관되어 있습니다(예. x, y, width, height, opacity). 자세한 것은 [QML 객체 애트리뷰트](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html)를 보십시오. |
 | 바인딩(Binding) | 바인딩은 프로퍼티와 "결합"되어 있는 JavaScript 표현식을 의미합니다. 프로퍼티의 값은 해당 표현식을 평가하여 리턴되는 값입니다. 자세한 것은 [Property Binding](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)을 보십시오. |
 | 시그널(Signal) | 시그널은 QML 객체로부터의 알림을 의미합니다. 어떤 객체가 시그널을 방출(emit)하면, 다른 객체들은 이것을 듣고 [시그널 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes)를 통해 시그널을 처리할 수 있습니다. QML 객체의 대부분의 프로퍼티들은 변경 시그널(Change Signal)을 가지고 있습니다. 그리고 기능을 구현하기 위해 클라이언트가 정의한 연관된 변경 시그널 핸들러(Change Signal Handler)도 가지고 있습니다. 예를 들어 앱에서 정의된 MouseArea 타입 인스턴스의 "onClicked()" 핸들러는 사운드 재생을 발생시킬 수 있습니다. 자세한 것은 [Signal and Handler Event System](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)을 보십시오. |
@@ -100,14 +100,14 @@ QML은 고도의 동적 앱을 만들기 위한 멀티 패러다임 언어입니
 
 QML은 객체가 애트리뷰트 및 다른 객체의 변경사항과의 관계와 응답하는 방식으로 정의될 수 있게 해주는 다중 패러다임 언어입니다. 애트리뷰트와 동작의 변경사항이 단계적으로 처리되는 일련의 명령문들을 통해 표현되는 순수한 명령형 코드와 달리 QML의 선언적 구문은 애트리뷰트와 동작 변경사항을 개별 객체의 정의에 직접 통합합니다. 이러한 애트리뷰트 정의에는 복잡한 커스텀 앱 동작이 필요한 경우 명령형 코드가 포함될 수 있습니다.
 
-QML 소스 코드는 일반적으로 QML 코드의 독립형 도큐먼트인 QML 도큐먼트를 통해 엔진에 의해 로드됩니다. 이를 사용하여 앱 전체에서 재사용할 수 있는 QML 객체 타입을 정의할 수 있습니다. QML 파일에서 QML 객체 타입으로 선언하려면 타입 이름은 반드시 대문자로 시작해야 합니다.
+QML 소스 코드는 일반적으로 QML 코드의 독립형 문서인 QML 문서를 통해 엔진에 의해 로드됩니다. 이를 사용하여 앱 전체에서 재사용할 수 있는 QML 객체 타입을 정의할 수 있습니다. QML 파일에서 QML 객체 타입으로 선언하려면 타입 이름은 반드시 대문자로 시작해야 합니다.
 
 ##### import 구문
 
-QML 도큐먼트는 파일의 최상단에 1개 이상의 import 구문을 갖고 있습니다. import는 다음 중 하나가 될 수 있습니다:
+QML 문서는 파일의 최상단에 1개 이상의 import 구문을 갖고 있습니다. import는 다음 중 하나가 될 수 있습니다:
 
 - 타입이 등록된 버전이 부여된 네임스페이스 (예. 플러그인에 의해)
-- QML 도큐먼트 형태의 타입-정의를 포함하는 상대 경로 디렉토리
+- QML 문서 형태의 타입-정의를 포함하는 상대 경로 디렉토리
 - JavaScript 파일
 
 import할 때 JavaScript 파일 가져오기는 반드시 적합해야 합니다. 그래야 제공되는 프로퍼티와 메서드에 접근할 수 있습니다.
@@ -146,7 +146,7 @@ Rectangle {
 
 이 선언은 타입 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)의 객체입니다. 바로 뒤에는 객체에 대해 정의된 애트리뷰트를 감싸는 {}가 나옵니다. [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) 타입은 QtQuick 모듈을 통해 만들 수 있으며 이 경우 정의된 애트리뷰트는 직사각형의 너비(width), 높이(height), 컬러(color) 프로퍼티의 값입니다.
 
-위의 객체는 [QML document](https://doc.qt.io/qt-6/qtqml-documents-topic.html)의 일부인 경우 엔진에 의해 로드될 수 있습니다. 즉, ([Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) 타입을 이용할 수 있도록) 소스 코드에 QtQuick 모듈을 가져오는 import 구문을 추가하면 아래와 같습니다:
+위의 객체는 [QML 문서](https://doc.qt.io/qt-6/qtqml-documents-topic.html)의 일부인 경우 엔진에 의해 로드될 수 있습니다. 즉, ([Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) 타입을 이용할 수 있도록) 소스 코드에 QtQuick 모듈을 가져오는 import 구문을 추가하면 아래와 같습니다:
 
 ```qml
 import QtQuick 2.0
@@ -253,7 +253,7 @@ Text {
 
 ##### 객체 선언 내에서의 애트리뷰트
 
-QML 도큐먼트에서 [객체 선언](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations)은 새로운 타입을 정의합니다. 또한 인스턴스화될 객체 계층을 선언합니다. 새로 정의된 타입의 인스턴스가 생성되어야 합니다.
+QML 문서에서 [객체 선언](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations)은 새로운 타입을 정의합니다. 또한 인스턴스화될 객체 계층을 선언합니다. 새로 정의된 타입의 인스턴스가 생성되어야 합니다.
 
 QML 객체-타입 애트리뷰트 타입의 집합은 다음과 같습니다:
 
@@ -297,7 +297,7 @@ Column {
 
 * 프로퍼티 애트리뷰트 정의하기
 
-C++에서 클래스에 Q_PROPERTY를 등록하여 QML type 시스템에 등록함으로써 프로퍼티는 타입으로 정의될 수 있습니다. 또는 다음 구문을 사용하여 QML 도큐먼트에서 객체 타입의 커스텀 프로퍼티를 객체 선언에서 정의할 수도 있습니다.
+C++에서 클래스에 Q_PROPERTY를 등록하여 QML type 시스템에 등록함으로써 프로퍼티는 타입으로 정의될 수 있습니다. 또는 다음 구문을 사용하여 QML 문서에서 객체 타입의 커스텀 프로퍼티를 객체 선언에서 정의할 수도 있습니다.
 
 ```qml
 [default] [required] [readonly] property <propertyType> <propertyName>
@@ -838,7 +838,7 @@ Item {
 
 * 시그널 애트리뷰트 정의하기
 
-클래스의 [Q_SIGNAL](https://doc.qt.io/qt-6/qobject.html#Q_SIGNAL)을 등록하고 QML 타입 시스템에 등록함으로써 C++에서 타입에 대한 시그널을 정의할 수 있습니다. 아니면 다음과 같은 구문처럼 객체 타입에 대한 커스텀 시그널은 QML 도큐먼트의 객체 선언에서 정의할 수도 있습니다.
+클래스의 [Q_SIGNAL](https://doc.qt.io/qt-6/qobject.html#Q_SIGNAL)을 등록하고 QML 타입 시스템에 등록함으로써 C++에서 타입에 대한 시그널을 정의할 수 있습니다. 아니면 다음과 같은 구문처럼 객체 타입에 대한 커스텀 시그널은 QML 문서의 객체 선언에서 정의할 수도 있습니다.
 
 ```qml
 signal <signalName>[([<parameterName>: <parameterType>[, ...]])]
@@ -915,7 +915,7 @@ SquareButton {
 
 * 프로퍼티 변경 시그널 핸들러
 
-프로퍼티 변경 시그널에 대한 시그널 핸들러는 on<Property>Changed 형태의 구문을 갖습니다. 여기서 <Property>는 프로퍼티의 이름이며 첫 글자는 대문자입니다. 예를 들면, [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) type 도큐먼트는 TextChanged 시그널을 문서화하지 않지만 [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html)이 [text](https://doc.qt.io/qt-6/qml-qtquick-textinput.html#text-prop) 프로퍼티를 가지고 있고 이 프로퍼티가 변경될 때마다 호출되는 OnTextChanged 시그널 핸들러를 작성할 수 있으므로 이 시그널은 암묵적으로 이용 가능합니다:
+프로퍼티 변경 시그널에 대한 시그널 핸들러는 on<Property>Changed 형태의 구문을 갖습니다. 여기서 <Property>는 프로퍼티의 이름이며 첫 글자는 대문자입니다. 예를 들면, [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html) type 문서는 TextChanged 시그널을 문서화하지 않지만 [TextInput](https://doc.qt.io/qt-6/qml-qtquick-textinput.html)이 [text](https://doc.qt.io/qt-6/qml-qtquick-textinput.html#text-prop) 프로퍼티를 가지고 있고 이 프로퍼티가 변경될 때마다 호출되는 OnTextChanged 시그널 핸들러를 작성할 수 있으므로 이 시그널은 암묵적으로 이용 가능합니다:
 
 ```qml
 import QtQuick 2.0
@@ -933,7 +933,7 @@ TextInput {
 
 * 메서드 애트리뷰트 정의하기
 
-C++에서 클래스의 함수에 [Q_INVOKABLE](https://doc.qt.io/qt-6/qobject.html#Q_INVOKABLE)을 태깅하여 QML 타입 시스템에 등록하거나, 클래스의 [Q_SLOT](https://doc.qt.io/qt-6/qobject.html#Q_SLOT)에 등록하여 메서드를 타입으로 정의할 수 있습니다. 아니면 다음과 같은 구문으로 QML 도큐먼트에서 커스텀 메서드를 객체 선언에 추가할 수도 있습니다:
+C++에서 클래스의 함수에 [Q_INVOKABLE](https://doc.qt.io/qt-6/qobject.html#Q_INVOKABLE)을 태깅하여 QML 타입 시스템에 등록하거나, 클래스의 [Q_SLOT](https://doc.qt.io/qt-6/qobject.html#Q_SLOT)에 등록하여 메서드를 타입으로 정의할 수 있습니다. 아니면 다음과 같은 구문으로 QML 문서에서 커스텀 메서드를 객체 선언에 추가할 수도 있습니다:
 
 ```qml
 function <functionName>([<parameterName>[: <parameterType>][, ...]]) [: <returnType>] { <body> }
@@ -1330,14 +1330,13 @@ Rectangle {
 }
 ```
 
-[TapHandler](https://doc.qt.io/qt-6/qml-qtquick-taphandler.html) 도큐먼트에서 이름이 onPressedChanged인 시그널 핸들러가 문서화되지는 않았지만, 이 시그널은 pressed 프로퍼티가 존재한다는 사실에 의해 암시적으로 제공됩니다.
+[TapHandler](https://doc.qt.io/qt-6/qml-qtquick-taphandler.html) 문서에서 이름이 onPressedChanged인 시그널 핸들러가 문서화되지는 않았지만, 이 시그널은 pressed 프로퍼티가 존재한다는 사실에 의해 암시적으로 제공됩니다.
 
 * 시그널 파라미터
 
 시그널은 파라미터를 가지고 있을 수 있습니다. 이러한 파라미터에 접근하려면 핸들러에 함수를 할당해야 합니다. 화살표 함수와 익명 함수 모두 작동합니다.
 
-For the following examples, consider a Status component with an errorOccurred signal (see Adding signals to custom QML types for more information about how signals can be added to QML components).
-다음 예제에서는 errorOccurred 시그널이 있는 Status 컴포넌트를 고려합니다. (QML 컴포넌트에 시그널을 추가하는 방법에 대한 자세한 내용은 [Adding signals to custom QML types](https://doc.qt.io/qt-6/qtqml-syntax-signals.html#adding-signals-to-custom-qml-types)를 보십시오)
+다음 예제에서는 errorOccurred 시그널이 있는 Status 컴포넌트를 고려합니다. (QML 컴포넌트에 시그널을 추가하는 방법에 대한 자세한 내용은 [커스텀 QML 타입에 시그널 추가하기](https://doc.qt.io/qt-6/qtqml-syntax-signals.html#adding-signals-to-custom-qml-types)를 보십시오)
 
 ```qml
 // Status.qml
@@ -1473,7 +1472,7 @@ SquareButton {
 }
 ```
 
-커스텀 QML 타입에 대한 시그널을 작성하는 자세한 방법은 [Signal Attributes](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes)를 보십시오.
+커스텀 QML 타입에 대한 시그널을 작성하는 자세한 방법은 [시그널 애트리뷰트](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes)를 보십시오.
 
 * 시그널을 메서드/시그널과 연결하기
 
@@ -1602,12 +1601,12 @@ QML에서 제공하는 [JavaScript 호스트 환경](https://doc.qt.io/qt-6/qtqm
 
 QML에서 제공하는 JavaScript 환경은 웹 브라우저에서의 환경보다 더 엄격합니다. 예를 들면, QML에서는 JavaScript 글로벌 객체의 멤버에 추가하거나 수정하는 것이 불가능합니다. 일반 JavaScript에서는 변수를 선언하지 않고 사용하여 우연히 이 작업을 수행할 수 있습니다. QML에서는 예외가 발생하므로 모든 로컬 변수를 명시적으로 선언해야 합니다. QML에서 실행되는 JavaScript 코드의 제한에 대한 전체 설명은 [JavaScript 환경 제한](https://doc.qt.io/qt-6/qtqml-javascript-hostenvironment.html#javascript-environment-restrictions)을 참조하십시오.
 
-[QML 도큐먼트](https://doc.qt.io/qt-6/qtqml-documents-topic.html)의 여러 부분에서 JavaScript 코드가 포함되어 있을 수 있습니다:
+[QML 문서](https://doc.qt.io/qt-6/qtqml-documents-topic.html)의 여러 부분에서 JavaScript 코드가 포함되어 있을 수 있습니다:
 
 1. [프로퍼티 바인딩](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)의 본문입니다. 이 JavaScript 표현식은 QML 객체 [프로퍼티](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#property-attributes) 간의 관계를 설명합니다. 프로퍼티의 종속성이 변경되면 지정된 관계에 따라 프로퍼티가 자동으로 업데이트됩니다.
 2. [시그널 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#signal-attributes)의 본문입니다. 이러한 JavaScript 구문은 QML 객체가 연관된 시그널을 방출할 때마다 자동으로 연산됩니다.
 3. [커스텀 메서드](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#method-attributes) 정의입니다. QML 객체의 본문 내에 정의된 JavaScript 함수는 해당 객체의 메서드가 됩니다.
-4. 독립형 [JavaScript 리소스 (.js) 파일](https://doc.qt.io/qt-6/qtqml-javascript-imports.html)입니다. 이러한 파일은 실제로 QML 도큐먼트와는 별개이지만 QML 도큐먼트로 가져오는 것이 가능합니다. 가져온 파일 내에 정의된 함수와 변수는 프로퍼티 바인딩, 시그널 핸들러, 커스텀 메서드에서 사용할 수 있습니다.
+4. 독립형 [JavaScript 리소스 (.js) 파일](https://doc.qt.io/qt-6/qtqml-javascript-imports.html)입니다. 이러한 파일은 실제로 QML 문서와는 별개이지만 QML 문서로 가져오는 것이 가능합니다. 가져온 파일 내에 정의된 함수와 변수는 프로퍼티 바인딩, 시그널 핸들러, 커스텀 메서드에서 사용할 수 있습니다.
 
 * 프로퍼티 바인딩에서의 JavaScript
 
@@ -1628,9 +1627,9 @@ Rectangle {
 }
 ```
 
-In fact, any JavaScript expression (no matter how complex) may be used in a property binding definition, as long as the result of the expression is a value whose type can be assigned to the property. This includes side effects. However, complex bindings and side effects are discouraged because they can reduce the performance, readability, and maintainability of the code.
+실제로 프로퍼티 바인딩 정의에서는 표현식의 결과가 프로퍼티에 할당할 수 있는 타입의 값이라면 (아무리 복잡해도) JavaScript 표현식을 사용할 수 있습니다. 여기에는 부작용도 포함됩니다. 그러나 복잡한 바인딩과 부작용은 코드의 성능, 가독성 및 유지보수성을 저하시킬 수 있기 때문에 권장하지 않습니다.
 
-There are two ways to define a property binding: the most common one is shown in the example earlier, in a property initialization. The second (and much rarer) way is to assign the property a function returned from the Qt.binding() function, from within imperative JavaScript code, as shown below:
+프로퍼티 바인딩을 정의하는 데는 2가지 방법이 있습니다: 가장 일반적인 것은 앞의 예제에서 [프로퍼티 초기화](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#value-assignment-on-initialization)에 나와 있습니다. 두 번째(그리고 훨씬 더 희귀한) 방법은 다음과 같이 명령형 JavaScript 코드로부터 [Qt.binding()](https://doc.qt.io/qt-6/qml-qtqml-qt.html#binding-method) 함수에서 반환된 함수를 프로퍼티에 할당하는 것입니다:
 
 ```qml
 import QtQuick 2.12
@@ -1651,13 +1650,13 @@ Rectangle {
 }
 ```
 
-See the property bindings documentation for more information about how to define property bindings, and see the documentation about Property Assignment versus Property Binding for information about how bindings differ from value assignments.
+[프로퍼티 바인딩](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)을 정의하는 방법에 대한 자세한 내용은 프로퍼티 바인딩 문서를 참조하고, 바인딩과 값 할당의 차이점에 대한 내용은 [프로퍼티 할당 대 프로퍼티 바인딩](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html#qml-javascript-assignment)에 대한 문서를 참조하십시오.
 
-* JavaScript in signal handlers
+* 시그널 핸들러 내에서의 JavaScript
 
-QML object types can emit signals in reaction to certain events occurring. Those signals can be handled by signal handler functions, which can be defined by clients to implement custom program logic.
+QML 객체 타입은 발생하는 특정 이벤트에 대한 반응으로 시그널을 방출할 수 있습니다. 이러한 시그널은 커스텀 프로그램 로직을 구현하기 위해 클라이언트에 의해 정의될 수 있는 시그널 핸들러 함수에 의해 처리될 수 있습니다.
 
-Suppose that a button represented by a Rectangle type has a TapHandler and a Text label. The TapHandler emits its tapped signal when the user presses the button. The clients can react to the signal in the onTapped handler using JavaScript expressions. The QML engine executes these JavaScript expressions defined in the handler as required. Typically, a signal handler is bound to JavaScript expressions to initiate other events or to assign property values.
+Rectangle 타입으로 표현된 버튼이 [TapHandler](https://doc.qt.io/qt-6/qml-qtquick-taphandler.html)와 Text 라벨을 가지고 있다고 가정합시다. [TapHandler](https://doc.qt.io/qt-6/qml-qtquick-taphandler.html)는 사용자가 버튼을 누를 때 자신의 [tapped](https://doc.qt.io/qt-6/qml-qtquick-taphandler.html#tapped-signal) 시그널을 방출합니다. 클라이언트는 JavaScript 표현식을 사용하여 onTapped 핸들러에서 시그널에 반응할 수 있습니다. QML 엔진은 필요에 따라 핸들러에 정의된 이러한 JavaScript 표현식을 실행합니다. 일반적으로 시그널 핸들러는 다른 이벤트를 시작하거나 프로퍼티 값을 할당하기 위해 JavaScript 표현식에 바인딩됩니다.
 
 ```qml
 import QtQuick 2.12
@@ -1682,19 +1681,19 @@ Rectangle {
 }
 ```
 
-For more details about signals and signal handlers, refer to the following topics:
-- Signal and Handler Event System
-- QML Object Attributes
+시그널과 시그널 핸들러에 대한 더 많은 정보는 다음 주제를 참조하십시오:
+- [시그널과 핸들러 이벤트 시스템](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)
+- [QML 객체 애트리뷰트](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html)
 
-* JavaScript in standalone functions
+* 독립형 함수에서의 JavaScript
 
-Program logic can also be defined in JavaScript functions. These functions can be defined inline in QML documents (as custom methods) or externally in imported JavaScript files.
+프로그램 로직은 또한 JavaScript 함수에서 정의할 수 있습니다. 이러한 함수는 QML 문서에서 (커스텀 메서드로) 인라인으로 정의되거나, 가져온 JavaScript 파일에서 외부적으로 정의될 수 있습니다.
 
-* JavaScript in custom methods
+* 커스텀 메서드에서의 JavaScript
 
-Custom methods can be defined in QML documents and may be called from signal handlers, property bindings, or functions in other QML objects. Such methods are often referred to as inline JavaScript functions because their implementation is included in the QML object type definition (QML document), instead of in an external JavaScript file.
+커스텀 메서드는 QML 문서에서 정의할 수 있으며, 시그널 핸들러, 프로퍼티 바인딩 또는 다른 QML 객체의 함수에서 호출할 수 있습니다. 이러한 메서드는 외부 JavaScript 파일 대신 QML 객체 타입 정의(QML 문서)에 구현이 포함되어 있기 때문에 때로는 인라인 JavaScript 함수라고도 합니다.
 
-An example of an inline custom method is as follows:
+인라인 커스텀 메서드의 예제는 다음과 같습니다:
 
 ```qml
 import QtQuick 2.12
@@ -1713,17 +1712,17 @@ Item {
 }
 ```
 
-The fibonacci function is run whenever the TapHandler emits a tapped signal.
+[TapHandler](https://doc.qt.io/qt-6/qml-qtquick-taphandler.html)가 tapped 시그널을 방출할 때마다 피보나치 함수를 실행합니다.
 
-Note: The custom methods defined inline in a QML document are exposed to other objects, and therefore inline functions on the root object in a QML component can be invoked by callers outside the component. If this is not desired, the method can be added to a non-root object or, preferably, written in an external JavaScript file.
+주의: QML 문서에서 인라인으로 정의된 커스텀 메서드는 다른 객체에 노출되므로 QML 컴포넌트의 루트 객체에 대한 인라인 함수는 컴포넌트의 외부의 호출자에 의해 호출될 수 있습니다. 이것을 원치 않을 경우, 메서드는 루트가 아닌 객체에 추가되거나 가급적 외부 JavaScript 파일에 작성될 수 있습니다.
 
-See the QML Object Attributes documentation for more information on defining custom methods in QML using JavaScript.
+JavaScript를 사용하여 QML에서 커스텀 메서드를 정의하는 방법에 대한 자세한 내용은 [QML 객체 애트리뷰트](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html) 문서를 보십시오.
 
-* Functions defined in a JavaScript file
+* JavaScript 파일에서 정의된 함수
 
-Non-trivial program logic is best separated into a separate JavaScript file. This file can be imported into QML using an import statement, like the QML modules.
+중요한 프로그램 로직은 별도의 JavaScript 파일로 분리하는 것이 가장 좋습니다. 이 파일은 QML [모듈](https://doc.qt.io/qt-6/qtqml-modules-topic.html)과 같이 import 문을 사용하여 QML로 가져올 수 있습니다.
 
-For example, the fibonacci() method in the earlier example could be moved into an external file named fib.js, and accessed like this:
+예를 들면, 앞의 예제의 fibonacci() 메서드를 fib.js라는 외부 파일로 이동하여 다음과 같이 접근할 수 있습니다:
 
 ```qml
 import QtQuick 2.12
@@ -1736,13 +1735,13 @@ Item {
 }
 ```
 
-For more information about loading external JavaScript files into QML, read the section about Importing JavaScript Resources in QML.
+외부 JavaScript 파일을 QML로 읽어오는 방법에 대해 더 자세히 알려면, [QML에서 JavaScript 리소스 가져오기](https://doc.qt.io/qt-6/qtqml-javascript-imports.html) 섹션을 읽어 보십시오.
 
-* Connecting signals to JavaScript functions
+* 시그널과 JavaScript 함수 연결하기
 
-QML object types that emit signals also provide default signal handlers for their signals, as described in the previous section. Sometimes, however, a client wants to trigger a function defined in a QML object when another QML object emits a signal. Such scenarios can be handled by a signal connection.
+[이전](https://doc.qt.io/qt-6/qtqml-javascript-expressions.html#javascript-in-signal-handlers) 섹션에서 설명한 바와 같이, 시그널을 방출하는 QML 객체 타입은 또한 자신의 시그널에 대한 기본 시그널 핸들러를 제공합니다. 그러나 때때로, 클라이언트는 다른 QML 객체가 신호를 방출할 때 QML 객체에 정의된 함수를 트리거하기를 원합니다. 이러한 시나리오는 시그널 연결에 의해 처리될 수 있습니다.
 
-A signal emitted by a QML object may be connected to a JavaScript function by calling the signal's connect() method and passing the JavaScript function as an argument. For example, the following code connects the TapHandler's tapped signal to the jsFunction() in script.js:
+QML 객체가 방출하는 시그널은 시그널의 connect() 메서드를 호출하여 JavaScript 함수를 인수로 전달하여 JavaScript 함수에 연결할 수 있습니다. 예를 들면, 다음 코드는 [TapHandler](https://doc.qt.io/qt-6/qml-qtquick-taphandler.html)의 tapped 시그널을 script.js의 jsFunction()에 연결합니다:
 
 ```qml
 import QtQuick 2.12
@@ -1770,33 +1769,33 @@ function jsFunction() {
 }
 ```
 
-The jsFunction() is called whenever the TapHandler's tapped signal is emitted.
+jsFunction()은 [TapHandler](https://doc.qt.io/qt-6/qml-qtquick-taphandler.html)의 tapped 시그널이 방출될 때마다 호출됩니다.
 
-See Connecting Signals to Methods and Signals for more information.
+더 자세한 정보는 [시그널을 메서드/시그널과 연결하기](https://doc.qt.io/qt-6/qtqml-syntax-signals.html)을 보십시오
 
-* JavaScript in application startup code
+* 앱 시작 코드에서의 JavaScript
 
-It is occasionally necessary to run some imperative code at application (or component instance) startup. While it is tempting to just include the startup script as global code in an external script file, this can have severe limitations as the QML environment may not have been fully established. For example, some objects might not have been created or some property bindings may not have been established. See JavaScript Environment Restrictions for the exact limitations of global script code.
+때때로 앱 (또는 컴포넌트 인스턴스) 시작 시 일부 명령형 코드를 실행해야 합니다. 시작 스크립트를 외부 스크립트 파일에 글로벌 코드로 포함시키고 싶은 유혹이 들겠지만 QML 환경이 완전히 구축되지 않았을 수 있기 때문에 심각한 제한이 있을 수 있습니다. 예를 들면, 일부 객체가 생성되지 않았거나 일부 [프로퍼티 바인딩](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)이 이루어지지 않았을 수 있습니다. 글로벌 스크립트 코드의 정확한 제한사항에 대한 것은 [자바스크립트 환경 제한](https://doc.qt.io/qt-6/qtqml-javascript-hostenvironment.html#javascript-environment-restrictions)을 참조하십시오.
 
-A QML object emits the Component.completed attached signal when its instantiation is complete. The JavaScript code in the corresponding Component.onCompleted handler runs after the object is instantiated. Thus, the best place to write application startup code is in the Component.onCompleted handler of the top-level object, because this object emits Component.completed when the QML environment is fully established.
+QML 객체는 인스턴스화가 완료되면 Component.completed [부착 시그널](https://doc.qt.io/qt-6/qtqml-syntax-signals.html#attached-signal-handlers)을 방출합니다. 해당 Component.onCompleted 핸들러의 JavaScript 코드는 객체가 인스턴스화된 후에 실행됩니다. 따라서 이 객체는 QML 환경이 완전히 구축되면 Component.completed를 방출하므로 최상위 객체의 Component.onCompleted 핸들러에서 앱 시작 코드를 쓰기에 가장 적합한 위치입니다.
 
-For example:
+예제:
 
 ```qml
 import QtQuick 2.0
 
 Rectangle {
     function startupFunction() {
-        // ... startup code
+        // ... 시작 코드
     }
 
     Component.onCompleted: startupFunction();
 }
 ```
 
-Any object in a QML file - including nested objects and nested QML component instances - can use this attached property. If there is more than one onCompleted() handler to execute at startup, they are run sequentially in an undefined order.
+중첩 객체 및 중첩 QML 컴포넌트 인스턴스를 포함한 - QML 파일의 모든 객체는 이 첨부된 프로퍼티를 사용할 수 있습니다. 시작할 때 실행할 onCompleted() 핸들러가 2개 이상 있으면 정의되지 않은 순서로 순차적으로 실행됩니다.
 
-Likewise, every Component emits a destruction() signal just before being destroyed.
+마찬가지로 모든 컴포넌트는 파괴되기 직전에 destruction() 시그널을 방출합니다.
 
 
 ##### JavaScript에서 동적 QML 객체 생성
@@ -2443,17 +2442,17 @@ See also Scope and Naming Resolution.
 
 ---
 
-#### QML 도큐먼트
+#### QML 문서
 
 -
 
 
-##### QML 도큐먼트의 구조
+##### QML 문서의 구조
 
 -
 
 
-##### QML 도큐먼트를 통한 객체 타입 정의하기
+##### QML 문서를 통한 객체 타입 정의하기
 
 -
 
