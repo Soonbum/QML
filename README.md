@@ -1814,7 +1814,7 @@ QML 파일에 정의된 컴포넌트를 동적으로 로드하려면 [Qt 객체]
 
 일단 [Component](https://doc.qt.io/qt-6/qml-qtqml-component.html)를 갖게 되면, [createObject()](https://doc.qt.io/qt-6/qml-qtqml-component.html#createObject-method) 메서드를 호출하여 컴포넌트의 인스턴스를 만들 수 있습니다. 이 함수는 1개 또는 2개 인수를 가질 수 있습니다:
 
-- 1번째는 새로운 객체에 대한 부모입니다. 부모 객체는 그래픽 객체(예: Item 타입) 또는 비-그래픽 객체(예: QtObject 또는 C++ QOobject 타입)일 수 있습니다. 그래픽 부모 객체가 있는 그래픽 객체만 Qt Quick 시각적 canvas로 렌더링됩니다. 부모 객체를 나중에 설정하려면 이 함수에 null을 안전하게 전달할 수 있습니다.
+- 1번째는 새로운 객체에 대한 부모입니다. 부모 객체는 그래픽 객체(예: [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 타입) 또는 비-그래픽 객체(예: [QtObject](https://doc.qt.io/qt-6/qml-qtqml-qtobject.html) 또는 C++ [QOobject](https://doc.qt.io/qt-6/qobject.html) 타입)일 수 있습니다. 그래픽 부모 객체가 있는 그래픽 객체만 [Qt Quick](https://doc.qt.io/qt-6/qtquick-index.html) 시각적 canvas로 렌더링됩니다. 부모 객체를 나중에 설정하려면 이 함수에 null을 안전하게 전달할 수 있습니다.
 - 2번째는 선택사항으로 객체에 대한 초기 프로퍼티 값을 정의하는 프로퍼티-값 쌍의 맵입니다. 이 인수에 의해 지정된 프로퍼티 값은 생성이 완료되기 전에 객체에 적용되므로 다른 프로퍼티 바인딩을 활성화하기 위해 특정 프로퍼티를 초기화해야 할 경우 발생할 수 있는 바인딩 오류를 피할 수 있습니다. 또한 객체가 생성된 후 프로퍼티 값 및 바인딩을 정의하는 것과 비교할 때 성능 면에서 약간의 이점이 있습니다.
 
 다음은 예제입니다. 먼저 간단한 QML 컴포넌트를 정의하는 Sprite.qml이 있습니다:
@@ -1825,7 +1825,7 @@ import QtQuick 2.0
 Rectangle { width: 80; height: 50; color: "red" }
 ```
 
-Our main application file, main.qml, imports a componentCreation.js JavaScript file that will create Sprite objects:
+componentCreation.js JavaScript 파일을 가져오는 앱 파일 main.qml은 Sprite 객체를 생성할 것입니다:
 
 ```qml
 import QtQuick 2.0
@@ -1839,7 +1839,7 @@ Rectangle {
 }
 ```
 
-Here is componentCreation.js. Notice it checks whether the component status is Component.Ready before calling createObject() in case the QML file is loaded over a network and thus is not ready immediately.
+다음은 componentCreation.js입니다. QML 파일이 네트워크를 통해 로드되어 즉시 준비되지 않은 경우 [createObject()](https://doc.qt.io/qt-6/qml-qtqml-component.html#createObject-method)를 호출하기 전에 컴포넌트 [상태](https://doc.qt.io/qt-6/qml-qtqml-component.html#status-prop)가 Component.Ready인지 여부를 확인합니다.
 
 ```qml
 var component;
@@ -1857,17 +1857,17 @@ function finishCreation() {
     if (component.status == Component.Ready) {
         sprite = component.createObject(appWindow, {x: 100, y: 100});
         if (sprite == null) {
-            // Error Handling
+            // 오류 처리
             console.log("Error creating object");
         }
     } else if (component.status == Component.Error) {
-        // Error Handling
+        // 오류 처리
         console.log("Error loading component:", component.errorString());
     }
 }
 ```
 
-If you are certain the QML file to be loaded is a local file, you could omit the finishCreation() function and call createObject() immediately:
+만약 로드할 QML 파일이 로컬 파일인 경우, finishCreation() 함수를 생략하고 [createObject()](https://doc.qt.io/qt-6/qml-qtqml-component.html#createObject-method)를 즉시 호출할 수 있습니다:
 
 ```qml
 function createSpriteObjects() {
@@ -1875,21 +1875,21 @@ function createSpriteObjects() {
     sprite = component.createObject(appWindow, {x: 100, y: 100});
 
     if (sprite == null) {
-        // Error Handling
+        // 오류 처리
         console.log("Error creating object");
     }
 }
 ```
 
-Notice in both instances, createObject() is called with appWindow passed as the parent argument, since the dynamically created object is a visual (Qt Quick) object. The created object will become a child of the appWindow object in main.qml, and appear in the scene.
+동적으로 생성된 객체는 시각적(Qt Quick) 객체이므로, 두 경우 모두에서 [createObject()](https://doc.qt.io/qt-6/qml-qtqml-component.html#createObject-method)는 부모 인수로 전달된 appWindow와 함께 호출됩니다. 생성된 객체는 main.qml의 appWindow 객체의 자식이 되어 장면에 나타납니다.
 
-When using files with relative paths, the path should be relative to the file where Qt.createComponent() is executed.
+상대 경로를 가진 파일을 사용할 때, 경로는 [Qt.createComponent()](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createComponent-method)가 실행되는 파일과 상대적이어야 합니다.
 
-To connect signals to (or receive signals from) dynamically created objects, use the signal connect() method. See Connecting Signals to Methods and Signals for more information.
+동적으로 생성된 객체에 시그널을 연결하려면, 혹은 객체로부터 시그널을 수신하려면 시그널 connect() 메서드를 사용하십시오. 자세한 내용은 [시그널을 메서드/시그널과 연결하기](https://doc.qt.io/qt-6/qtqml-syntax-signals.html#connecting-signals-to-methods-and-signals)를 보십시오.
 
-It is also possible to instantiate components without blocking via the incubateObject() function.
+[incubateObject()](https://doc.qt.io/qt-6/qml-qtqml-component.html#incubateObject-method) 함수를 통해 차단 없이 컴포넌트를 인스턴스화할 수도 있습니다.
 
-* Creating an Object from a String of QML
+* QML 문자열로부터 객체 생성하기
 
 If the QML is not defined until runtime, you can create a QML object from a string of QML using the Qt.createQmlObject() function, as in the following example:
 
