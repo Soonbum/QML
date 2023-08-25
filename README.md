@@ -1891,7 +1891,7 @@ function createSpriteObjects() {
 
 * QML 문자열로부터 객체 생성하기
 
-If the QML is not defined until runtime, you can create a QML object from a string of QML using the Qt.createQmlObject() function, as in the following example:
+QML이 런타임까지 정의되지 않으면 다음 예제와 같이 [Qt.createQmlObject()](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createQmlObject-method) 함수를 사용하여 QML 문자열에서 QML 객체를 만들 수 있습니다:
 
 ```qml
 const newObject = Qt.createQmlObject(`
@@ -1908,32 +1908,32 @@ const newObject = Qt.createQmlObject(`
 );
 ```
 
-The first argument is the string of QML to create. Just like in a new file, you will need to import any types you wish to use. The second argument is the parent object for the new object, and the parent argument semantics which apply to components are similarly applicable for createQmlObject(). The third argument is the file path to associate with the new object; this is used for error reporting.
+1번째 인수는 생성할 QML 문자열입니다. 새 파일과 마찬가지로 사용할 타입을 가져와야 합니다. 2번째 인수는 새 객체의 부모 객체이며 컴포넌트에 적용되는 부모 인수 시맨틱스도 createQmlObject()에 유사하게 적용됩니다. 3번째 인수는 새 객체와 연결할 파일 경로입니다; 이는 오류 보고에 사용됩니다.
 
-If the string of QML imports files using relative paths, the path should be relative to the file in which the parent object (the second argument to the method) is defined.
+QML 문자열이 상대 경로를 사용하여 파일을 가져오는 경우, 경로는 (메서드의 2번째 인수인) 부모 객체가 정의된 파일에 상대적이어야 합니다.
 
-Important: When building static QML applications, QML files are scanned to detect import dependencies. That way, all necessary plugins and resources are resolved at compile time. However, only explicit import statements are considered (those found at the top of a QML file), and not import statements enclosed within string literals. To support static builds, you therefore need to ensure that QML files using Qt.createQmlObject(), explicitly contain all necessary imports at the top of the file in addition to inside the string literals.
+중요: 정적 QML 앱을 구축할 때 QML 파일을 검색하여 import 종속성을 탐지합니다. 이렇게 하면 컴파일 시 필요한 모든 플러그인과 리소스가 해결됩니다. 그러나 (QML 파일의 최상단에서 발견되는) 명시적인 import 문만 고려되고 문자열 리터럴 내에 포함된 import 문은 고려되지 않습니다. 따라서 정적 빌드를 지원하려면 [Qt.createQmlObject()](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createQmlObject-method)를 사용하는 QML 파일에 문자열 리터럴 내부 외에도 파일 최상단에 필요한 모든 import가 명시적으로 포함되어 있는지 확인해야 합니다.
 
-* Maintaining Dynamically Created Objects
+* 동적으로 생성된 객체 유지보수하기
 
-When managing dynamically created objects, you must ensure the creation context outlives the created object. Otherwise, if the creation context is destroyed first, the bindings and signal handlers in the dynamic object will no longer work.
+동적으로 생성된 객체를 관리할 때 생성 컨텍스트가 생성된 객체보다 오래 사용되는지 확인해야 합니다. 그렇지 않으면 생성 컨텍스트가 먼저 제거되었을 때 동적 객체의 바인딩과 시그널 핸들러가 더 이상 작동하지 않습니다.
 
-The actual creation context depends on how an object is created:
-- If Qt.createComponent() is used, the creation context is the QQmlContext in which this method is called
-- If Qt.createQmlObject() is called, the creation context is the context of the parent object passed to this method
-- If a Component{} object is defined and createObject() or incubateObject() is called on that object, the creation context is the context in which the Component is defined
+실제 생성 컨텍스트는 객체를 생성하는 방법에 따라 달라집니다:
+- 만약 [Qt.createComponent()](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createComponent-method)가 사용되면, 생성 컨텍스트는 이 메서드가 호출된 [QQmlContext](https://doc.qt.io/qt-6/qqmlcontext.html)입니다.
+- 만약 [Qt.createQmlObject()](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createQmlObject-method)가 호출되면, 생성 컨텍스트는 이 메서드에게 전달된 부모 객체의 컨텍스트입니다.
+- 만약 Component{} 객체가 정의되어 있고 해당 객체에서 [createObject()](https://doc.qt.io/qt-6/qml-qtqml-component.html#createObject-method) 또는 [incubateObject()](https://doc.qt.io/qt-6/qml-qtqml-component.html#incubateObject-method)가 호출되면, 생성 컨텍스트는 Component가 정의된 컨텍스트입니다.
 
-Also, note that while dynamically created objects may be used the same as other objects, they do not have an id in QML.
+또한 동적으로 생성된 객체는 다른 객체와 동일하게 사용될 수 있지만 QML에 id가 없다는 것을 주의하십시오.
 
-* Deleting Objects Dynamically
+* 동적으로 객체 삭제하기
 
-In many user interfaces, it is sufficient to set a visual object's opacity to 0 or to move the visual object off the screen instead of deleting it. If you have lots of dynamically created objects, however, you may receive a worthwhile performance benefit if unused objects are deleted.
+많은 사용자 인터페이스에서 시각적 객체의 불투명도를 0으로 설정하거나, 시각적 객체를 삭제하는 대신 화면 밖으로 이동하면 충분하지만, 동적으로 생성된 객체가 많은 경우 사용하지 않은 객체를 삭제하면 성능이 더 좋아질 수 있습니다.
 
-Note that you should never manually delete objects that were dynamically created by convenience QML object factories (such as Loader and Repeater). Also, you should avoid deleting objects that you did not dynamically create yourself.
+([Loader](https://doc.qt.io/qt-6/qml-qtquick-loader.html)와 [Repeater](https://doc.qt.io/qt-6/qml-qtquick-repeater.html) 같은) 편리한 QML 객체 공장에서 동적으로 생성된 객체를 수동으로 삭제해서는 안 됩니다. 또한 동적으로 직접 생성하지 않은 객체를 삭제하는 것도 피해야 합니다.
 
-Items can be deleted using the destroy() method. This method has an optional argument (which defaults to 0) that specifies the approximate delay in milliseconds before the object is to be destroyed.
+destroy() 메서드를 사용하여 Item을 삭제할 수 있습니다. 이 메서드에는 객체를 제거하기 전의 대략적인 지연 시간(밀리초)을 지정하는 선택적인 인수(기본값은 0)가 있습니다.
 
-Here is an example. The application.qml creates five instances of the SelfDestroyingRect.qml component. Each instance runs a NumberAnimation, and when the animation has finished, calls destroy() on its root object to destroy itself:
+다음은 예제입니다. application.qml은 SelfDestroyingRect.qml 컴포넌트의 인스턴스를 5개 생성합니다. 각 인스턴스는 [NumberAnimation](https://doc.qt.io/qt-6/qml-qtquick-numberanimation.html)을 실행하고 애니메이션이 완료되면 루트 객체에서 destroy()를 호출하여 자신을 파괴합니다:
 
 application.qml	
 ```qml
@@ -1976,11 +1976,11 @@ Rectangle {
 }
 ```
 
-Alternatively, the application.qml could have destroyed the created object by calling object.destroy().
+또는 application.qml이 object.destroy()를 호출하여 생성된 객체를 제거했을 수도 있습니다.
 
-Note that it is safe to call destroy() on an object within that object. Objects are not destroyed the instant destroy() is called, but are cleaned up sometime between the end of that script block and the next frame (unless you specified a non-zero delay).
+객체 안에 있는 객체에서 destroy()를 호출하는 것이 안전합니다. 객체는 destroy()를 호출하는 즉시 제거되지 않고 스크립트 블록의 끝과 다음 프레임 사이에서 정리됩니다. (당신이 0이 아닌 지연 시간을 지정하지 않았을 경우)
 
-Note also that if a SelfDestroyingRect instance was created statically like this:
+또한 다음과 같이 SelfDestroyingRect 인스턴스가 정적으로 생성된 경우를 주의하십시오:
 
 ```qml
 Item {
@@ -1990,9 +1990,9 @@ Item {
 }
 ```
 
-This would result in an error, since objects can only be dynamically destroyed if they were dynamically created.
+객체를 동적으로 생성한 경우에만 동적으로 제거할 수 있으므로 오류가 발생할 수 있습니다.
 
-Objects created with Qt.createQmlObject() can similarly be destroyed using destroy():
+[Qt.createQmlObject()](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createQmlObject-method)를 사용하여 생성된 객체도 destroy()를 사용하여 파괴될 수 있습니다:
 
 ```qml
 const newObject = Qt.createQmlObject(`
