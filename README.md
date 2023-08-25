@@ -1806,18 +1806,18 @@ QML은 JavaScript 내에서 객체의 동적 생성을 지원합니다. 이는 �
 
 * 동적으로 객체 생성하기
 
-There are two ways to create objects dynamically from JavaScript. You can either call Qt.createComponent() to dynamically create a Component object, or use Qt.createQmlObject() to create an object from a string of QML. Creating a component is better if you have an existing component defined in a QML document and you want to dynamically create instances of that component. Otherwise, creating an object from a string of QML is useful when the object QML itself is generated at runtime.
+JavaScript에서 동적으로 객체를 만드는 방법은 2가지가 있습니다. [Qt.createComponent()](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createComponent-method)를 호출하여 동적으로 [Component](https://doc.qt.io/qt-6/qml-qtqml-component.html) 객체를 만들거나 [Qt.createQmlObject()](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createQmlObject-method)를 사용하여 QML 문자열로 객체를 만들 수 있습니다. QML 문서에 정의된 기존 컴포넌트가 있고 해당 컴포넌트의 인스턴스를 동적으로 만들고 싶다면 컴포넌트를 만드는 것이 더 좋습니다. 그렇지 않으면 QML 문자열로 객체를 만드는 것은 런타임 시에 객체 QML 자체가 생성될 때 유용합니다.
 
 * 동적으로 컴포넌트 생성하기
 
-To dynamically load a component defined in a QML file, call the Qt.createComponent() function in the Qt object. This function takes the URL of the QML file as its only argument and creates a Component object from this URL.
+QML 파일에 정의된 컴포넌트를 동적으로 로드하려면 [Qt 객체](https://doc.qt.io/qt-6/qml-qtqml-qt.html)에서 [Qt.createComponent()](https://doc.qt.io/qt-6/qml-qtqml-qt.html#createComponent-method) 함수를 호출합니다. 이 함수는 QML 파일의 URL을 유일한 인수로 사용하고 이 URL에서 [Component](https://doc.qt.io/qt-6/qml-qtqml-component.html) 객체를 만듭니다.
 
-Once you have a Component, you can call its createObject() method to create an instance of the component. This function can take one or two arguments:
+일단 [Component](https://doc.qt.io/qt-6/qml-qtqml-component.html)를 갖게 되면, [createObject()](https://doc.qt.io/qt-6/qml-qtqml-component.html#createObject-method) 메서드를 호출하여 컴포넌트의 인스턴스를 만들 수 있습니다. 이 함수는 1개 또는 2개 인수를 가질 수 있습니다:
 
-- The first is the parent for the new object. The parent can be a graphical object (i.e. of the Item type) or non-graphical object (i.e. of the QtObject or C++ QObject type). Only graphical objects with graphical parent objects will be rendered to the Qt Quick visual canvas. If you wish to set the parent later you can safely pass null to this function.
-- The second is optional and is a map of property-value pairs that define initial any property values for the object. Property values specified by this argument are applied to the object before its creation is finalized, avoiding binding errors that may occur if particular properties must be initialized to enable other property bindings. Additionally, there are small performance benefits when compared to defining property values and bindings after the object is created.
+- 1번째는 새로운 객체에 대한 부모입니다. 부모 객체는 그래픽 객체(예: Item 타입) 또는 비-그래픽 객체(예: QtObject 또는 C++ QOobject 타입)일 수 있습니다. 그래픽 부모 객체가 있는 그래픽 객체만 Qt Quick 시각적 canvas로 렌더링됩니다. 부모 객체를 나중에 설정하려면 이 함수에 null을 안전하게 전달할 수 있습니다.
+- 2번째는 선택사항으로 객체에 대한 초기 프로퍼티 값을 정의하는 프로퍼티-값 쌍의 맵입니다. 이 인수에 의해 지정된 프로퍼티 값은 생성이 완료되기 전에 객체에 적용되므로 다른 프로퍼티 바인딩을 활성화하기 위해 특정 프로퍼티를 초기화해야 할 경우 발생할 수 있는 바인딩 오류를 피할 수 있습니다. 또한 객체가 생성된 후 프로퍼티 값 및 바인딩을 정의하는 것과 비교할 때 성능 면에서 약간의 이점이 있습니다.
 
-Here is an example. First there is Sprite.qml, which defines a simple QML component:
+다음은 예제입니다. 먼저 간단한 QML 컴포넌트를 정의하는 Sprite.qml이 있습니다:
 
 ```qml
 import QtQuick 2.0
