@@ -2114,42 +2114,42 @@ Text {
 
 ##### QML에서 JavaScript 리소스 가져오기
 
-JavaScript resources may be imported by QML documents and other JavaScript resources. JavaScript resources may be imported via either relative or absolute URLs. In the case of a relative URL, the location is resolved relative to the location of the QML document or JavaScript Resource that contains the import. If the script file is not accessible, an error will occur. If the JavaScript needs to be fetched from a network resource, the component's status is set to "Loading" until the script has been downloaded.
+[JavaScript 리소스](https://doc.qt.io/qt-6/qtqml-javascript-resources.html)는 QML 문서 및 다른 JavaScript 리소스에 의해 import 될 수 있습니다. JavaScript 리소스는 상대/절대 URL을 통해 가져올 수 있습니다. 상대적인 URL의 경우, import를 포함하는 [QML 문서](https://doc.qt.io/qt-6/qtqml-documents-topic.html) 또는 [JavaScript 리소스](https://doc.qt.io/qt-6/qtqml-javascript-resources.html)의 위치에 대해 상대적인 위치로 결정됩니다. 만약 스크립트 파일에 접근할 수 없는 경우 오류가 발생합니다. 만약 네트워크 리소스에서 JavaScript를 가져와야 하는 경우, 스크립트가 다운로드될 때까지 컴포넌트의 [상태](https://doc.qt.io/qt-6/qqmlcomponent.html#status-prop)는 "Loading"으로 설정됩니다.
 
-JavaScript resources may also import QML modules and other JavaScript resources. The syntax of an import statement within a JavaScript resource differs slightly from an import statement within a QML document, which is documented thoroughly below.
+JavaScript 리소스는 또한 QML 모듈 및 기타 JavaScript 리소스를 가져올 수 있습니다. JavaScript 리소스 내의 import 문의 구문은 QML 문서 내의 import 문과 약간 다릅니다. 이는 맨 아래에 문서화되어 있습니다.
 
-* Importing a JavaScript Resource from a QML Document
+* QML 문서로부터 JavaScript 리소스 가져오기
 
-A QML document may import a JavaScript resource with the following syntax:
+QML 문서는 다음 구문을 이용하여 JavaScript 리소스를 가져올 수 있습니다:
 
 ```qml
 import "ResourceURL" as Qualifier
 ```
 
-For example:
+예를 들면:
 
 ```qml
 import "jsfile.js" as Logic
 ```
 
-Imported JavaScript resources are always qualified using the "as" keyword. The qualifier for JavaScript resources must start with an uppercase letter, and must be unique, so there is always a one-to-one mapping between qualifiers and JavaScript files. (This also means qualifiers cannot be named the same as built-in JavaScript objects such as Date and Math).
+가져온 JavaScript 리소스는 항상 "as" 키워드를 사용하여 한정됩니다. JavaScript 리소스의 한정자(qualifier)는 대문자로 시작해야 하며 유일해야 하므로 한정자와 JavaScript 파일 간에는 항상 1:1 매핑이 있습니다. (이것은 또한 한정자의 이름을 Date, Math와 같은 내장 JavaScript 객체와 동일하게 지정할 수 없음을 의미합니다)
 
-The functions defined in an imported JavaScript file are available to objects defined in the importing QML document, via the "Qualifier.functionName(params)" syntax. Functions in JavaScript resources may take parameters whose types can be any QML value types or object types, as well as normal JavaScript types. The normal data type conversion rules will apply to parameters and return values when calling such functions from QML.
+가져온 JavaScript 파일에 정의된 함수는 "Qualifier.functionName(params)" 구문을 통해 가져온 QML 문서에 정의된 객체에 사용할 수 있습니다. JavaScript 리소스의 함수는 일반 JavaScript 타입뿐만 아니라 임의의 QML 값 타입 또는 객체 타입이 될 수 있는 파라미터를 사용할 수 있습니다. 일반 [데이터 타입 변환 규칙](https://doc.qt.io/qt-6/qtqml-cppintegration-data.html)은 QML에서 이러한 함수를 호출할 때 파라미터와 리턴 값에 적용됩니다.
 
-* Imports Within JavaScript Resources
+* JavaScript 리소스 안에서 가져오기
 
-In QtQuick 2.0, support has been added to allow JavaScript resources to import other JavaScript resources and also QML type namespaces using a variation of the standard QML import syntax (where all of the previously described rules and qualifications apply).
+QtQuick 2.0에서는 JavaScript 리소스가 표준 QML import 구문의 변형(앞에서 설명한 모든 규칙과 자격이 적용되는 경우)을 사용하여 다른 JavaScript 리소스와 QML 타입 네임스페이스를 가져올 수 있도록 지원이 추가되었습니다.
 
-Due to the ability of a JavaScript resource to import another script or QML module in this fashion in QtQuick 2.0, some extra semantics are defined:
-- a script with imports will not inherit imports from the QML document which imported it (so accessing Component.errorString will fail, for example)
-- a script without imports will inherit imports from the QML document which imported it (so accessing Component.errorString will succeed, for example)
-- a shared script (i.e., defined as .pragma library) does not inherit imports from any QML document even if it imports no other scripts or modules
+JavaScript 리소스가 QtQuick 2.0에서 이러한 방식으로 다른 JavaScript 또는 QML 모듈을 가져올 수 있기 때문에 다음과 같은 몇 가지 추가 시맨틱스가 정의됩니다:
+- import 구문이 포함된 스크립트는 가져온 QML 문서로부터 import를 상속하지 않게 됩니다. (예: Component.errorString 접근은 실패하게 됨)
+- import 구문이 없는 스크립트는 가져온 QML 문서로부터 import를 상속하게 됩니다. (예: Component.errorString 접근은 성공하게 됨)
+- 공유 스크립트(즉, .pragma 라이브러리로 정의됨)는 다른 스크립트나 모듈을 가져오지 않더라도 QML 문서의 import를 상속하지 않습니다.
 
-The first semantic is conceptually correct, given that a particular script might be imported by any number of QML files. The second semantic is retained for the purposes of backwards-compatibility. The third semantic remains unchanged from the current semantics for shared scripts, but is clarified here in respect to the newly possible case (where the script imports other scripts or modules).
+하나의 특정 스크립트를 임의의 수의 QML 파일이 가져올 수 있다는 점을 고려할 때, 1번째 시맨틱은 개념적으로 정확합니다. 2번째 시맨틱은 하위 호환성의 목적을 위해 유지됩니다. 3번째 시맨틱은 공유 스크립트에 대한 현재 시맨틱과 차이점이 없지만 새로 가능한 경우(스크립트가 다른 스크립트/모듈을 가져오는 경우)와 관련하여 여기에서 명확하게 설명됩니다.
 
-* Importing a JavaScript Resource from Another JavaScript Resource
+* 다른 JavaScript 리소스에서 JavaScript 리소스 가져오기
 
-A JavaScript resource may import another in the following fashion:
+JavaScript 리소스는 다음과 같은 방법으로 다른 리소스를 가져올 수 있습니다:
 
 ```qml
 import * as MathFunctions from "factorial.mjs";
@@ -2161,13 +2161,13 @@ Or:
 .import "filename.js" as Qualifier
 ```
 
-The former is standard ECMAScript syntax for importing ECMAScript modules, and only works from within ECMAScript modules as denoted by the mjs file extension. The latter is an extension to JavaScript provided by the QML engine and will work also with non-modules. As an extension superseded by the ECMAScript standard, its usage is discouraged.
+전자는 ECMAScript 모듈을 가져오기 위한 표준 ECMAScript 구문이며 mjs 파일 확장자로 표시된 것처럼 ECMAScript 모듈 내에서만 작동합니다. 후자는 QML 엔진에서 제공하는 JavaScript의 확장자이며 비-모듈에서도 작동합니다. ECMAScript 표준으로 대체된 확장자로서 사용이 권장되지 않습니다.
 
-When a JavaScript file is imported this way, it is imported with a qualifier. The functions in that file are then accessible from the importing script via the qualifier (that is, as Qualifier.functionName(params)).
+이러한 방식으로 JavaScript 파일을 가져오면 한정자(qualifer)를 사용하여 가져올 수 있습니다. 그런 다음 한정자를 통해 해당 파일의 기능에 접근할 수 있습니다. (즉, Qualifier.functionName(params))
 
-Sometimes it is desirable to have the functions made available in the importing context without needing to qualify them. In this case ECMAScript modules and the JavaScript import statement should be used without the as qualifier.
+때때로 한정자를 사용하지 않고 가져오기 컨텍스트에서 함수를 사용할 수 있도록 하는 것이 좋습니다. 이 경우 ECMAScript 모듈 및 JavaScript import 문을 한정자로 사용하지 않고 사용해야 합니다.
 
-For example, the QML code below left calls showCalculations() in script.mjs, which in turn can call factorial() in factorial.mjs, as it has included factorial.mjs using import.
+예를 들면, 1번째 QML 코드는 script.mjs의 showCalculations()을 호출하고, 2번째 코드에서는 import를 사용하여 가져온 factorial.mjs의 factorial()을 호출합니다.
 
 ```qml
 import QtQuick 2.0
