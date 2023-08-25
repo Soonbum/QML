@@ -2013,23 +2013,22 @@ newObject.destroy(1000);
 
 ##### QML에서 JavaScript 리소스 정의하기
 
-The program logic for a QML application may be defined in JavaScript. The JavaScript code may either be defined in-line in QML documents, or separated into JavaScript files (known as JavaScript Resources in QML).
+QML 앱을 위한 프로그램 로직은 JavaScript로 정의될 수 있습니다. JavaScript 코드는 QML 문서에서 인라인으로 정의되거나, (QML에서 JavaScript 리소스로 알려진) JavaScript 파일로 분리될 수 있습니다.
 
-There are two different kinds of JavaScript resources which are supported in QML: code-behind implementation files, and shared (library) files. Both kinds of JavaScript resource may be imported by other JavaScript resources, or included in QML modules.
+QML에서 지원되는 JavaScript 리소스는 두 종류가 있습니다: 코드-비하인드 구현 파일, 공유 (라이브러리) 파일. 두 가지 종류의 JavaScript 리소스는 다른 JavaScript 리소스에서 [가져오거나](https://doc.qt.io/qt-6/qtqml-javascript-imports.html) [QML 모듈](https://doc.qt.io/qt-6/qtqml-modules-topic.html)에 포함될 수 있습니다.
 
-* Code-Behind Implementation Resource
+* 코드-비하인드 구현 리소스
 
-Most JavaScript files imported into a QML document are stateful implementations for the QML document importing them. In these cases, each instance of the QML object type defined in the document requires a separate copy of the JavaScript objects and state in order to behave correctly.
+QML 문서로 가져온 대부분의 JavaScript 파일은 이 파일을 가져온 QML 문서에 대한 stateful 구현입니다. 이러한 경우, 문서에 정의된 QML 객체 타입의 각 인스턴스는 올바르게 동작하기 위해 JavaScript 객체와 상태의 개별 복사본을 필요로 합니다.
 
-The default behavior when importing JavaScript files is to provide a unique, isolated copy for each QML component instance. If that JavaScript file does not import any resources or modules with a .import statement, its code will run in the same scope as the QML component instance and consequently can access and manipulate the objects and properties declared in that QML component. Otherwise, it will have its own unique scope, and objects and properties of the QML component should be passed to the functions of the JavaScript file as parameters if they are required.
+JavaScript 파일을 가져올 때 기본 동작은 각 QML 컴포넌트 인스턴스에 고유하고 격리된 복사본을 제공하는 것입니다. 만약 해당 JavaScript 파일이 .import 문이 있는 리소스 또는 모듈을 가져오지 않으면 해당 코드는 QML 컴포넌트 인스턴스와 동일한 범위에서 실행되며 결과적으로 해당 QML 컴포넌트에 선언된 객체 및 프로퍼티에 접근하고 조작할 수 있습니다. 그렇지 않으면 고유한 범위를 갖고 있을 것이며 QML 컴포넌트의 객체 및 프로퍼티는 필요한 경우 파라미터로 JavaScript 파일의 함수에 전달되어야 합니다.
 
-An example of a code-behind implementation resource follows:
+코드-비하인드 구현 리소스의 예제는 다음과 같습니다:
 
 ```qml
 // MyButton.qml
 import QtQuick 2.0
-import "my_button_impl.js" as Logic // A new instance of this JavaScript resource
-                                    // is loaded for each instance of Button.qml.
+import "my_button_impl.js" as Logic // 이 JavaScript 리소스의 새로운 인스턴스는 Button.qml의 각 인스턴스에 대하여 로드됨
 
 Rectangle {
     id: rect
@@ -2047,7 +2046,7 @@ Rectangle {
 
 ```qml
 // my_button_impl.js
-var clickCount = 0;   // this state is separate for each instance of MyButton
+var clickCount = 0;   // 이 상태(state)는 MyButton의 각 인스턴스에 대하여 분리되어 있음
 function onClicked(button) {
     clickCount += 1;
     if ((clickCount % 5) == 0) {
@@ -2058,13 +2057,13 @@ function onClicked(button) {
 }
 ```
 
-In general, simple logic should be defined in-line in the QML file, but more complex logic should be separated into code-behind implementation resources for maintainability and readability.
+일반적으로 단순 로직은 QML 파일에 인라인으로 정의되어야 하지만, 보다 복잡한 로직은 유지보수성과 가독성을 위해 코드-비하인드 구현 리소스로 분리되어야 합니다.
 
-* Shared JavaScript Resources (Libraries)
+* 공유 JavaScript 리소스 (라이브러리)
 
-By default, JavaScript files imported from QML share their context with the QML component. That means the JavaScript files have access to the same QML objects and can modify them. As a consequence, each import must have a unique copy of these files.
+기본적으로 QML에서 가져온 JavaScript 파일은 QML 컴포넌트와 컨텍스트를 공유합니다. 이는 JavaScript 파일이 동일한 QML 개체에 접근할 수 있고 수정할 수 있음을 의미합니다. 따라서 각 import는 이러한 파일의 고유한 복사본이 있어야 합니다.
 
-The previous section covers stateful imports of JavaScript files. However, some JavaScript files are stateless and act more like reusable libraries, in the sense that they provide a set of helper functions that do not require anything from where they were imported from. You can save significant amounts of memory and speed up the instantiation of QML components if you mark such libraries with a special pragma, as shown in the following example.
+[이전 섹션](https://doc.qt.io/qt-6/qtqml-javascript-resources.html#code-behind-implementation-resource)에서는 JavaScript 파일의 stateful import에 대해 이야기했습니다. 그러나 일부 JavaScript 파일은 stateless이며, 가져온 위치에서 아무것도 필요하지 않은 helper 함수 집합을 제공한다는 점에서 재사용 가능한 라이브러리와 유사하게 작용합니다. 다음 예제와 같이 이러한 라이브러리를 특수 pragma로 표시하면 상당한 양의 메모리를 절약하고 QML 컴포넌트의 인스턴스화 속도를 높일 수 있습니다.
 
 ```qml
 // factorial.js
@@ -2091,19 +2090,16 @@ function factorialCallCount() {
 }
 ```
 
-The pragma declaration must appear before any JavaScript code excluding comments.
+pragma 선언은 반드시 코멘트를 제외한 모든 JavaScript 코드 앞에 나타나야 합니다.
 
-Note that multiple QML documents can import "factorial.js" and call the factorial and factorialCallCount functions that it provides. The state of the JavaScript import is shared across the QML documents which import it, and thus the return value of the factorialCallCount function may be non-zero when called within a QML document which never calls the factorial function.
+여러 QML 문서는 "factorial.js"를 가져올 수 있으며, 제공하는 factorial 및 factorialCallCount 함수를 호출할 수 있습니다. JavaScript import의 state는 이를 가져온 QML 문서 전반에 걸쳐 공유되므로, factorial 함수를 호출하지 않는 QML 문서 내에서 호출될 때 factorialCallCount 함수의 반환 값은 0이 아닐 수 있습니다.
 
-For example:
+예를 들면:
 
 ```qml
 // Calculator.qml
 import QtQuick 2.0
-import "factorial.js" as FactorialCalculator // This JavaScript resource is only
-                                             // ever loaded once by the engine,
-                                             // even if multiple instances of
-                                             // Calculator.qml are created.
+import "factorial.js" as FactorialCalculator // 이 JavaScript 리소스는 Calculator.qml의 인스턴스가 여러 개 생성되더라도 엔진에 의해 한 번만 로드됨
 
 Text {
     width: 500
@@ -2113,7 +2109,7 @@ Text {
 }
 ```
 
-As they are shared, .pragma library files cannot access QML component instance objects or properties directly, although QML values can be passed as function parameters.
+.pragma 라이브러리 파일은 공유되므로 QML 값을 함수 파라미터로 전달할 수 있지만 QML 컴포넌트 인스턴스 개체 또는 프로퍼티에 직접 접근할 수 없습니다.
 
 
 ##### QML에서 JavaScript 리소스 가져오기
