@@ -2388,7 +2388,55 @@ Item {
 
 #### QML 타입 시스템
 
--
+QML 문서의 객체 계층의 정의에 사용될 수 있는 타입은 다양한 소스에서 제공될 수 있습니다. 다음과 같습니다:
+
+- QML 언어에서 네이티브로 제공함
+- QML 모듈에 의해 C++을 통하여 등록됨
+- QML 모듈에 의해 QML 문서로 제공됨
+
+또한 앱 개발자는 C++ 타입을 직접 등록하거나 QML 문서에서 재사용 가능한 컴포넌트를 정의하여 자신만의 타입을 제공하여 가져올 수도 있습니다.
+
+타입 정의의 출처가 어디든 간에, 엔진은 해당 타입의 프로퍼티 및 인스턴스에 대해 타입 안전을 적용할 것입니다.
+
+* 값 타입
+
+The QML language has built-in support for various primitive types including integers, double-precision floating point numbers, strings, and boolean values. Objects may have properties of these types, and values of these types may be passed as arguments to methods of objects.
+QML 언어는 정수, 이중 정밀도 부동 소수점 숫자, 문자열 및 부울 값을 포함하는 다양한 프리미티브 유형에 대한 내장 지원을 가지고 있습니다. 객체는 이러한 유형의 속성을 가질 수 있고 이러한 유형의 값은 객체의 메서드에 대한 인수로 전달될 수 있습니다.
+
+See the QML Value Types documentation for more information about value types.
+값 유형에 대한 자세한 내용은 QML 값 유형 설명서를 참조하십시오.
+
+* JavaScript 타입
+
+JavaScript objects and arrays are supported by the QML engine. Any standard JavaScript type can be created and stored using the generic var type.
+자바스크립트 객체와 배열은 QML 엔진에서 지원되며, 일반 var 타입을 사용하여 표준 자바스크립트 타입을 생성하고 저장할 수 있습니다.
+
+For example, the standard Date and Array types are available, as below:
+예를 들어 다음과 같이 표준 날짜 및 배열 유형을 사용할 수 있습니다:
+
+```qml
+import QtQuick 2.0
+
+Item {
+    property var theArray: []
+    property var theDate: new Date()
+
+    Component.onCompleted: {
+        for (var i = 0; i < 10; i++)
+            theArray.push("Item " + i)
+        console.log("There are", theArray.length, "items in the array")
+        console.log("The time is", theDate.toUTCString())
+    }
+}
+```
+
+See JavaScript Expressions in QML Documents for more details.
+
+* QML 객체 타입
+
+A QML object type is a type from which a QML object can be instantiated. QML object types are derived from QtObject, and are provided by QML modules. Applications can import these modules to use the object types they provide. The QtQuick module provides the most common object types needed to create user interfaces in QML.
+
+Finally, every QML document implicitly defines a QML object type, which can be re-used in other QML documents. See the documentation about object types in the QML type system for in-depth information about object types.
 
 
 ##### QML 값 타입
