@@ -2155,7 +2155,7 @@ JavaScript 리소스는 다음과 같은 방법으로 다른 리소스를 가져
 import * as MathFunctions from "factorial.mjs";
 ```
 
-Or:
+또는:
 
 ```qml
 .import "filename.js" as Qualifier
@@ -2210,19 +2210,19 @@ export function factorial(a) {
 }
 ```
 
-The Qt.include() function includes one JavaScript file from another without using ECMAScript modules and without qualifying the import. It makes all functions and variables from the other file available in the current file's namespace, but ignores all pragmas and imports defined in that file. This is not a good idea as a function call should never modify the caller's context.
+[Qt.include()](https://doc.qt.io/qt-6/qml-qtqml-qt-obsolete.html#include-method) 함수는 ECMAScript 모듈을 사용하지 않고 import를 한정(qualify)하지 않고 다른 JavaScript 파일로부터 하나의 JavaScript 파일을 가져옵니다. 현재 파일의 네임스페이스에서 다른 파일의 모든 함수와 변수를 사용할 수 있게 만들지만 해당 파일에 정의된 모든 pragma와 import는 무시합니다. 함수 호출은 호출자의 컨텍스트를 절대 수정해서는 안 되기 때문에 이것은 좋은 생각이 아닙니다.
 
-Qt.include() is deprecated and should be avoided. It will be removed in a future version of Qt.
+[Qt.include()](https://doc.qt.io/qt-6/qml-qtqml-qt-obsolete.html#include-method)는 더 잇아 사용하지 않으므로 피해야 합니다. Qt의 향후 버전에서는 제거될 것입니다.
 
-* Importing a QML Module from a JavaScript Resource
+* JavaScript 리소스로부터 QML 모듈 가져오기
 
-A JavaScript resource may import a QML module in the following fashion:
+JavaScript 리소스는 다음과 같은 방식으로 QML 모듈을 가져옵니다:
 
 ```qml
 .import TypeNamespace MajorVersion.MinorVersion as Qualifier
 ```
 
-Below you can see an example that also shows how to use the QML types from a module imported in javascript:
+아래에서 JavScript에 가져온 모듈로부터 QML 타입을 사용하는 방법을 보여주는 예제를 볼 수 있습니다:
 
 ```qml
 .import Qt.test 1.0 as JsQtTest
@@ -2230,13 +2230,13 @@ Below you can see an example that also shows how to use the QML types from a mod
 var importedEnumValue = JsQtTest.MyQmlObject.EnumValue3
 ```
 
-In particular, this may be useful in order to access functionality provided via a singleton type; see QML_SINGLETON for more information.
+특히 싱글톤(singleton) 타입을 통해 제공되는 함수에 접근하는 데 유용할 수 있습니다; 자세한 내용은 [QML_SINGLETON](https://doc.qt.io/qt-6/qqmlengine.html#QML_SINGLETON) 을 참조하십시오.
 
-Your JavaScript resource by default can access all imports of the component that imports the resource. It does not have access to the componpents's imports if it is declared as a stateless library (using .pragma library) or contains an explicit .import statment.
+기본적으로 JavaScript 리소스는 리소스를 import하는 컴포넌트의 모든 import에 접근할 수 있습니다. (.pragma 라이브러리를 사용하는) stateless 라이브러리로 선언되거나 명시적인 .import 구문이 포함된 경우, 컴포넌트의 import에 접근할 수 없습니다.
 
-Note: The .import syntax doesn't work for scripts used in WorkerScript
+주의: [WorkerScript](https://doc.qt.io/qt-6/qml-qtqml-workerscript-workerscript.html)에 사용되는 스크립트에는 .import 구문이 작동하지 않습니다.
 
-See also Defining JavaScript Resources in QML.
+[QML에서의 JavaScript 리소스 정의하기](https://doc.qt.io/qt-6/qtqml-javascript-resources.html)를 참조하십시오.
 
 
 ##### JavaScript 호스트 환경
