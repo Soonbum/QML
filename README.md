@@ -2400,19 +2400,15 @@ QML 문서의 객체 계층의 정의에 사용될 수 있는 타입은 다양�
 
 * 값 타입
 
-The QML language has built-in support for various primitive types including integers, double-precision floating point numbers, strings, and boolean values. Objects may have properties of these types, and values of these types may be passed as arguments to methods of objects.
-QML 언어는 정수, 이중 정밀도 부동 소수점 숫자, 문자열 및 부울 값을 포함하는 다양한 프리미티브 유형에 대한 내장 지원을 가지고 있습니다. 객체는 이러한 유형의 속성을 가질 수 있고 이러한 유형의 값은 객체의 메서드에 대한 인수로 전달될 수 있습니다.
+QML 언어는 정수, 이중 정밀도 부동 소수점 숫자, 문자열 및 부울 값을 포함하는 다양한 프리미티브 유형에 대한 내장 지원을 가지고 있습니다. 객체는 이러한 타입의 프로퍼티를 가질 수 있고, 이러한 타입의 값은 객체의 메서드에 대한 인수로 전달될 수 있습니다.
 
-See the QML Value Types documentation for more information about value types.
-값 유형에 대한 자세한 내용은 QML 값 유형 설명서를 참조하십시오.
+값 타입에 대한 자세한 정보는 [QML 값 타입](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html) 문서를 보십시오.
 
 * JavaScript 타입
 
-JavaScript objects and arrays are supported by the QML engine. Any standard JavaScript type can be created and stored using the generic var type.
-자바스크립트 객체와 배열은 QML 엔진에서 지원되며, 일반 var 타입을 사용하여 표준 자바스크립트 타입을 생성하고 저장할 수 있습니다.
+JavaScript 객체와 배열은 QML 엔진에서 지원합니다. 일반 [var](https://doc.qt.io/qt-6/qml-var.html) 타입을 사용하여 표준 JavaScript 타입을 생성하고 저장할 수 있습니다.
 
-For example, the standard Date and Array types are available, as below:
-예를 들어 다음과 같이 표준 날짜 및 배열 유형을 사용할 수 있습니다:
+예를 들어, 다음과 같이 표준 Date 및 Array 타입을 사용할 수 있습니다:
 
 ```qml
 import QtQuick 2.0
@@ -2430,23 +2426,175 @@ Item {
 }
 ```
 
-See JavaScript Expressions in QML Documents for more details.
+더 자세한 것은 [QML 문서에서의 JavaScript 표현식](https://doc.qt.io/qt-6/qtqml-javascript-expressions.html)을 보십시오.
 
 * QML 객체 타입
 
-A QML object type is a type from which a QML object can be instantiated. QML object types are derived from QtObject, and are provided by QML modules. Applications can import these modules to use the object types they provide. The QtQuick module provides the most common object types needed to create user interfaces in QML.
+QML 객체 타입은 QML 객체가 인스턴스화될 수 있는 타입입니다. QML 객체 타입은 [QtObject](https://doc.qt.io/qt-6/qml-qtqml-qtobject.html)에서 파생되고 QML 모듈에서 제공됩니다. 앱은 제공하는 객체 타입을 사용하기 위해 이러한 모듈을 가져올 수 있습니다. QtQuick 모듈은 QML에서 사용자 인터페이스를 만드는 데 필요한 가장 일반적인 객체 타입을 제공합니다.
 
-Finally, every QML document implicitly defines a QML object type, which can be re-used in other QML documents. See the documentation about object types in the QML type system for in-depth information about object types.
+마지막으로, 모든 QML 문서는 암묵적으로 QML 객체 타입을 정의하며, 이것을 다른 QML 문서에서 재사용될 수 있습니다. 객체 타입에 대한 자세한 정보는 [QML 타입 시스템의 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)에 대한 문서를 보십시오.
 
 
 ##### QML 값 타입
 
--
+QML supports built-in and custom value types.
+
+A value type is one that is passed by value rather than by reference, such as an int or a string. This contrasts with QML Object Types. Object types are passed by reference. If you assign an instance of an object type to two different properties, both properties carry the same value. Modifying the object is reflected in both properties. If you assign an instance of a value type to two different properties, the properties carry separate values. If you modify one of them, the other one stays the same. Unlike an object type, a value type cannot be used to declare QML objects: it is not possible, for example, to declare an int{} object or a size{} object.
+
+Value types can be used to refer to:
+
+- A single value (e.g. int refers to a single number)
+- A value that contains properties and methods (e.g. size refers to a value with width and height properties)
+- The generic type var. It can hold values of any other type but is itself a value type.
+
+When a variable or property holds a value type and it is assigned to another variable or property, then a copy of the value is made.
+
+* Available Value Types
+
+Some value types are supported by the engine by default and do not require an import statement to be used, while others do require the client to import the module which provides them. All of the value types listed below may be used as a property type in a QML document, with the following exceptions:
+
+- void, which marks the absence of a value
+- list must be used in conjunction with an object or value type as element
+- enumeration cannot be used directly as the enumeration must be defined by a registered QML object type
+
+* Built-in Value Types Provided By The QML Language
+
+The built-in value types supported natively in the QML language are listed below:
+
+| 타입 | 설명 |
+| --- | --- |
+| bool | Binary true/false value |
+| date | Date value |
+| double | Number with a decimal point, stored in double precision |
+| enumeration | Named enumeration value |
+| int | Whole number, e.g. 0, 10, or -20 |
+| list | List of QML objects |
+| real | Number with a decimal point |
+| string | A free form text string |
+| url | Resource locator |
+| var | Generic property type |
+| variant | Generic property type |
+| void | Empty value type |
+
+* Value Types Provided By QML Modules
+
+QML modules may extend the QML language with more value types. For example, the value types provided by the QtQuick module are listed below:
+
+| 타입 | 설명 |
+| --- | --- |
+| color | ARGB color value |
+| font | Font value with the properties of QFont. The font type refers to a font value with the properties of QFont |
+| matrix4x4 | A matrix4x4 type is a 4-row and 4-column matrix |
+| point | Value with x and y attributes |
+| quaternion | A quaternion type has scalar, x, y, and z attributes |
+| rect | Value with x, y, width and height attributes |
+| size | Value with width and height attributes |
+| vector2d | A vector2d type has x and y attributes |
+| vector3d | Value with x, y, and z attributes |
+| vector4d | A vector4d type has x, y, z and w attributes |
+
+The Qt global object provides useful functions for manipulating values of value types.
+
+You may define your own value types as described in Defining QML Types from C++. In order to use types provided by a particular QML module, clients must import that module in their QML documents.
+
+* Property Change Behavior for Value Types
+
+Some value types have properties: for example, the font type has pixelSize, family and bold properties. Unlike properties of object types, properties of value types do not provide their own property change signals. It is only possible to create a property change signal handler for the value type property itself:
+
+```qml
+Text {
+    // invalid!
+    onFont.pixelSizeChanged: doSomething()
+
+    // also invalid!
+    font {
+        onPixelSizeChanged: doSomething()
+    }
+
+    // but this is ok
+    onFontChanged: doSomething()
+}
+```
+
+Be aware, however, that a property change signal for a value type is emitted whenever any of its attributes have changed, as well as when the property itself changes. Take the following code, for example:
+
+```qml
+Text {
+    onFontChanged: console.log("font changed")
+
+    Text { id: otherText }
+
+    focus: true
+
+    // changing any of the font attributes, or reassigning the property
+    // to a different font value, will invoke the onFontChanged handler
+    Keys.onDigit1Pressed: font.pixelSize += 1
+    Keys.onDigit2Pressed: font.b = !font.b
+    Keys.onDigit3Pressed: font = otherText.font
+}
+```
+
+In contrast, properties of an object type emit their own property change signals, and a property change signal handler for an object-type property is only invoked when the property is reassigned to a different object value.
+
+See also The QML Type System.
 
 
 ##### QML 객체 타입
 
--
+A QML object type is a type from which a QML object can be instantiated.
+
+In syntactic terms, a QML object type is one which can be used to declare an object by specifying the type name followed by a set of curly braces that encompasses the attributes of that object. This differs from value types, which cannot be used in the same way. For example, Rectangle is a QML object type: it can be used to create Rectangle type objects. This cannot be done with primitive types such as int and bool, which are used to hold simple data types rather than objects.
+
+Custom QML object types can be defined by creating a .qml file that defines the type, as discussed in Documents as QML object type definitions, or by defining a QML type from C++ and registering the type with the QML engine, as discussed in Defining QML Types from C++. Note that in both cases, the type name must begin with an uppercase letter in order to be declared as a QML object type in a QML file.
+
+For more information about C++ and the different QML integration methods, see the C++ and QML integration overview page.
+
+* Defining Object Types from QML
+
+* Defining Object Types Through QML Documents
+
+Plugin writers and application developers may provide types defined as QML documents. A QML document, when visible to the QML import system, defines a type identified by the name of the file minus the file extensions.
+
+Thus, if a QML document named "MyButton.qml" exists, it provides the definition of the "MyButton" type, which may be used in a QML application.
+
+See the documentation about QML Documents for information on how to define a QML document, and the syntax of the QML language. Once you are familiar with the QML language and how to define QML documents, see the documentation which explains how to define and use your own reusable QML types in QML documents.
+
+See Defining Object Types through QML Documents for more information.
+
+* Defining Anonymous Types with Component
+
+Another method of creating object types from within QML is to use the Component type. This allows a type to be defined inline within a QML document, instead of using a separate document in a .qml file.
+
+```qml
+Item {
+    id: root
+    width: 500; height: 500
+
+    Component {
+        id: myComponent
+        Rectangle { width: 100; height: 100; color: "red" }
+    }
+
+    Component.onCompleted: {
+        myComponent.createObject(root)
+        myComponent.createObject(root, {"x": 200})
+    }
+}
+```
+
+Here the myComponent object essentially defines an anonymous type that can be instantiated using Component::createObject to create objects of this anonymous type.
+
+Inline components share all the characteristics of regular top-level components and use the same import list as their containing QML document.
+
+Note that each Component object declaration creates its own component scope. Any id values used and referred to from within a Component object declaration must be unique within that scope, but do not need to be unique within the document within which the inline component is declared. So, the Rectangle declared in the myComponent object declaration could have an id of root without conflicting with the root declared for the Item object in the same document, as these two id values are declared within different component scopes.
+
+See Scope and Naming Resolution for more details.
+
+* Defining Object Types from C++
+
+C++ plugin writers and application developers may register types defined in C++ through API provided by the Qt QML module. There are various registration functions which each allow different use-cases to be fulfilled. For more information about those registration functions, and the specifics of exposing custom C++ types to QML, see the documentation regarding Defining QML Types from C++.
+
+The QML type-system relies on imports, plugins and extensions being installed into a known import path. Plugins may be provided by third-party developers and reused by client application developers. Please see the documentation about QML modules for more information about how to create and deploy a QML extension module.
 
 
 ##### QML로부터 객체 타입 정의하기
