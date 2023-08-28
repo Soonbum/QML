@@ -2241,43 +2241,43 @@ var importedEnumValue = JsQtTest.MyQmlObject.EnumValue3
 
 ##### JavaScript 호스트 환경
 
-QML provides a JavaScript host environment tailored to writing QML applications. This environment is different from the host environment provided by a browser or a server-side JavaScript environment such as Node.js. For example, QML does not provide a window object or DOM API as commonly found in a browser environment.
+QML은 QML 앱 작성에 맞춘 JavaScript 호스트 환경을 제공합니다. 이 환경은 브라우저가 제공하는 호스트 환경이나 Node.js와 같은 서버-측 JavaScript 환경과는 다릅니다. 예를 들어 QML은 브라우저 환경에서 흔히 볼 수 있는 윈도우 객체나 DOM API를 제공하지 않습니다.
 
-Common Base
+* 공통 기초
 
-Like a browser or server-side JavaScript environment, the QML runtime implements the ECMAScript Language Specification standard. This provides access to all of the built-in types and functions defined by the standard, such as Object, Array, and Math. The QML runtime implements the 7th edition of the standard.
+QML 런타임은 브라우저 또는 서버-측 JavaScript 환경과 마찬가지로 [ECMAScript 언어 규격](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/) 표준을 구현합니다. 이것은 Object, Array, Math 등 표준에 의해 정의된 모든 내장 타입 및 함수에 접근할 수 있습니다. QML 런타임은 표준의 7번째 버전을 구현합니다.
 
-Nullish Coalescing (??) (since Qt 5.15) and Optional Chaining (?.) (since Qt 6.2) are also implemented in the QML runtime.
+(Qt 5.15부터) [Nullish Coalescing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator) (??) 그리고 (Qt 6.2부터) [Optional Chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) (?.) 역시 QML 런타임에 구현되어 있습니다.
 
-The standard ECMAScript built-ins are not explicitly documented in the QML documentation. For more information on their use, please refer to the ECMA-262 7th edition standard or one of the many online JavaScript reference and tutorial sites, such as the W3Schools JavaScript Reference (JavaScript Objects Reference section). Many sites focus on JavaScript in the browser, so in some cases you may need to double check the specification to determine whether a given function or object is part of standard ECMAScript or specific to the browser environment. In the case of the W3Schools link above, the JavaScript Objects Reference section generally covers the standard, while the Browser Objects Reference and HTML DOM Objects Reference sections are browser specific (and thus not applicable to QML).
+표준 ECMAScript 내장형은 QML 문서에 명시적으로 문서화되어 있지 않습니다. 사용에 대한 자세한 정보는 ECMA-262 7판 표준 또는 [W3Schools JavaScript Reference](https://www.w3schools.com/jsref/default.asp) (JavScript Objects Reference 섹션)와 같은 많은 온라인 JavaScript 레퍼런스 및 튜토리얼 사이트 중 하나를 참조하십시오. 많은 사이트가 브라우저에서의 JavaScript에 초점을 맞추고 있으므로 주어진 함수나 객체가 표준 ECMAScript의 일부인지 브라우저 환경에 고유한지 여부를 결정하기 위해 사양을 두 번 확인해야 하는 경우가 있습니다. 위의 W3Schools 링크의 경우 JavaScript Objects Reference 섹션은 일반적으로 표준을 다루는 반면, 브라우저 객체 참조 및 HTML DOM 객체 참조 섹션은 브라우저 고유에 대한 표준을 다릅니다. (따라서 QML에 적용되지 않음)
 
-* Type annotations and assertions
+* 타입 어노테이션(annotation) 및 어썰션(assertion)
 
-Function declarations in QML documents can, and should, contain type annotations. Type annotations are appended to the declaration of arguments and to the function itself, for annotating the return type. The following function takes an int and a string parameter, and returns a QtObject:
+QML 문서의 함수 선언은 타입 어노테이션을 포함할 수 있고 포함해야 합니다. 타입 어노테이션은 리턴 타입에 주석을 달기 위해 인수 선언과 함수 자체에 추가됩니다. 다음 함수는 int와 string 파라미터를 취하고 QtObject를 리턴합니다:
 
 ```qml
 function doThings(a: int, b: string) : QtObject { ... }
 ```
 
-Type annotations help tools like Qt Creator and qmllint to make sense of the code and provide better diagnostics. Moreover, they make functions easier to use from C++. See Interacting with QML Objects from C++ for more information.
+타입 어노테이션은 코드를 이해하고 더 나은 진단을 제공하는 [Qt Creator](https://doc.qt.io/qt-6/qtquick-tools-and-utilities.html#qt-creator)와 [qmllint](https://doc.qt.io/qt-6/qtquick-tool-qmllint.html)와 같은 도구에게 도움을 줍니다. 또한 C++에서 함수를 사용하기가 더 쉽습니다. 자세한 내용은 [C++에서 QML 객체와 상호 작용하기](https://doc.qt.io/qt-6/qtqml-cppintegration-interactqmlfromcpp.html)를 보십시오.
 
-By default, type annotations are ignored by the interpreter and the JIT compiler, but enforced by qmlcachegen and qmlsc when compiling to C++. This can lead to differences in behavior if you either pass values that are not actually of the declared type or if you modify instances of QML Value Types passed as typed arguments. Value types are passed by reference by the interpreter and JIT, but by value when compiled to C++.
+기본적으로 타입 어노테이션은 인터프리터와 JIT 컴파일러에 의해 무시되지만 C++로 컴파일할 때 [qmlcachegen](https://doc.qt.io/qt-6/qtqml-tool-qmlcachegen.html)과 [qmlsc](https://doc.qt.io/qt-6/qtqml-qml-script-compiler.html)에 의해 강제됩니다. 이것은 실제로 선언된 타입이 아닌 값을 전달하거나 typed 인수로 전달된 [QML 값 타입](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html)의 인스턴스를 수정할 경우 동작에 차이가 발생할 수 있습니다. 값 타입은 인터프리터와 JIT에 의해 참조로 전달되지만 C++로 컴파일할 때는 값으로 전달됩니다.
 
-You can eliminate those differences by either forcing the interpreter and JIT to also respect type annotations or by having qmlcachegen and qmlsc ignore type annotations. The former has a performance cost when using the interpreter or JIT, the latter makes the compilation to C++ avoid any JavaScript functions, and any bindings and signal handlers that call JavaScript functions. Therefore less code will be compiled to C++.
+당신은 인터프리터와 JIT가 타입 어노테이션도 존중하도록 강제하거나 [qmlcachegen](https://doc.qt.io/qt-6/qtqml-tool-qmlcachegen.html)과 [qmlsc](https://doc.qt.io/qt-6/qtqml-qml-script-compiler.html)가 타입 어노테이션을 무시하도록 하여 그러한 차이를 제거할 수 있습니다. 전자는 인터프리터나 JIT를 사용할 때 성능 비용이 있고, 후자는 C++로의 컴파일이 JavaScript 함수를 호출하는 바인딩과 시그널 핸들러를 피할 수 있도록 합니다. 따라서 더 적은 코드가 C++로 컴파일될 것입니다.
 
-In order to always enforce type annotations, add the following to your QML document:
+항상 타입 어노테이션을 적용하려면 QML 문서에 다음을 추가합니다:
 
 ```qml
 pragma FunctionSignatureBehavior: Enforced
 ```
 
-In order to always ignore type annotations, add the following instead:
+타입 어노테이션을 항상 무시하려면 대신에 다음을 추가하십시오:
 
 ```qml
 pragma FunctionSignatureBehavior: Ignored
 ```
 
-Type assertions (sometimes called as-casts) can also be used in order to cast an object to a different object type. If the object is actually of the given type, then the type assertion returns the same object. If not, it returns null. In the following snippet we assert that the parent object is a Rectangle before accessing a specific member of it.
+객체를 다른 객체 타입에 캐스팅하기 위해 타입 assertion(때로는 as-cast라고도 함)을 사용할 수도 있습니다. 만약 객체가 실제로 주어진 타입이면, 타입 assertion은 동일한 객체를 리턴합니다. 그렇지 않으면 null을 리턴합니다. 다음 토막글에서 우리는 부모 객체가 특정 멤버에 접근하기 전에 Rectangle인지 여부를 assert합니다.
 
 ```qml
 Item {
@@ -2285,23 +2285,23 @@ Item {
 }
 ```
 
-The optional chaining (?.) avoids throwing an exception if the parent is actually not a rectangle. In that case "red" is chosen as parentColor.
+optional chaining (?.)은 부모 객체가 실제로 Rectangle이 아닐 경우 exception을 throw하는 것을 피합니다. 이 경우 "red"가 parentColor로 선택됩니다.
 
-* QML Global Object
+* QML 글로벌 객체
 
-The QML JavaScript host environment implements a number of host objects and functions, as detailed in the QML Global Object documentation.
+QML JavaScript 호스트 환경은 [QML 글로벌 객체](https://doc.qt.io/qt-6/qtqml-javascript-qmlglobalobject.html) 문서에 자세히 나와 있는 것처럼 많은 호스트 객체 및 함수를 구현합니다.
 
-These host objects and functions are always available, regardless of whether any modules have been imported.
+이러한 호스트 객체 및 함수는 가져온 모듈 여부에 관계없이 항상 사용할 수 있습니다.
 
-* JavaScript Objects and Functions
+* JavaScript 객체와 함수
 
-A list of the JavaScript objects, functions and properties supported by the QML engine can be found in the List of JavaScript Objects and Functions.
+QML 엔진에서 지원하는 JavaScript 객체, 함수 및 프로퍼티 목록은 JavaScript 객체 및 함수 목록에서 확인할 수 있습니다.
 
-Note that QML makes the following modifications to native objects:
-- An arg() function is added to the String prototype.
-- Locale-aware conversion functions are added to the Date and Number prototypes.
+QML은 네이티브 객체에 대해 다음과 같이 수정한다는 것을 유의하십시오:
+- [arg()](https://doc.qt.io/qt-6/qml-string.html) 함수가 String 프로토타입에 추가됩니다.
+- 로케일 인식 변환 함수는 [Date](https://doc.qt.io/qt-6/qml-qtqml-date.html) 및 [Number](https://doc.qt.io/qt-6/qml-qtqml-number.html) 프로토타입에 추가됩니다.
 
-In addition, QML also extends the behavior of the instanceof function to allow for type checking against QML types. This means that you may use it to verify that a variable is indeed the type you expect, for example:
+또한 QML은 instanceof 함수의 동작을 확장하여 QML 타입에 대한 타입 검사를 허용합니다. 이는 변수가 실제로 예상되는 타입인지 확인하는 데 사용할 수 있음을 의미합니다. 예를 들면:
 
 ```qml
 var v = something();
@@ -2312,26 +2312,26 @@ if (!v instanceof Item) {
 ...
 ```
 
-* JavaScript Environment Restrictions
+* JavaScript 환경 제한
 
-QML implements the following restrictions for JavaScript code:
+QML은 JavaScript 코드에 대해 다음과 같은 제한을 구현합니다:
 
-- JavaScript code written in a .qml file cannot modify the global object. JavaScript code in a .js file can modify the global object, and those modifications will be visible to the .qml file when imported.
-In QML, the global object is constant - existing properties cannot be modified or deleted, and no new properties may be created.
+- .qml 파일로 작성된 JavaScript 코드는 글로벌 객체를 수정할 수 없습니다. .js 파일로 작성된 JavaScript 코드는 글로벌 객체를 수정할 수 있으며 이러한 수정사항은 [import 될 때](https://doc.qt.io/qt-6/qtqml-javascript-imports.html#importing-a-javascript-resource-from-a-qml-document) .qml 파일에 표시될 것입니다.
+QML에서 전역 객체는 상수입니다. 기존 프로퍼티는 수정하거나 삭제할 수 없으며 새 프로퍼티를 만들 수 없습니다.
 
-Most JavaScript programs do not intentionally modify the global object. However, JavaScript's automatic creation of undeclared variables is an implicit modification of the global object, and is prohibited in QML.
+대부분의 JavaScript 프로그램은 글로벌 객체를 의도적으로 수정하지 않으며, JavaScript의 미-선언 변수 자동 생성은 글로벌 객체를 암묵적으로 수정하는 것으로 QML에서는 금지되어 있습니다.
 
-Assuming that the a variable does not exist in the scope chain, the following code is illegal in QML:
+변수가 범위 체인에 존재하지 않는다고 가정한다면, QML에서 다음 코드는 잘못된 코드입니다:
 
 ```qml
-// Illegal modification of undeclared variable
+// 미-선언 변수의 잘못된 수정
 a = 1;
 for (var ii = 1; ii < 10; ++ii)
     a = a * ii;
 console.log("Result: " + a);
 ```
 
-It can be trivially modified to this legal code.
+이것은 조금만 수정하여 다음과 같이 올바른 코드로 변경할 수 있습니다.
 
 ```qml
 var a = 1;
@@ -2340,32 +2340,32 @@ for (var ii = 1; ii < 10; ++ii)
 console.log("Result: " + a);
 ```
 
-Any attempt to modify the global object - either implicitly or explicitly - will cause an exception. If uncaught, this will result in a warning being printed, that includes the file and line number of the offending code.
+전역 객체를 -암묵적/명시적으로- 수정하려고 하면 예외가 발생할 것입니다. 만약 caught하지 않으면 위반 코드의 파일 및 줄 번호를 포함하는 경고가 인쇄될 것입니다.
 
-- Global code is run in a reduced scope.
+- 축소된 범위에서 글로벌 코드가 실행됩니다.
 
-During startup, if a QML file includes an external JavaScript file with "global" code, it is executed in a scope that contains only the external file itself and the global object. That is, it will not have access to the QML objects and properties it normally would.
+시작하는 동안, 만약 QML 파일이 "글로벌" 코드를 가진 외부 JavaScript 파일을 포함한 경우, QML 파일은 외부 파일 자체와 글로벌 객체만을 포함하는 범위에서 실행됩니다. 즉, QML 객체와 [일반적으로](https://doc.qt.io/qt-6/qtqml-documents-scope.html) 접근할 수 있는 속성은 없습니다.
 
-Global code that only accesses script local variables is permitted. This is an example of valid global code.
+스크립트 로컬 변수에만 접근하는 글로벌 코드가 허용됩니다. 다음은 올바른 글로벌 코드의 예시입니다.
 
 ```qml
 var colors = [ "red", "blue", "green", "orange", "purple" ];
 ```
 
-Global code that accesses QML objects will not run correctly.
+QML 객체에 접근하는 글로벌 코드가 올바르게 실행되지 않습니다.
 
 ```qml
-// Invalid global code - the "rootObject" variable is undefined
+// 유효하지 않은 글로벌 코드 - "rootObject" 변수가 정의되지 않음
 var initialPosition = { rootObject.x, rootObject.y }
 ```
 
-This restriction exists as the QML environment is not yet fully established. To run code after the environment setup has completed, see JavaScript in Application Startup Code.
+QML 환경이 아직 완전히 구축되지 않았기 때문에 이러한 제한이 있습니다. 환경 설정이 완료된 후 코드를 실행하려면 [JavaScript 앱 시작 코드](https://doc.qt.io/qt-6/qtqml-javascript-expressions.html#javascript-in-application-startup-code)를 보십시오.
 
-- The value of this is undefined in QML in the majority of contexts.
+- this의 값은 대부분의 컨텍스트에서 QML에 정의되지 않습니다.
 
-The this keyword is supported when binding properties from JavaScript. In QML binding expressions, QML signal handlers, and QML declared functions, this refers to the scope object. In all other situations, the value of this is undefined in QML.
+this 키워드는 JavaScript에서 프로퍼티를 바인딩할 때 지원됩니다. QML 바인딩 표현식, QML 시그널 핸들러, 그리고 QML 선언 함수에서 this는 범위 객체를 의미합니다. 다른 모든 상황에서 QML의 this 값은 정의되지 않습니다.
 
-To refer to a specific object, provide an id. For example:
+특정 객체를 참조하려면 id를 제공합니다. 예를 들어:
 
 ```qml
 Item {
@@ -2373,7 +2373,7 @@ Item {
     function mouseAreaClicked(area) {
         console.log("Clicked in area at: " + area.x + ", " + area.y);
     }
-    // This will pass area to the function
+    // 이것은 area를 함수에게 전달할 것입니다.
     MouseArea {
         id: area
         y: 50; height: 50; width: 200
@@ -2382,7 +2382,7 @@ Item {
 }
 ```
 
-See also Scope and Naming Resolution.
+[범위 및 네이밍 규칙](https://doc.qt.io/qt-6/qtqml-documents-scope.html)도 보십시오.
 
 ---
 
