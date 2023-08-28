@@ -2540,29 +2540,29 @@ Text {
 
 ##### QML 객체 타입
 
-A QML object type is a type from which a QML object can be instantiated.
+QML 객체 타입은 QML 객체를 인스턴스화할 수 있는 타입입니다.
 
-In syntactic terms, a QML object type is one which can be used to declare an object by specifying the type name followed by a set of curly braces that encompasses the attributes of that object. This differs from value types, which cannot be used in the same way. For example, Rectangle is a QML object type: it can be used to create Rectangle type objects. This cannot be done with primitive types such as int and bool, which are used to hold simple data types rather than objects.
+구문론적으로 QML 객체 타입은 타입 이름 다음에 해당 객체의 애트리뷰트를 감싸는 {} 세트를 지정하여 객체를 선언하는 데 사용할 수 있는 타입입니다. 이는 동일한 방식으로 사용할 수 없는 값 타입과 다릅니다. 예를 들면, [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)은 QML 객체 타입입니다: Rectangle은 Rectangle 타입의 객체를 만드는 데 사용할 수 있습니다. 객체가 아닌 간단한 데이터 타입을 저장하는 데 사용되는 int 및 bool과 같은 프리미티브 타입에서는 수행할 수 없습니다.
 
-Custom QML object types can be defined by creating a .qml file that defines the type, as discussed in Documents as QML object type definitions, or by defining a QML type from C++ and registering the type with the QML engine, as discussed in Defining QML Types from C++. Note that in both cases, the type name must begin with an uppercase letter in order to be declared as a QML object type in a QML file.
+커스텀 QML 객체 타입은 [QML 객체 타입 정의로서의 문서](https://doc.qt.io/qt-6/qtqml-documents-definetypes.html)에서 설명한 대로 타입을 정의하는 .qml 파일을 만들거나 [C++에서 QML 타입 정의하기](https://doc.qt.io/qt-6/qtqml-cppintegration-definetypes.html)에서 설명한 대로 QML 엔진에 타입을 등록하여 정의할 수 있습니다. 두 경우 모두 QML 파일에서 QML 객체 타입으로 선언하려면 타입 이름이 대문자로 시작해야 한다는 것을 주의하십시오.
 
-For more information about C++ and the different QML integration methods, see the C++ and QML integration overview page.
+C++ 및 다양한 QML 통합 메서드에 대한 자세한 내용은 [C++ 및 QML 통합 개요](https://doc.qt.io/qt-6/qtqml-cppintegration-overview.html) 페이지를 보십시오.
 
-* Defining Object Types from QML
+* QML에서 객체 타입 정의하기
 
-* Defining Object Types Through QML Documents
+* QML 문서를 통해 객체 타입 정의하기
 
-Plugin writers and application developers may provide types defined as QML documents. A QML document, when visible to the QML import system, defines a type identified by the name of the file minus the file extensions.
+플러그인 작성자 및 앱 개발자는 QML 문서로 정의된 타입을 제공할 수 있습니다. QML 문서는 QML 가져오기 시스템에 보일 때 파일 이름에서 파일 확장자를 제외한 타입을 정의합니다.
 
-Thus, if a QML document named "MyButton.qml" exists, it provides the definition of the "MyButton" type, which may be used in a QML application.
+따라서 "MyButton.qml"이라는 이름의 QML 문서가 있을 경우, QML 앱에서 사용할 수 있는 "MyButton" 타입의 정의를 제공합니다.
 
-See the documentation about QML Documents for information on how to define a QML document, and the syntax of the QML language. Once you are familiar with the QML language and how to define QML documents, see the documentation which explains how to define and use your own reusable QML types in QML documents.
+QML 문서를 정의하는 방법과 QML 언어의 구문에 대한 자세한 내용은 [QML 문서](https://doc.qt.io/qt-6/qtqml-documents-topic.html)에 대한 문서를 보십시오. QML 언어와 QML 문서를 정의하는 방법을 숙지한 후에는 [QML 문서에서 자신의 재사용 가능한 QML 타입을 정의하고 사용하는 방법](https://doc.qt.io/qt-6/qtqml-documents-definetypes.html)을 설명하는 문서를 보십시오.
 
-See Defining Object Types through QML Documents for more information.
+자세한 내용은 [QML 문서를 통한 객체 타입 정의하기](https://doc.qt.io/qt-6/qtqml-documents-definetypes.html)를 보십시오.
 
-* Defining Anonymous Types with Component
+* 컴포넌트로 익명(Anonymous) 타입 정의하기
 
-Another method of creating object types from within QML is to use the Component type. This allows a type to be defined inline within a QML document, instead of using a separate document in a .qml file.
+QML 내에서 객체 타입을 생성하는 또 다른 방법은 [Component](https://doc.qt.io/qt-6/qml-qtqml-component.html) 타입을 사용하는 것입니다. 이렇게 하면 .qml 파일에 별도의 문서를 사용하는 대신 QML 문서 내에서 타입을 인라인으로 정의할 수 있습니다.
 
 ```qml
 Item {
@@ -2581,19 +2581,19 @@ Item {
 }
 ```
 
-Here the myComponent object essentially defines an anonymous type that can be instantiated using Component::createObject to create objects of this anonymous type.
+여기서 myComponent 객체는 본질적으로 이 익명 타입의 객체를 생성하기 위해 [Component::createObject](https://doc.qt.io/qt-6/qml-qtqml-component.html#createObject-method)를 사용하여 인스턴스화할 수 있는 익명 타입을 정의합니다.
 
-Inline components share all the characteristics of regular top-level components and use the same import list as their containing QML document.
+인라인 컴포넌트는 일반적인 최상위 컴포넌트의 모든 특성을 공유하고 포함된 QML 문서와 동일한 import 목록을 사용합니다.
 
-Note that each Component object declaration creates its own component scope. Any id values used and referred to from within a Component object declaration must be unique within that scope, but do not need to be unique within the document within which the inline component is declared. So, the Rectangle declared in the myComponent object declaration could have an id of root without conflicting with the root declared for the Item object in the same document, as these two id values are declared within different component scopes.
+각 [Component](https://doc.qt.io/qt-6/qml-qtqml-component.html) 객체 선언은 자체 컴포넌트 범위를 만든다는 것을 주의하십시오. [Component](https://doc.qt.io/qt-6/qml-qtqml-component.html) 객체 선언 내에서 사용되고 참조되는 모든 id 값은 해당 범위 내에서 유일해야 하나, 인라인 컴포넌트가 선언되는 문서 내에서는 유일해야 할 필요는 없습니다. 그래서 myComponent 객체 선언에서 선언된 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)은 동일한 문서 내의 Item 객체에 대해 선언된 루트와 충돌하지 않고 루트 id를 가질 수 있습니다. 이는 2개의 id 값이 서로 다른 컴포넌트 범위 안에서 선언되었기 때문입니다.
 
-See Scope and Naming Resolution for more details.
+자세한 내용은 [범위 및 네이밍 규칙](https://doc.qt.io/qt-6/qtqml-documents-scope.html)을 보십시오.
 
-* Defining Object Types from C++
+* C++에서 객체 타입 정의하기
 
-C++ plugin writers and application developers may register types defined in C++ through API provided by the Qt QML module. There are various registration functions which each allow different use-cases to be fulfilled. For more information about those registration functions, and the specifics of exposing custom C++ types to QML, see the documentation regarding Defining QML Types from C++.
+C++ 플러그인 작성자 및 앱 개발자는 Qt QML 모듈에서 제공하는 API를 통해 C++에 정의된 타입을 등록할 수 있습니다. 각각 다른 사용 사례(use-case)를 충족할 수 있는 다양한 등록 함수가 있습니다. 이러한 등록 함수에 대한 자세한 정보와 커스텀 C++ 타입을 QML에 노출시키는 정보는 [C++에서 QML 타입 정의하기](https://doc.qt.io/qt-6/qtqml-cppintegration-definetypes.html)에 대한 문서를 보십시오.
 
-The QML type-system relies on imports, plugins and extensions being installed into a known import path. Plugins may be provided by third-party developers and reused by client application developers. Please see the documentation about QML modules for more information about how to create and deploy a QML extension module.
+QML 타입 시스템은 알려진 import 경로에 설치되는 가져오기, 플러그인 및 확장에 의존합니다. 플러그인은 서드파티 개발자에 의해 제공되고 클라이언트 앱 개발자에 의해 재사용될 수 있습니다. QML 확장 모듈을 생성하고 배포하는 방법에 대한 자세한 내용은 [QML 모듈](https://doc.qt.io/qt-6/qtqml-modules-topic.html)에 대한 문서를 보십시오.
 
 
 ##### QML로부터 객체 타입 정의하기
