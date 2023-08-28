@@ -2400,7 +2400,7 @@ QML 문서의 객체 계층의 정의에 사용될 수 있는 타입은 다양�
 
 * 값 타입
 
-QML 언어는 정수, 이중 정밀도 부동 소수점 숫자, 문자열 및 부울 값을 포함하는 다양한 프리미티브 유형에 대한 내장 지원을 가지고 있습니다. 객체는 이러한 타입의 프로퍼티를 가질 수 있고, 이러한 타입의 값은 객체의 메서드에 대한 인수로 전달될 수 있습니다.
+QML 언어는 정수, 이중 정밀도 부동 소수점 숫자, 문자열 및 부울 값을 포함하는 다양한 프리미티브 타입에 대한 내장 지원을 가지고 있습니다. 객체는 이러한 타입의 프로퍼티를 가질 수 있고, 이러한 타입의 값은 객체의 메서드에 대한 인수로 전달될 수 있습니다.
 
 값 타입에 대한 자세한 정보는 [QML 값 타입](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html) 문서를 보십시오.
 
@@ -2437,86 +2437,86 @@ QML 객체 타입은 QML 객체가 인스턴스화될 수 있는 타입입니다
 
 ##### QML 값 타입
 
-QML supports built-in and custom value types.
+QML은 내장 값 타입, 커스텀 값 타입을 지원합니다.
 
-A value type is one that is passed by value rather than by reference, such as an int or a string. This contrasts with QML Object Types. Object types are passed by reference. If you assign an instance of an object type to two different properties, both properties carry the same value. Modifying the object is reflected in both properties. If you assign an instance of a value type to two different properties, the properties carry separate values. If you modify one of them, the other one stays the same. Unlike an object type, a value type cannot be used to declare QML objects: it is not possible, for example, to declare an int{} object or a size{} object.
+값 타입은 int 또는 string과 같이 참조가 아닌 값으로 전달되는 타입입니다. 이는 [QML 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html#qml-object-types)과 대조됩니다. 객체 타입은 참조로 전달됩니다. 만약 객체 타입의 인스턴스를 2개의 서로 다른 타입에 할당하면 두 프로퍼티 모두 동일한 값을 전달합니다. 객체를 수정하는 것은 두 프로퍼티에 모두 반영됩니다. 만약 값 타입의 인스턴스를 2개의 서로 다른 프로퍼티에 할당하면 프로퍼티는 별도의 값을 전달합니다. 이 중 하나를 수정하면 다른 하나는 그대로 유지됩니다. 객체 타입과 달리 값 타입은 QML 객체를 선언하는 데 사용할 수 없습니다: 예를 들어 int{} 객체 또는 size{} 객체를 선언하는 것은 불가능합니다.
 
-Value types can be used to refer to:
+값 타입은 다음을 참조하는 데 사용할 수 있습니다:
 
-- A single value (e.g. int refers to a single number)
-- A value that contains properties and methods (e.g. size refers to a value with width and height properties)
-- The generic type var. It can hold values of any other type but is itself a value type.
+- 단일 값 (예. 단일 숫자를 참조하는 [int](https://doc.qt.io/qt-6/qml-int.html))
+- 프로퍼티와 메서드를 포함하는 값 (예. width와 height 프로퍼티가 있는 값을 참조하는 [size](https://doc.qt.io/qt-6/qml-size.html))
+- 일반 타입 [var](https://doc.qt.io/qt-6/qml-var.html). 이것은 모든 타입의 값을 저장할 수 있지만 이 자체는 값 타입입니다.
 
-When a variable or property holds a value type and it is assigned to another variable or property, then a copy of the value is made.
+변수 또는 프로퍼티가 값 타입을 유지하고 다른 변수 또는 프로퍼티에 할당되면 값의 복사본이 만들어집니다.
 
-* Available Value Types
+* 사용 가능한 값 타입
 
-Some value types are supported by the engine by default and do not require an import statement to be used, while others do require the client to import the module which provides them. All of the value types listed below may be used as a property type in a QML document, with the following exceptions:
+일부 값 타입은 기본적으로 엔진에서 지원하며 [import 문](https://doc.qt.io/qt-6/qtqml-syntax-imports.html)을 사용할 필요가 없는 반면, 다른 값 타입은 클라이언트가 이를 제공하는 모듈을 import 하도록 요구합니다. 아래에 나열된 모든 값 타입은 다음과 같은 예외를 제외하고 QML 문서에서 프로퍼티 타입으로 사용될 수 있습니다:
 
-- void, which marks the absence of a value
-- list must be used in conjunction with an object or value type as element
-- enumeration cannot be used directly as the enumeration must be defined by a registered QML object type
+- 값의 부재를 표시하는 void
+- 리스트(list)는 요소로 객체 또는 값 타입과 함께 사용되어야 함
+- 열거형(enumeration)은 등록된 QML 객체 타입으로 정의되어야 하므로 열거형을 직접 사용할 수 없음
 
-* Built-in Value Types Provided By The QML Language
+* QML 언어가 제공하는 내장 값 타입
 
-The built-in value types supported natively in the QML language are listed below:
-
-| 타입 | 설명 |
-| --- | --- |
-| bool | Binary true/false value |
-| date | Date value |
-| double | Number with a decimal point, stored in double precision |
-| enumeration | Named enumeration value |
-| int | Whole number, e.g. 0, 10, or -20 |
-| list | List of QML objects |
-| real | Number with a decimal point |
-| string | A free form text string |
-| url | Resource locator |
-| var | Generic property type |
-| variant | Generic property type |
-| void | Empty value type |
-
-* Value Types Provided By QML Modules
-
-QML modules may extend the QML language with more value types. For example, the value types provided by the QtQuick module are listed below:
+QML 언어에서 네이티브로 제공하는 내장 값 타입은 아래에 나열되어 있습니다:
 
 | 타입 | 설명 |
 | --- | --- |
-| color | ARGB color value |
-| font | Font value with the properties of QFont. The font type refers to a font value with the properties of QFont |
-| matrix4x4 | A matrix4x4 type is a 4-row and 4-column matrix |
-| point | Value with x and y attributes |
-| quaternion | A quaternion type has scalar, x, y, and z attributes |
-| rect | Value with x, y, width and height attributes |
-| size | Value with width and height attributes |
-| vector2d | A vector2d type has x and y attributes |
-| vector3d | Value with x, y, and z attributes |
-| vector4d | A vector4d type has x, y, z and w attributes |
+| [bool](https://doc.qt.io/qt-6/qml-bool.html) | 이진(binary) true/false 값 |
+| [date](https://doc.qt.io/qt-6/qml-date.html) | Date 값 |
+| [double](https://doc.qt.io/qt-6/qml-double.html) | 소수점이 있는 숫자, 이중 정밀도로 저장됨 |
+| [enumeration](https://doc.qt.io/qt-6/qml-enumeration.html) | 이름이 붙어 있는 열거형 값 |
+| [int](https://doc.qt.io/qt-6/qml-int.html) | 정수, 예. 0, 10, 또는 -20 |
+| [list](https://doc.qt.io/qt-6/qml-list.html) | QML 객체의 리스트 |
+| [real](https://doc.qt.io/qt-6/qml-real.html) | 소수점이 있는 숫자 |
+| [string](https://doc.qt.io/qt-6/qml-string.html) | 자유 형식 텍스트 문자열 |
+| [url](https://doc.qt.io/qt-6/qml-url.html) | 리소스 로케이터 (Resource locator) |
+| [var](https://doc.qt.io/qt-6/qml-var.html) | 일반 프로퍼티 타입 |
+| [variant](https://doc.qt.io/qt-6/qml-variant.html) | 일반 프로퍼티 타입 |
+| [void](https://doc.qt.io/qt-6/qml-void.html) | 비어 있는 값 타입 |
 
-The Qt global object provides useful functions for manipulating values of value types.
+* QML 모듈이 제공하는 값 타입
 
-You may define your own value types as described in Defining QML Types from C++. In order to use types provided by a particular QML module, clients must import that module in their QML documents.
+QML 모듈은 더 많은 값 타입으로 QML 언어를 확장할 수 있습니다. 예를 들면, QtQuick 모듈이 제공하는 값 타입은 다음과 같습니다:
 
-* Property Change Behavior for Value Types
+| 타입 | 설명 |
+| --- | --- |
+| [color](https://doc.qt.io/qt-6/qml-color.html) | ARGB 컬러 값 |
+| [font](https://doc.qt.io/qt-6/qml-font.html) | QFont의 프로퍼티를 가진 글꼴 값. 글꼴 타입은 QFont의 프로퍼티를 가진 글꼴 값을 참조하는 글꼴 타입입니다 |
+| [matrix4x4](https://doc.qt.io/qt-6/qml-matrix4x4.html) | matrix4x4 타입은 4-row 그리고 4-column 행렬입니다 |
+| [point](https://doc.qt.io/qt-6/qml-point.html) | x, y 애트리뷰트를 가진 값입니다 |
+| [quaternion](https://doc.qt.io/qt-6/qml-quaternion.html) | 사분면 타입은 스칼라, x, y, z 애트리뷰트를 가지고 있습니다 |
+| [rect](https://doc.qt.io/qt-6/qml-rect.html) | x, y, width, height 애트리뷰트를 가진 값입니다 |
+| [size](https://doc.qt.io/qt-6/qml-size.html) | width와 height 애트리뷰트를 가진 값입니다 |
+| [vector2d](https://doc.qt.io/qt-6/qml-vector2d.html) | vector2d 타입은 x, y 애트리뷰트를 가지고 있습니다 |
+| [vector3d](https://doc.qt.io/qt-6/qml-vector3d.html) | x, y, z 애트리뷰트를 가진 값입니다 |
+| [vector4d](https://doc.qt.io/qt-6/qml-vector4d.html) | vector4d 타입은 x, y, z 및 w 애트리뷰트를 가지고 있습니다 |
 
-Some value types have properties: for example, the font type has pixelSize, family and bold properties. Unlike properties of object types, properties of value types do not provide their own property change signals. It is only possible to create a property change signal handler for the value type property itself:
+[Qt](https://doc.qt.io/qt-6/qml-qtqml-qt.html) 글로벌 객체는 값 타입의 값을 조작하는 데 유용한 함수를 제공합니다.
+
+[C++에서 QML 타입 정의하기](https://doc.qt.io/qt-6/qtqml-cppintegration-definetypes.html)에서 설명한 대로 자신만의 값 타입을 정의할 수 있습니다. 특정 QML 모듈에서 제공하는 타입을 사용하려면, 클라이언트가 해당 모듈을 QML 문서로 import 해야 합니다.
+
+* 값 타입에 대한 프로퍼티 변경 동작
+
+일부 값 타입은 프로퍼티를 갖고 있습니다: 예를 들면, [글꼴](https://doc.qt.io/qt-6/qml-font.html) 타입은 pixelSize, family, bold 프로퍼티가 있습니다. [객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html#qml-object-types)의 프로퍼티와 달리 값 타입의 프로퍼티는 자체 프로퍼티 변경 시그널을 제공하지 않습니다. 값 타입 프로퍼티 자체에 대한 프로퍼티 변경 시그널 핸들러만 만들 수 있습니다:
 
 ```qml
 Text {
-    // invalid!
+    // 유효하지 않음!
     onFont.pixelSizeChanged: doSomething()
 
-    // also invalid!
+    // 역시 유효하지 않음!
     font {
         onPixelSizeChanged: doSomething()
     }
 
-    // but this is ok
+    // 하지만 이것은 괜찮다
     onFontChanged: doSomething()
 }
 ```
 
-Be aware, however, that a property change signal for a value type is emitted whenever any of its attributes have changed, as well as when the property itself changes. Take the following code, for example:
+그러나 값 타입에 대한 프로퍼티 변경 시그널은 애트리뷰트의 자체가 변경될 때뿐만 아니라 프로퍼티가 변경될 때마다 발생합니다. 예를 들면 다음 코드를 사용하십시오:
 
 ```qml
 Text {
@@ -2526,17 +2526,16 @@ Text {
 
     focus: true
 
-    // changing any of the font attributes, or reassigning the property
-    // to a different font value, will invoke the onFontChanged handler
+    // 글꼴 애트리뷰트를 변경하거나 프로퍼티를 다른 글꼴 값으로 재할당하면 onFontChanged 핸들러가 호출됨
     Keys.onDigit1Pressed: font.pixelSize += 1
     Keys.onDigit2Pressed: font.b = !font.b
     Keys.onDigit3Pressed: font = otherText.font
 }
 ```
 
-In contrast, properties of an object type emit their own property change signals, and a property change signal handler for an object-type property is only invoked when the property is reassigned to a different object value.
+반대로, [객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html#qml-object-types)의 프로퍼티는 자체 프로퍼티 변경 시그널을 내보내고, 객체 타입 프로퍼티에 대한 프로퍼티 변경 시그널 핸들러는 다른 객체 값에 재할당된 경우에만 호출됩니다.
 
-See also The QML Type System.
+[QML 타입 시스템](https://doc.qt.io/qt-6/qtqml-typesystem-topic.html)도 보십시오.
 
 
 ##### QML 객체 타입
