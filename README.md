@@ -2598,24 +2598,24 @@ QML 타입 시스템은 알려진 import 경로에 설치되는 가져오기, �
 
 ##### QML로부터 객체 타입 정의하기
 
-One of the core features of QML is that it enables QML object types to be easily defined in a lightweight manner through QML documents to suit the needs of individual QML applications. The standard Qt Quick module provides various types like Rectangle, Text and Image for building a QML application; beyond these, you can easily define your own QML types to be reused within your application. This ability to create your own types forms the building blocks of any QML application.
+QML의 핵심 기능 중 하나는 QML 문서를 통해 QML 객체 타입을 개별 QML 앱의 필요에 맞게 쉽게 정의할 수 있다는 것입니다. 표준 [Qt Quick](https://doc.qt.io/qt-6/qtquick-index.html) 모듈은 QML 앱을 구축하기 위한 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html), [Text](https://doc.qt.io/qt-6/qml-qtquick-text.html) 및 [Image](https://doc.qt.io/qt-6/qml-qtquick-image.html)와 같은 다양한 타입을 제공합니다; 이 외에도 앱 내에서 재사용할 자신만의 QML 타입을 쉽게 정의할 수 있습니다. 자신만의 타입을 생성할 수 있는 이 기능은 QML 앱의 빌딩 블럭을 형성합니다.
 
-* Defining an Object Type with a QML File
+* QML 파일로 객체 타입 정의하기
 
-* Naming Custom QML Object Types
+* 커스텀 QML 객체 타입 이름 짓기
 
-To create an object type, a QML document should be placed into a text file named as <TypeName>.qml where <TypeName> is the desired name of the type. The type name has the following requirements:
+객체 타입을 만들려면 QML 문서를 <TypeName>.qml이라는 텍스트 파일에 넣어야 합니다. 여기서 <TypeName>은 원하는 타입 이름입니다. 타입 이름에는 다음과 같은 요구사항을 갖습니다:
 
-- It must be comprised of alphanumeric characters or underscores.
-- It must begin with an uppercase letter.
+- 영숫자 또는 밑줄 문자로 구성되어야 합니다.
+- 대문자로 시작해야 합니다.
 
-This document is then automatically recognized by the engine as a definition of a QML type. Additionally, a type defined in this manner is automatically made available to other QML files within the same local directory as the engine searches within the immediate directory when resolving QML type names.
+그러면 이 문서는 QML 타입의 정의로서 엔진에 의해 자동으로 인식됩니다. 추가적으로, 이러한 방식으로 정의된 타입은 QML 타입 이름을 해결할 때 엔진이 즉시 디렉토리 내에서 검색하는 것과 동일한 로컬 디렉토리 내의 다른 QML 파일에 자동으로 사용 가능하게 됩니다.
 
-Note: The QML engine does not automatically search remote directories this way. You have to add a qmldir file if your documents are loaded over the network. See Importing QML Document Directories.
+주의: QML 엔진은 이러한 방식으로 원격 디렉토리를 자동으로 검색하지 않습니다. 만약 문서가 네트워크를 통해 로드된 경우 qmldir 파일을 추가해야 합니다. [QML 문서 디렉토리 가져오기](https://doc.qt.io/qt-6/qtqml-syntax-directoryimports.html)를 보십시오.
 
-* Custom QML Type Definition
+* 커스텀 QML 타입 정의
 
-For example, below is a document that declares a Rectangle with a child MouseArea. The document has been saved to file named SquareButton.qml:
+예를 들면, 다음은 자식 [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html)를 가진 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)을 선언하는 문서입니다. 이 문서는 SquareButton.qml이라는 파일에 저장되었습니다:
 
 ```qml
 // SquareButton.qml
@@ -2633,7 +2633,7 @@ Rectangle {
 }
 ```
 
-Since the file is named SquareButton.qml, this can now be used as a type named SquareButton by any other QML file within the same directory. For example, if there was a myapplication.qml file in the same directory, it could refer to the SquareButton type:
+파일 이름이 SquareButton.qml이므로 동일한 디렉토리 내의 다른 QML 파일에서 SquareButton이라는 타입으로 사용할 수 있습니다. 예를 들면, 동일한 디렉토리에 myapplication.qml 파일이 있을 경우 SquareButton 타입을 참조할 수 있습니다:
 
 ```qml
 // myapplication.qml
@@ -2642,23 +2642,23 @@ import QtQuick 2.0
 SquareButton {}
 ```
 
-This creates a 100 x 100 red Rectangle with an inner MouseArea, as defined in SquareButton.qml. When this myapplication.qml document is loaded by the engine, it loads the SquareButton.qml document as a component and instantiates it to create a SquareButton object.
+이렇게 하면 SquareButton.qml에 정의된 대로 내부 [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html)가 있는 100 x 100 red [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)이 만들어집니다. 이 myapplication.qml 문서가 엔진에 의해 로드되면 SquareButton.qml 문서를 컴포넌트로 로드하고 인스턴스화하여 SquareButton 객체를 만듭니다.
 
-The SquareButton type encapsulates the tree of QML objects declared in SquareButton.qml. When the QML engine instantiates a SquareButton object from this type, it is instantiating an object from the Rectangle tree declared in SquareButton.qml.
+SquareButton 타입은 SquareButton.qml에 선언된 QML 객체 트리를 캡슐화합니다. QML 엔진이 이 타입으로부터 SquareButton 객체를 인스턴스화하면 SquareButton.qml에 선언된 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) 트리로부터 객체를 인스턴스화합니다.
 
-Note: the letter case of the file name is significant on some (notably UNIX) filesystems. It is recommended the file name case matches the case of the desired QML type name exactly - for example, Box.qml and not BoX.qml - regardless of the platform to which the QML type will be deployed.
+주의: 파일 이름의 대소문자는 일부(특히 UNIX) 파일 시스템에서 중요합니다. 파일 이름 대소문자는 QML 타입이 배포될 플랫폼에 관계없이 원하는 QML 타입 이름의 대소문자(예: BoX.qml이 아닌 Box.qml)와 정확히 일치하는 것이 좋습니다.
 
-* Inline Components
+* 인라인 컴포넌트
 
-Sometimes, it can be inconvenient to create a new file for a type, for instance when reusing a small delegate in multiple views. If you don't actually need to expose the type, but only need to create an instance, Component is an option. But if you want to declare properties with the component types, or if you want to use it in multiple files, Component is not an option. In that case, you can use inline components. Inline components declare a new component inside of a file. The syntax for that is
+작은 위임자(delegate)를 여러 보기(multiple view)에서 재사용하는 경우와 같이, 때때로 타입에 대한 새 파일을 만드는 것이 불편할 수 있습니다. 실제로 타입을 노출할 필요가 없고 인스턴스만 생성하면 되는 경우 컴포넌트는 선택사항입니다. 그러나 컴포넌트 타입으로 프로퍼티를 선언하거나 여러 파일에서 프로퍼티를 사용하려면 컴포넌트는 선택사항이 아닙니다. 이 경우 인라인 컴포넌트를 사용할 수 있습니다. 인라인 컴포넌트는 파일 내부에 새 컴포넌트를 선언합니다. 이 구문은 다음과 같습니다.
 
 ```qml
 component <component name> : BaseType {
-    // declare properties and bindings here
+    // 여기에 프로퍼티와 바인딩을 선언함
 }
 ```
 
-Inside the file which declares the inline component, the type can be referenced simply by its name.
+인라인 컴포넌트를 선언하는 파일 내에서 이름만으로 타입을 참조할 수 있습니다.
 
 ```qml
 // Images.qml
@@ -2696,7 +2696,7 @@ Item {
 }
 ```
 
-In other files, it has to be prefixed with the name of its containing component.
+다른 파일에서는 포함하는 컴포넌트의 이름으로 접두사를 지정해야 합니다.
 
 ```qml
 // LabeledImageBox.qml
@@ -2713,7 +2713,7 @@ Rectangle {
 }
 ```
 
-Note: Inline components don't share their scope with the component they are declared in. In the following example, when A.MyInlineComponent in file B.qml gets created, a ReferenceError will occur, as root does not exist as an id in B.qml. It is therefore advisable not to reference objects in an inline component which are not part of it.
+주의: 인라인 컴포넌트는 선언된 컴포넌트와 범위를 공유하지 않습니다. 다음 예제에서 B.qml 파일의 A.MyInlineComponent가 생성되면 루트가 B.qml의 id로 존재하지 않으므로 ReferenceError가 발생합니다. 따라서 인라인 컴포넌트의 일부가 아닌 객체는 참조하지 않는 것이 좋습니다.
 
 ```qml
 // A.qml
@@ -2734,17 +2734,17 @@ Item {
 }
 ```
 
-Note: Inline components cannot be nested.
+주의: 인라인 컴포넌트는 중첩될 수 없습니다.
 
-* Importing Types Defined Outside the Current Directory
+* 현재 디렉토리 외부에서 정의된 타입 가져오기
 
-If SquareButton.qml was not in the same directory as myapplication.qml, the SquareButton type would need to be specifically made available through an import statement in myapplication.qml. It could be imported from a relative path on the file system, or as an installed module; see module for more details.
+SquareButton.qml이 myapplication.qml과 동일한 디렉토리에 없을 경우, SquareButton 타입을 myapplication.qml의 import 문을 통해 사용할 수 있어야 합니다. 파일 시스템의 상대 경로에서 가져오거나 설치된 모듈로 가져올 수 있습니다. 자세한 내용은 [모듈](https://doc.qt.io/qt-6/qtqml-modules-topic.html)을 참조하십시오.
 
-* Accessible Attributes of Custom Types
+* 커스텀 타입의 접근 가능한 애트리뷰트
 
-The root object definition in a .qml file defines the attributes that are available for a QML type. All properties, signals and methods that belong to this root object - whether they are custom declared, or come from the QML type of the root object - are externally accessible and can be read and modified for objects of this type.
+.qml 파일의 루트 객체 정의는 QML 타입에 사용할 수 있는 애트리뷰트를 정의합니다. 이 루트 객체에 속하는 모든 프로퍼티, 시그널, 메서드는 - 커스텀 선언된 것이든 루트 객체의 QML 타입에서 나온 것이든 관계없이 - 외부에서 접근할 수 있으며 이 타입의 객체에 대해 읽고 수정할 수 있습니다.
 
-For example, the root object type in the SquareButton.qml file above is Rectangle. This means any properties defined by the Rectangle type can be modified for a SquareButton object. The code below defines three SquareButton objects with customized values for some of the properties of the root Rectangle object of the SquareButton type:
+예를 들어, 위의 SquareButton.qml 파일의 루트 객체 타입은 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)입니다. 이는 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) 타입에 의해 정의된 모든 프로퍼티를 SquareButton 객체에 대해 수정할 수 있음을 의미합니다. 아래 코드는 SquareButton 타입의 루트 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) 객체의 일부 프로퍼티에 대해 커스텀 값으로 3개의 SquareButton 객체를 정의합니다:
 
 ```qml
 // application.qml
@@ -2757,7 +2757,7 @@ Column {
 }
 ```
 
-The attributes that are accessible to objects of the custom QML type include any custom properties, methods and signals that have additionally been defined for an object. For example, suppose the Rectangle in SquareButton.qml had been defined as follows, with additional properties, methods and signals:
+커스텀 QML 타입의 객체에 접근할 수 있는 애트리뷰트에는 객체에 대해 추가로 정의된 [커스텀 프로퍼티](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#defining-property-attributes), [메서드](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#defining-method-attributes), [시그널](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#defining-signal-attributes)이 포함됩니다. 예를 들면, SquareButton.qml의 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)이 추가 프로퍼티, 메서드, 시그널과 함께 다음과 같이 정의되었다고 가정합니다:
 
 ```qml
 // SquareButton.qml
@@ -2786,7 +2786,7 @@ Rectangle {
 }
 ```
 
-Any SquareButton object could make use of the pressed property, buttonClicked signal and randomizeColor() method that have been added to the root Rectangle:
+SquareButton 객체는 루트 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)에 추가된 pressed 프로퍼티, buttonClicked 시그널, randomizeColor() 메서드를 사용할 수 있습니다:
 
 ```qml
 // application.qml
