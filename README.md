@@ -2804,15 +2804,15 @@ SquareButton {
 }
 ```
 
-Note that any of the id values defined in SquareButton.qml are not accessible to SquareButton objects, as id values are only accessible from within the component scope in which a component is declared. The SquareButton object definition above cannot refer to mouseArea in order to refer to the MouseArea child, and if it had an id of root rather than squareButton, this would not conflict with the id of the same value for the root object defined in SquareButton.qml as the two would be declared within separate scopes.
+SquareButton.qml에 정의된 id 값은 컴포넌트가 선언된 컴포넌트 범위 내에서만 접근할 수 있으므로 SquareButton 객체에 접근할 수 없습니다. 위의 SquareButton 객체 정의는 [MouseArea](https://doc.qt.io/qt-6/qml-qtquick-mousearea.html) 자식을 참조하기 위해 MouseArea를 참조할 수 없으며, squareButton이 아닌 root의 id를 가진 경우 SquareButton.qml에 정의된 루트 객체에 대해 동일한 값의 id와 충돌하지 않습니다. 이는 두 개의 id가 별도의 범위 내에서 선언되어 있기 때문입니다.
 
-* Pragmas
+* Pragma
 
-You can prepend global instructions to a QML document using the pragma keyword. The following pragmas are supported:
+pragma 키워드를 사용하여 QML 문서에 글로벌 명령어를 추가할 수 있습니다. 다음과 같은 pragma가 지원됩니다:
 
-* Singleton
+* 싱글톤(Singleton)
 
-pragma Singleton declares the component defined in the QML document as singleton. Singletons are created only once per QML engine. In order to use a QML-declared singleton you also have to register it with its module. See qt_target_qml_sources for how to do this with CMake.
+pragma Singleton은 QML 문서에 정의된 컴포넌트를 싱글톤으로 선언합니다. 싱글톤은 QML 엔진당 한 번만 생성됩니다. QML로 선언된 싱글톤을 사용하려면 해당 모듈에 등록해야 합니다. CMake로 이 작업을 수행하는 방법은 [qt_target_qml_sources](https://doc.qt.io/qt-6/qt-target-qml-sources.html)를 보십시오.
 
 * ListPropertyAssignBehavior
 
