@@ -2816,19 +2816,19 @@ pragma Singleton은 QML 문서에 정의된 컴포넌트를 싱글톤으로 선�
 
 * ListPropertyAssignBehavior
 
-With this pragma you can define how assignments to list properties shall be handled in components defined in the QML document. By default, assigning to a list property appends to the list. You can explicitly request this behavior using the value Append. Alternatively, you can request the contents of list properties to always be replaced using Replace, or replaced if the property is not the default property using ReplaceIfNotDefault. For example:
+이 pragma를 사용하면 QML 문서에 정의된 컴포넌트에서 리스트 프로퍼티에 대한 할당을 처리하는 방법을 정의할 수 있습니다. 기본적으로 리스트 프로퍼티에 대한 할당은 리스트에 이어 붙이는 것입니다. 이 동작은 값 Append를 사용하여 명시적으로 요청할 수 있습니다. 또는 Replace를 사용하여 리스트 프로퍼티의 내용을 항상 대체하거나, ReplaceIfNotDefault를 사용하여 해당 프로퍼티가 기본 프로퍼티가 아닌 경우 대체하도록 요청할 수 있습니다. 예를 들면:
 
 ```qml
 pragma ListPropertyAssignBehavior: ReplaceIfNotDefault
 ```
 
-The same declaration can also be given for C++-defined types. See QML_LIST_PROPERTY_ASSIGN_BEHAVIOR_APPEND, QML_LIST_PROPERTY_ASSIGN_BEHAVIOR_REPLACE, and QML_LIST_PROPERTY_ASSIGN_BEHAVIOR_REPLACE_IF_NOT_DEFAULT
+C++ 정의 타입에 대해서도 동일한 선언을 제공할 수 있습니다. QML_LIST_PROPERTY_ASSIGN_BEHAVIOR_APPEND, QML_LIST_PROPERTY_ASSIGN_BEHAVIOR_REPLACE, QML_LIST_PROPERTY_ASSIGN_BEHAVIOR_REPLACE_IF_NOT_DEFAULT를 보십시오.
 
 * ComponentBehavior
 
-With this pragma you can restrict components defined in this file to only create objects within their original context. This holds for inline components as well as Component elements explicitly or implicitly created as properties. If a component is bound to its context, you can safely use IDs from the rest of the file within the component. Otherwise, the engine and the QML tooling cannot know in advance what type, if any, such IDs will resolve to at run time.
+이 pragma를 사용하면 이 파일에 정의된 컴포넌트가 원래 컨텍스트 안에서만 객체만 생성하도록 제한할 수 있습니다. 이는 명시적으로/암묵적으로 프로퍼티로 생성된 컴포넌트 요소뿐만 아니라 인라인 컴포넌트에도 적용됩니다. 컴포넌트가 해당 컨텍스트에 바인딩된 경우, 컴포넌트 내의 나머지 파일의 ID를 안전하게 사용할 수 있습니다. 그렇지 않으면 엔진 및 QML 도구는 이러한 ID가 런타임시 어떤 타입으로 확인되는지 미리 알 수 없습니다.
 
-In order to bind the components to their context specify the Bound argument:
+컴포넌트를 컨텍스트에 바인딩하려면 Bound 인수를 지정합니다:
 
 ```qml
 pragma ComponentBehavior: Bound
