@@ -2834,11 +2834,11 @@ C++ 정의 타입에 대해서도 동일한 선언을 제공할 수 있습니다
 pragma ComponentBehavior: Bound
 ```
 
-The default is Unbound. You can also specify it explicitly. In a future version of Qt the default will change to Bound.
+기본값은 Unbound입니다. 명시적으로 지정할 수도 있습니다. 향후 Qt 버전에서는 기본값이 Bound로 변경될 것입니다.
 
-Delegate components bound to their context don't receive their own private contexts on instantiation. This means that model data can only be passed via required properties in this case. Passing model data via context properties will not work. This concerns delegates to e.g. Instantiator, Repeater, ListView, TableView, GridView, TreeView and in general anything that uses DelegateModel internally.
+컨텍스트에 바인딩된 위임 컴포넌트는 인스턴스화 시 자신의 개인 컨텍스트를 수신하지 않습니다. 이 경우 모델 데이터는 [필요한 프로퍼티](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#required-properties)를 통해서만 전달될 수 있음을 의미합니다. 컨텍스트 프로퍼티를 통해 모델 데이터를 전달하는 것은 작동하지 않습니다. 여기서는 위임자가 [Instantiator](https://doc.qt.io/qt-6/qml-qtqml-models-instantiator.html), [Repeater](https://doc.qt.io/qt-6/qml-qtquick-repeater.html), [ListView](https://doc.qt.io/qt-6/qml-qtquick-listview.html), [TableView](https://doc.qt.io/qt-6/qml-qtquick-tableview.html), [GridView](https://doc.qt.io/qt-6/qml-qtquick-gridview.html), [TreeView](https://doc.qt.io/qt-6/qml-qtquick-treeview.html) 그리고 내부적으로 [DelegateModel](https://doc.qt.io/qt-6/qml-qtqml-models-delegatemodel.html)을 사용하는 일반적인 모든 것에 관한 것입니다.
 
-For example, the following will not work:
+예를 들어, 다음은 작동하지 않습니다:
 
 ```qml
 pragma ComponentBehavior: Bound
@@ -2851,7 +2851,7 @@ ListView {
 }
 ```
 
-The delegate property of ListView is a component. Therefore, a Component is implicitly created around the Rectangle here. That component is bound to its context. It doesn't receive the context property model provided by ListView. To make it work, you'd have to write it this way:
+[ListView](https://doc.qt.io/qt-6/qml-qtquick-listview.html)의 위임 프로퍼티는 컴포넌트입니다. 따라서 [Component](https://doc.qt.io/qt-6/qml-qtqml-component.html)는 여기 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html) 주위에 암묵적으로 생성됩니다. 해당 컴포넌트는 해당 컨텍스트에 바인딩됩니다. [ListView](https://doc.qt.io/qt-6/qml-qtquick-listview.html)에서 제공하는 컨텍스트 프로퍼티 모델을 수신하지 않습니다. 작동시키려면 다음과 같이 작성해야 합니다:
 
 ```qml
 pragma ComponentBehavior: Bound
@@ -2865,23 +2865,23 @@ ListView {
 }
 ```
 
-You can nest components in a QML file. The pragma holds for all components in the file, no matter how deeply nested.
+컴포넌트를 QML 파일에 중첩시킬 수 있습니다. pragma는 파일의 모든 컴포넌트에 대해 아무리 깊게 중첩시키더라도 유지됩니다.
 
 * FunctionSignatureBehavior
 
-With this pragma you can change the way type annotations on functions are handled. By default the interpreter and JIT ignore type annotations, but the QML script compiler enforces them when compiling to C++.
+이 pragma를 사용하면 함수에 대한 타입 어노테이션이 처리되는 방식을 변경할 수 있습니다. 기본적으로 인터프리터와 JIT는 타입 어노테이션을 무시하지만, [QML 스크립트 컴파일러](https://doc.qt.io/qt-6/qtqml-qml-script-compiler.html)는 C++로 컴파일할 때 이러한 주석을 강제로 실행합니다.
 
-Specifying Enforce as value makes sure the type annotations are always enforced. The resulting type coercions increase the overhead of calling typed JavaScript functions.
+Enforce를 값으로 지정하면 타입 어노테이션이 항상 실행됩니다. 결과적인 타입 강요는 타입화된 JavaScrit 함수를 호출하는 오버헤드를 증가시킵니다.
 
-Specifying Ignore as value makes the QML script compiler ignore any JavaScript functions when compiling the document to C++. This means less code is compiled to C++ ahead of time, and more code has to be interpreted or JIT-compiled.
+Ignore를 값으로 지정하면 [QML 스크립트 컴파일러](https://doc.qt.io/qt-6/qtqml-qml-script-compiler.html)가 문서를 C++로 컴파일할 때 JavaScript 함수를 무시하게 됩니다. 이는 C++로 미리 컴파일되는 코드가 줄어들고 더 많은 코드가 인터프리트 되거나 JIT로 컴파일해야 한다는 것을 의미합니다.
 
 * ValueTypeBehavior
 
-With this pragma you can change the way value types and sequences are handled.
+이 pragma를 사용하면 값 타입 및 시퀀스 처리 방식을 변경할 수 있습니다.
 
-Value types and sequences are generally treated as references. This means, if you retrieve a value type instance from a property into a local value, and then change the local value, the original property is also changed. Furthermore, if you write the original property explicitly, the local value is also updated. This behavior is rather unintuitive in many places, and you should not rely on it. The Copy and Reference values for the ValueTypeBehavior pragma are experimental options to change this behavior. You should not use them. Specifying Copy causes all value types to be treated as actual copies. Specifying Reference explicitly states the default behavior.
+값 타입 및 시퀀스는 일반적으로 참조로 취급됩니다. 이는 프로퍼티에서 값 타입 인스턴스를 로컬 값으로 가져온 다음에 로컬 값을 변경하면 원래 프로퍼티도 변경된다는 것을 의미합니다. 게다가 원래 프로퍼티를 명시적으로 쓰기 연산을 하면 로컬 값도 업데이트됩니다. 이 동작은 많은 곳에서 다소 직관적이지 않으므로 이에 의존해서는 안 됩니다. ValueTypeBehavior pragma의 Copy와 Reference 값은 이 동작을 변경하기 위한 실험적인 옵션입니다. 사용하지 마십시오. Copy를 지정하면 모든 값 타입이 실제 복사본으로 취급됩니다. Reference를 지정하면 기본 동작이 명시적으로 지정됩니다.
 
-Rather than using Copy you should explicitly re-load references to value types and sequences any time they can have been affected by side effects. Side effects can happen whenever you call a function or imperatively set a property. qmllint provides guidance on this. For example, in the following code the variable f is affected by side effects after writing width. This is because there may be a binding in a derived type or in a Binding element that updates font when width is changed.
+Copy를 사용하는 대신 값 타입 및 시퀀스에 대한 참조가 부작용의 영향을 받을 수 있을 때마다 명시적으로 다시 로드해야 합니다. 부작용은 함수를 호출하거나 프로퍼티를 명령적으로 설정할 때마다 발생할 수 있습니다. [qmllint](https://doc.qt.io/qt-6/qtquick-tool-qmllint.html)는 이에 대한 지침을 제공합니다. 예를 들어, 다음 코드에서 변수 f는 width에 쓰기 연산한 다음에 부작용의 영향을 받습니다. 이는 width가 변경되면 글꼴을 업데이트하는 파생 타입 또는 바인딩 요소에서 바인딩이 있을 수 있기 때문입니다.
 
 ```qml
 import QtQuick
@@ -2894,7 +2894,7 @@ Text {
 }
 ```
 
-In order to address this, you can avoid holding f across the write operation on width:
+이 문제를 해결하기 위해 width에 대한 쓰기 연산에서 f를 유지하는 것을 막을 수 있습니다:
 
 ```qml
 import QtQuick
@@ -2908,7 +2908,7 @@ Text {
 }
 ```
 
-This, in turn can be shortened to:
+이것은 다음과 같이 단축될 수 있습니다:
 
 ```qml
 import QtQuick
@@ -2920,9 +2920,9 @@ Text {
 }
 ```
 
-You might assume that re-retrieving the font property is costly, but actually the QML engine automatically refreshes value type references each time you read from them. So this is not more expensive than the first version, but a clearer way to express the same operations.
+글꼴 프로퍼티를 다시 가져오는 것이 비용이 많이 든다고 가정할 수 있지만 실제로 QML 엔진은 값 타입 참조를 읽을 때마다 자동으로 새로 고칩니다. 따라서 이것은 1번째 버전보다 비용이 많이 들지 않고 동일한 연산을 표현하는 것이 더 깔끔한 방법입니다.
 
-See also Type annotations and assertions.
+[타입 어노테이션과 어썰션](https://doc.qt.io/qt-6/qtqml-javascript-hostenvironment.html#type-annotations-and-assertions)도 보십시오.
 
 
 ##### C++로부터 객체 타입 정의하기
