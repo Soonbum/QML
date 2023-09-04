@@ -2927,43 +2927,43 @@ Text {
 
 ##### C++로부터 객체 타입 정의하기
 
-When extending QML with C++ code, a C++ class can be registered with the QML type system to enable the class to be used as a data type within QML code. While the properties, methods and signals of any QObject-derived class are accessible from QML, as discussed in Exposing Attributes of C++ Types to QML, such a class cannot be used as a data type from QML until it is registered with the type system. Additionally registration can provide other features, such as allowing a class to be used as an instantiable QML object type from QML, or enabling a singleton instance of the class to be imported and used from QML.
+C++ 코드로 QML을 확장할 때, 클래스를 QML 코드 내에서 데이터 타입으로 사용할 수 있도록 C++ 클래스를 QML 타입 시스템으로 등록할 수 있습니다. [C++ 타입의 애트리뷰트를 QML에 노출하기](https://doc.qt.io/qt-6/qtqml-cppintegration-exposecppattributes.html)에서 논의한 바와 같이 모든 [QObject](https://doc.qt.io/qt-6/qobject.html)-파생 클래스의 프로퍼티, 메서드, 시그널은 QML로부터 접근 가능하지만, 타입 시스템으로 등록하기 전까지는 QML로부터 그러한 클래스는 데이터 타입으로 사용할 수 없습니다. 추가적으로 등록하면 클래스를 QML로부터 인스턴스화 가능한 [QML 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)으로 사용할 수 있게 하거나 클래스의 싱글톤 인스턴스를 QML로부터 가져와 사용할 수 있게 하는 등의 다른 기능을 제공할 수 있습니다.
 
-Additionally, the Qt QML module provides mechanisms for implementing QML-specific features such as attached properties and default properties in C++.
+또한 [Qt QML](https://doc.qt.io/qt-6/qtqml-index.html) 모듈은 C++의 부착된 프로퍼티와 기본 프로퍼티와 같은 QML 고유 기능을 구현하기 위한 메커니즘을 제공합니다.
 
-(Note that a number of the important concepts covered in this document are demonstrated in the Writing QML Extensions with C++ tutorial.)
+(이 문서에서 다루는 중요한 개념 중 몇 가지는 [C++로 QML 확장 기능 작성하기](https://doc.qt.io/qt-6/qtqml-tutorials-extending-qml-example.html) 튜토리얼에 나와 있습니다.)
 
-NOTE: All headers that declare QML types need to be accessible without any prefix from the project's include path.
+주의: QML 타입을 선언하는 모든 헤더는 프로젝트의 include 경로에서 접두사 없이 접근할 수 있어야 합니다.
 
-For more information about C++ and the different QML integration methods, see the C++ and QML integration overview page.
+C++ 및 다양한 QML 통합 방법에 대한 자세한 내용은 [C++ 및 QML 통합 개요](https://doc.qt.io/qt-6/qtqml-cppintegration-overview.html) 페이지를 보십시오.
 
-* Registering C++ Types with the QML Type System
+* C++ 타입을 QML 타입 시스템으로 등록하기
 
-A QObject-derived class can be registered with the QML type system to enable the type to be used as a data type from within QML code.
+QML 타입 시스템으로 [QObject](https://doc.qt.io/qt-6/qobject.html)-파생 클래스를 등록하여 QML 코드로부터 타입을 데이터 타입으로 사용할 수 있습니다.
 
-The engine allows the registration of both instantiable and non-instantiable types. Registering an instantiable type enables a C++ class to be used as the definition of a QML object type, allowing it to be used in object declarations from QML code to create objects of this type. Registration also provides the engine with additional type metadata, enabling the type (and any enums declared by the class) to be used as a data type for property values, method parameters and return values, and signal parameters that are exchanged between QML and C++.
+엔진은 인스턴스화 가능한 타입과 인스턴스 불가능한 타입 모두의 등록을 허용합니다. 인스턴스화 가능한 타입을 등록하면 C++ 클래스가 QML 객체 타입의 정의로 사용될 수 있으므로 QML 코드로부터 객체 선언에 사용되어 이러한 타입의 객체를 생성할 수 있습니다. 또한 등록은 타입(및 클래스에 의해 선언된 임의의 열거형)이 QML과 C++ 사이에서 교환되는 프로퍼티 값, 메서드 파라미터 및 시그널 파라미터에 대한 데이터 타입으로 사용될 수 있도록 엔진에 추가 타입 메타데이터를 제공합니다.
 
-Registering a non-instantiable type also registers the class as a data type in this manner, but the type cannot be used instantiated as a QML object type from QML. This is useful, for example, if a type has enums that should be exposed to QML but the type itself should not be instantiable.
+인스턴스화할 수 없는 타입을 등록하면 클래스도 이러한 방식으로 데이터 타입으로 등록되지만, 타입을 QML로부터 QML 객체 타입으로 인스턴스화할 수 없습니다. 예를 들어, 만약 어떤 타입이 QML에 노출되어야 하는 열거형을 가지고 있어야 하지만 타입 자체가 인스턴스화 할 수 없을 경우에 유용합니다.
 
-For a quick guide to choosing the correct approach to expose C++ types to QML, see Choosing the Correct Integration Method Between C++ and QML.
+C++ 타입을 QML에 노출시키는 올바른 방법을 선택하는 방법에 대한 간단한 안내는 [C++과 QML 간의 올바른 통합 방법 선택하기](https://doc.qt.io/qt-6/qtqml-cppintegration-overview.html#choosing-the-correct-integration-method-between-c-and-qml)을 보십시오.
 
-* Preconditions
+* 전제 조건
 
-All the macros mentioned below are available from the qqmlregistration.h header. You need to add the following code to the files using them in order to make the macros available:
+아래에 언급된 모든 매크로는 qqmlregistration.h 헤더에서 사용할 수 있습니다. 매크로를 사용할 수 있도록 하려면 이를 사용하는 파일에 다음 코드를 추가해야 합니다:
 
 ```cpp
 #include <QtQml/qqmlregistration.h>
 ```
 
-Furthermore, your class declarations have to live in headers reachable via your project's include path. The declarations are used to generate registration code at compile time, and the registration code needs to include the headers that contain the declarations.
+또한 클래스 선언은 프로젝트의 include 경로를 통해 도달할 수 있는 헤더에 있어야 합니다. 선언은 컴파일 시 등록 코드를 생성하는 데 사용되며, 등록 코드는 선언을 포함하는 헤더를 include 해야 합니다.
 
-* Registering an Instantiable Object Type
+* 인스턴스화 할 수 있는 객체 타입 등록하기
 
-Any QObject-derived C++ class can be registered as the definition of a QML object type. Once a class is registered with the QML type system, the class can be declared and instantiated like any other object type from QML code. Once created, a class instance can be manipulated from QML; as Exposing Attributes of C++ Types to QML explains, the properties, methods and signals of any QObject-derived class are accessible from QML code.
+**모든 [QObject](https://doc.qt.io/qt-6/qobject.html)-파생 C++ 클래스는 [QML 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)의 정의로 클래스가 등록될 수 있습니다.** 어떤 클래스가 QML 타입 시스템으로 등록되면, QML 코드로부터 다른 객체 타입처럼 해당 클래스를 선언하고 인스턴스화할 수 있습니다. 일단 클래스 인스턴스가 생성되면 QML로부터 조작할 수 있습니다; [C++ 타입의 애트리뷰트를 QML에 노출하기](https://doc.qt.io/qt-6/qtqml-cppintegration-exposecppattributes.html)에서 설명하듯이 QML 코드에서 모든 [QObject](https://doc.qt.io/qt-6/qobject.html)-파생 클래스의 프로퍼티, 메서드, 시그널에 접근할 수 있습니다.
 
-To register a QObject-derived class as an instantiable QML object type, add QML_ELEMENT or QML_NAMED_ELEMENT(<name>) to the class declaration. You also need to make adjustments in the build system. For qmake, add CONFIG += qmltypes, a QML_IMPORT_NAME, and a QML_IMPORT_MAJOR_VERSION to your project file. For CMake, the file containing the class should be part of a target set-up with qt_add_qml_module(). This will register the class into the type namespace under the given major version, using either the class name or an explicitly given name as QML type name. The minor version(s) will be derived from any revisions attached to properties, methods, or signals. The default minor version is 0. You can explicitly restrict the type to be available only from specific minor versions by adding the QML_ADDED_IN_MINOR_VERSION() macro to the class declaration. Clients can import suitable versions of the namespace in order to use the type.
+[QObject](https://doc.qt.io/qt-6/qobject.html)-파생 클래스를 인스턴스화 가능한 QML 객체 타입으로 등록하려면 QML_ELEMENT 또는 QML_NAMED_ELEMENT(<name>)를 클래스 선언에 추가합니다. 빌드 시스템에서도 조정해야 합니다. qmake의 경우, CONFIG += qmltypes, QML_IMPORT_NAME, QML_IMPORT_MAJOR_VERSION을 프로젝트 파일에 추가합니다. CMake의 경우, 클래스를 포함하는 파일은 [qt_add_qml_module()](https://doc.qt.io/qt-6/qt-add-qml-module.html)과 함께 대상 설정의 일부가 되어야 합니다. 이렇게 하면 클래스 이름 또는 QML 타입 이름으로서 명시적으로 주어진 이름을 사용하여 주어진 메이저 버전 아래의 타입 네임스페이스에 클래스가 등록됩니다. 마이너 버전은 프로퍼티, 메서드 또는 시그널에 부착된 모든 리비전으로부터 파생됩니다. 기본 마이너 버전은 0입니다. 클래스 선언에 QML_ADDED_IN_MINOR_VERSION() 매크로를 추가하여 특정 마이너 버전에서만 사용할 수 있도록 타입을 명시적으로 제한할 수 있습니다. 클라이언트는 타입을 사용하기 위해 적합한 버전의 네임스페이스를 import 할 수 있습니다.
 
-For example, suppose there is a Message class with author and creationDate properties:
+예를 들어, author와 createDate 프로퍼티를 가진 Message 클래스가 있다고 가정합시다:
 
 ```cpp
 class Message : public QObject
@@ -2977,10 +2977,9 @@ public:
 };
 ```
 
-This type can be registered by adding an appropriate type namespace and version number to the project file. For example, to make the type available in the com.mycompany.messaging namespace with version 1.0:
+이 타입은 프로젝트 파일에 적절한 타입 네임스페이스와 버전 번호를 추가하여 등록할 수 있습니다. 예를 들면, 버전 1.0의 com.mycompany.messaging 네임스페이스에서 타입을 사용할 수 있도록 하려면:
 
 * CMake
-
 ```
 qt_add_qml_module(messaging
     URI com.mycompany.messaging
@@ -2997,13 +2996,13 @@ QML_IMPORT_NAME = com.mycompany.messaging
 QML_IMPORT_MAJOR_VERSION = 1
 ```
 
-If the header the class is declared in is not accessible from your project's include path, you may have to amend the include path so that the generated registration code can be compiled.
+만약 클래스가 선언된 헤더가 프로젝트의 include 경로로부터 접근할 수 없는 곳에 있을 경우, 생성된 등록 코드를 컴파일할 수 있도록 include 경로를 수정해야 할 수 있습니다.
 
 ```
 INCLUDEPATH += com/mycompany/messaging
 ```
 
-The type can be used in an object declaration from QML, and its properties can be read and written to, as per the example below:
+이 타입은 QML로부터 [객체 선언](https://doc.qt.io/qt-6/qtqml-syntax-basics.html#object-declarations)에서 사용할 수 있으며, 아래 예제와 같이 해당 프로퍼티를 읽고 쓸 수 있습니다:
 
 ```qml
 import com.mycompany.messaging
@@ -3014,13 +3013,14 @@ Message {
 }
 ```
 
-* Registering Value Types
+* 값 타입 등록하기
 
-Any type with a Q_GADGET macro can the registered as a QML value type}. Once such a type is registered with the QML type system it can be used as property type in QML code. Such an instance can be manipulated from QML; as Exposing Attributes of C++ Types to QML explains, the properties and methods of any value type are accessible from QML code.
+[Q_GADGET](https://doc.qt.io/qt-6/qobject.html#Q_GADGET) 매크로를 사용하는 모든 타입은 [QML 값 타입](https://doc.qt.io/qt-6/qtqml-typesystem-valuetypes.html)으로 등록될 수 있습니다. 이러한 타입이 QML 타입 시스템에 등록되면 QML 코드에서 프로퍼티 타입으로 사용될 수 있습니다. 이러한 인스턴스는 QML로부터 조작할 수 있습니다; [C++ 타입의 애트리뷰트를 QML에 노출하기](https://doc.qt.io/qt-6/qtqml-cppintegration-exposecppattributes.html)에서 설명하듯이, 모든 값 타입의 프로퍼티와 메서드는 QML 코드로부터 접근할 수 있습니다.
 
 In contrast to object types, value types require lower case names. The preferred way to register them is using the QML_VALUE_TYPE or QML_ANONYMOUS macros. There is no equivalent to QML_ELEMENT as your C++ classes are typically going to have upper case names. Otherwise the registration is very similar to the registration of object types.
+객체 타입과 달리 값 타입에는 소문자 이름이 필요합니다. 이러한 타입을 등록하는 바람직한 방법은 [QML_VALUE_TYPE](https://doc.qt.io/qt-6/qqmlengine.html#QML_VALUE_TYPE) 또는 [QML_ANONYMOUS](https://doc.qt.io/qt-6/qqmlengine.html#QML_ANONYMOUS) 매크로를 사용하는 것입니다. 일반적으로 C++ 클래스에는 대문자 이름이 있으므로 [QML_ELEMENT](https://doc.qt.io/qt-6/qqmlengine.html#QML_ELEMENT)에 해당하는 것은 없습니다. 그렇지 않으면 등록은 객체 타입의 등록과 매우 비슷합니다.
 
-For example, suppose you want to register a value type person that consists of two strings for first and last name:
+예를 들면, first name과 last name에 대해 2개의 문자열로 구성된 값 타입 person을 등록하려고 합니다:
 
 ```cpp
 class Person
@@ -3034,13 +3034,13 @@ public:
 };
 ```
 
-There are some further limitations on what you can do with value types:
+값 타입으로 수행할 수 있는 작업에는 몇 가지 추가 제한사항이 있습니다:
 
-- Value types cannot be singletons.
-- Value types need to be default-constructible and copy-constructible.
-- Using QProperty as a member of a value type is problematic. Value types get copied, and you would need to decide what to do with any bindings on the QProperty at that point. You should not use QProperty in value types.
-- Value types cannot provide attached properties.
-- The API to define extensions to value types (QML_EXTENDED) is not public and subject to future changes.
+- 값 타입은 싱글톤이 될 수 없습니다.
+- 값 타입은 기본 생성자와 복사 생성자가 될 수 있어야 합니다.
+- [QProperty](https://doc.qt.io/qt-6/qproperty.html)를 값 타입의 멤버로 사용하는 것은 문제가 있습니다. 값 타입이 복사되므로 해당 시점에서 [QProperty](https://doc.qt.io/qt-6/qproperty.html)의 바인딩을 어떻게 처리할지 결정해야 합니다. 값 타입에 [QProperty](https://doc.qt.io/qt-6/qproperty.html)를 사용하면 안 됩니다.
+- 값 타입은 부착된 프로퍼티를 제공할 수 없습니다.
+- 값 타입([QML_EXTENDED](https://doc.qt.io/qt-6/qqmlengine.html#QML_EXTENDED))에 대한 확장을 정의하는 API는 공개되지 않으며 추후 변경될 수 있습니다.
 
 * Registering Non-Instantiable Types
 
