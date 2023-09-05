@@ -3042,48 +3042,52 @@ public:
 - 값 타입은 부착된 프로퍼티를 제공할 수 없습니다.
 - 값 타입([QML_EXTENDED](https://doc.qt.io/qt-6/qqmlengine.html#QML_EXTENDED))에 대한 확장을 정의하는 API는 공개되지 않으며 추후 변경될 수 있습니다.
 
-* Registering Non-Instantiable Types
+* 인스턴스화 할 수 없는 타입 등록하기
 
-Sometimes a QObject-derived class may need to be registered with the QML type system but not as an instantiable type. For example, this is the case if a C++ class:
+[QObject](https://doc.qt.io/qt-6/qobject.html)-파생 클래스를 QML 타입 시스템을 이용해 등록해야 하지만 인스턴스 가능한 타입으로 등록할 수 없을 때도 있습니다. 예를 들어, C++ 클래스인 경우가 있습니다:
 
-- is an interface type that should not be instantiable
-- is a base class type that does not need to be exposed to QML
-- declares some enum that should be accessible from QML, but otherwise should not be instantiable
-- is a type that should be provided to QML through a singleton instance, and should not be instantiable from QML
+- 인터페이스 타입은 인스턴스화할 수 없습니다.
+- QML에 노출될 필요가 없는 기본 클래스 타입입니다.
+- QML로부터 접근할 수 있어야 하는 일부 열거형을 선언합니다. 그렇지 않으면 인스턴스화 할 수 없습니다.
+- 싱글톤 인스턴스를 통해 QML에 제공되어야 하는 타입이며, QML로부터 인스턴스화 할 수 없습니다.
 
-The Qt QML module provides several macros for registering non-instantiable types:
+[Qt QML](https://doc.qt.io/qt-6/qtqml-index.html) 모듈은 인스턴스화 할 수 없는 타입을 등록하기 위한 여러 매크로를 제공합니다:
 
-- QML_ANONYMOUS registers a C++ type that is not instantiable and cannot be referred to from QML. This enables the engine to coerce any inherited types that are instantiable from QML.
-- QML_INTERFACE registers an existing Qt interface type. The type is not instantiable from QML, and you cannot declare QML properties with it. Using C++ properties of this type from QML will do the expected interface casts, though.
-- QML_UNCREATABLE(reason) combined with with QML_ELEMENT or QML_NAMED_ELEMENT registers a named C++ type that is not instantiable but should be identifiable as a type to the QML type system. This is useful if a type's enums or attached properties should be accessible from QML but the type itself should not be instantiable. The parameter should be an error message to be emitted if an attempt at creating an instance of the type is detected.
-- QML_SINGLETON combined with QML_ELEMENT or QML_NAMED_ELEMENT registers a singleton type that can be imported from QML, as discussed below.
-Note that all C++ types registered with the QML type system must be QObject-derived, even if they are non-instantiable.
+- [QML_ANONYMOUS](https://doc.qt.io/qt-6/qqmlengine.html#QML_ANONYMOUS)는 인스턴스화 할 수 없고 QML로부터 참조할 수 없는 C++ 타입을 등록합니다. 이를 통해 엔진은 QML로부터 인스턴스화 할 수 있는 상속된 타입을 강제로 사용할 수 있습니다.
+- [QML_INTERFACE](https://doc.qt.io/qt-6/qqmlengine.html#QML_INTERFACE)는 기존 Qt 인터페이스 타입을 등록합니다. 이 타입은 QML로부터 인스턴스화 할 수 없으며 QML 프로퍼티를 선언할 수 없습니다. 그러나 QML로부터 이 타입의 C++ 프로퍼티를 사용하면 예상되는 인터페이스 캐스트를 수행할 수 있습니다.
+- [QML_ELEMENT](https://doc.qt.io/qt-6/qqmlengine.html#QML_ELEMENT) 또는 [QML_NAMED_ELEMENT](https://doc.qt.io/qt-6/qqmlengine.html#QML_NAMED_ELEMENT)와 결합된 [QML_UNCREATABLE(reason)](https://doc.qt.io/qt-6/qqmlengine.html#QML_UNCREATABLE)은 이름이 지정된 C++ 타입을 등록합니다. 이 타입은 인스턴스화 할 수 없지만 QML 타입 시스템에 타입으로 식별될 수 있어야 합니다. 이는 QML로부터 타입의 열거형 또는 부착된 프로퍼티에 접근할 수 있어야 하지만 타입 자체는 인스턴스화할 수 없어야 하는 경우에 유용합니다. 파라미터는 타입의 인스턴스를 만드는 시도가 탐지되면 방출할 오류 메시지여야 합니다.
+- 아래에서 설명한 대로 QML_SINGLETON은 QML_ELEMENT 또는 QML_NAMED_ELEMENT와 결합되어 QML로부터 가져올 수 있는 싱글톤 타입을 등록합니다.
 
-* Registering Singleton Objects with a Singleton Type
+QML 타입 시스템으로 등록된 모든 C++ 타입은 인스턴스화 할 수 없는 경우에도 [QObject](https://doc.qt.io/qt-6/qobject.html)-파생형이어야 합니다.
 
-A singleton type enables properties, signals and methods to be exposed in a namespace without requiring the client to manually instantiate an object instance. QObject singleton types in particular are an efficient and convenient way to provide functionality or global property values.
+* 싱글톤 타입으로 싱글톤 객체 등록하기
 
-Note that singleton types do not have an associated QQmlContext as they are shared across all contexts in an engine. QObject singleton type instances are constructed and owned by the QQmlEngine, and will be destroyed when the engine is destroyed.
+싱글톤 타입은 클라이언트가 객체 인스턴스를 수동으로 인스턴스화할 필요 없이 네임스페이스에서 프로퍼티, 시그널, 메서드가 노출될 수 있도록 합니다. 특히 [QObject](https://doc.qt.io/qt-6/qobject.html) 싱글톤 타입은 기능이나 글로벌 프로퍼티 값을 제공하는 효율적이고 편리한 방법입니다.
 
-A QObject singleton type can be interacted with in a manner similar to any other QObject or instantiated type, except that only one (engine constructed and owned) instance will exist, and it must be referenced by type name rather than id. Q_PROPERTYs of QObject singleton types may be bound to, and Q_INVOKABLE functions of QObject module APIs may be used in signal handler expressions. This makes singleton types an ideal way to implement styling or theming, and they can also be used instead of ".pragma library" script imports to store global state or to provide global functionality.
+싱글톤 타입은 엔진의 모든 컨텍스트에서 공유되므로 연관된 [QQmlContext](https://doc.qt.io/qt-6/qqmlcontext.html)가 없습니다. [QObject](https://doc.qt.io/qt-6/qobject.html) 싱글톤 객체 인스턴스는 [QQmlEngine](https://doc.qt.io/qt-6/qqmlengine.html)에서 생성 및 소유되며 엔진이 파괴되면 파기됩니다.
 
-Once registered, a QObject singleton type may be imported and used like any other QObject instance exposed to QML. The following example assumes that a QObject singleton type was registered into the "MyThemeModule" namespace with version 1.0, where that QObject has a QColor "color" Q_PROPERTY:
+[QObject](https://doc.qt.io/qt-6/qobject.html) 싱글톤 타입은 (엔진이 생성하고 소유하는) 하나의 인스턴스만 존재한다는 점을 제외하고 다른 [QObject](https://doc.qt.io/qt-6/qobject.html) 또는 인스턴스화된 타입과 유사한 방식으로 상호 작용할 수 있으며, id가 아닌 타입 이름으로 참조되어야 합니다. [QObject](https://doc.qt.io/qt-6/qobject.html) 싱글톤 타입의 Q_PROPERTYs가 바인딩될 수 있으며, [QObject](https://doc.qt.io/qt-6/qobject.html) 모듈 API의 [Q_INVOKABLE](https://doc.qt.io/qt-6/qobject.html#Q_INVOKABLE) 함수가 시그널 핸들러 표현식에 사용될 수 있습니다. 이를 통해 싱글톤 타입은 스타일링 또는 스타일링을 구현하는 이상적인 방법이 될 수 있으며, 글로벌 상태를 저장하거나 글로벌 기능을 제공하기 위해 ".pragma library" 스크립트 import 대신 사용할 수도 있습니다.
+
+일단 등록되면 QML에 노출된 다른 [QObject](https://doc.qt.io/qt-6/qobject.html) 인스턴스와 같이 [QObject](https://doc.qt.io/qt-6/qobject.html) 싱글톤 타입을 가져와 사용할 수 있습니다. 다음 예제에서는 [QObject](https://doc.qt.io/qt-6/qobject.html) 싱글톤 타입이 버전 1.0의 "MyThemeModule" 네임스페이스에 등록되었으며, 여기서 [QObject](https://doc.qt.io/qt-6/qobject.html)는 [QColor](https://doc.qt.io/qt-6/qcolor.html) "color" [Q_PROPERTY](https://doc.qt.io/qt-6/qobject.html#Q_PROPERTY)를 가지고 있다고 가정합니다:
 
 ```qml
 import MyThemeModule 1.0 as Theme
 
 Rectangle {
-    color: Theme.color // binding.
+    color: Theme.color // 바인딩
 }
 ```
 
 A QJSValue may also be exposed as a singleton type, however clients should be aware that properties of such a singleton type cannot be bound to.
+QJSValue는 싱글톤 타입으로 노출될 수 있지만, 클라이언트는 이러한 단일 톤 유형의 속성을 바인딩할 수 없음을 알아야 합니다.
 
 See QML_SINGLETON for more information on how implement and register a new singleton type, and how to use an existing singleton type.
+새 싱글톤 유형을 구현하고 등록하는 방법과 기존 싱글톤 유형을 사용하는 방법에 대한 자세한 내용은 QML_SINGLETON을 참조하십시오.
 
 Note: Enum values for registered types in QML should start with a capital.
+참고: QML에 등록된 유형의 열거값은 대문자로 시작해야 합니다.
 
-* Final properties
+* Final 프로퍼티
 
 Properties declared final using the FINAL modifier to Q_PROPERTY cannot be overridden. This means that any properties or functions of the same name, declared either in QML or in C++ on derived types, are ignored by the QML engine. You should declare properties FINAL when possible, in order to avoid accidental overrides. An override of a property is visible not only in derived classes, but also to QML code executing the context of the base class. Such QML code, typically expects the original property, though. This is a frequent source of mistakes.
 
