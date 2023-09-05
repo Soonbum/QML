@@ -3078,26 +3078,23 @@ Rectangle {
 }
 ```
 
-A QJSValue may also be exposed as a singleton type, however clients should be aware that properties of such a singleton type cannot be bound to.
-QJSValue는 싱글톤 타입으로 노출될 수 있지만, 클라이언트는 이러한 단일 톤 유형의 속성을 바인딩할 수 없음을 알아야 합니다.
+[QJSValue](https://doc.qt.io/qt-6/qjsvalue.html)는 싱글톤 타입으로 노출될 수 있지만, 클라이언트는 이러한 싱글톤 타입의 프로퍼티를 바인딩할 수 없음을 알아야 합니다.
 
-See QML_SINGLETON for more information on how implement and register a new singleton type, and how to use an existing singleton type.
-새 싱글톤 유형을 구현하고 등록하는 방법과 기존 싱글톤 유형을 사용하는 방법에 대한 자세한 내용은 QML_SINGLETON을 참조하십시오.
+새로운 싱글톤 타입을 구현하고 등록하는 방법과 기존 싱글톤 타입을 사용하는 방법에 대한 자세한 내용은 [QML_SINGLETON](https://doc.qt.io/qt-6/qqmlengine.html#QML_SINGLETON)을 보십시오.
 
-Note: Enum values for registered types in QML should start with a capital.
-참고: QML에 등록된 유형의 열거값은 대문자로 시작해야 합니다.
+주의: QML에 등록된 타입의 열거형 값은 대문자로 시작해야 합니다.
 
 * Final 프로퍼티
 
-Properties declared final using the FINAL modifier to Q_PROPERTY cannot be overridden. This means that any properties or functions of the same name, declared either in QML or in C++ on derived types, are ignored by the QML engine. You should declare properties FINAL when possible, in order to avoid accidental overrides. An override of a property is visible not only in derived classes, but also to QML code executing the context of the base class. Such QML code, typically expects the original property, though. This is a frequent source of mistakes.
+FINAL 수식어를 사용하여 final로 선언된 프로퍼티는 [Q_PROPERTY](https://doc.qt.io/qt-6/qobject.html#Q_PROPERTY)로 재정의할 수 없습니다. 이것은 파생된 타입에서 QML 또는 C++로 선언된 동일한 이름의 프로퍼티 또는 함수가 QML 엔진에 의해 무시된다는 것을 의미합니다. 실수로 재정의되는 것을 방지하기 위해 가능한 경우 FINAL로 프로퍼티를 선언해야 합니다. 프로퍼티의 재정의는 파생된 클래스뿐만 아니라 베이스 클래스의 컨텍스트를 실행하는 QML 코드에서도 볼 수 있습니다. 그러나 이러한 QML 코드는 일반적으로 원래 프로퍼티를 예상합니다. 이는 자주 발생하는 실수의 원인입니다.
 
-Properties declared FINAL can also not be overridden by functions in QML, or by Q_INVOKABLE methods in C++.
+FINAL로 선언된 프로퍼티는 QML의 함수나 C++의 [Q_INVOKABLE](https://doc.qt.io/qt-6/qobject.html#Q_INVOKABLE) 메서드로도 재정의할 수 없습니다.
 
-* Type Revisions and Versions
+* 타입 리비전(Revision)과 버전(Version)
 
-Many of the type registration functions require versions to be specified for the registered type. Type revisions and versions allow new properties or methods to exist in the new version while remaining compatible with previous versions.
+많은 타입 등록 함수들이 등록된 타입에 대해 버전을 지정해야 합니다. 타입 리비전 및 버전을 사용하면 새 버전에서 새로운 프로퍼티 또는 메서드가 존재하면서도 이전 버전과 호환되도록 할 수 있습니다.
 
-Consider these two QML files:
+다음과 같은 2가지 QML 파일을 생각해 보십시오:
 
 ```qml
 // main.qml
@@ -3118,11 +3115,11 @@ CppType {
 }
 ```
 
-where CppType maps to the C++ class CppType.
+여기서 CppType은 C++ 클래스 CppType에 맵핑합니다.
 
-If the author of CppType adds a root property to CppType in a new version of their type definition, root.x now resolves to a different value because root is also the id of the top level component. The author could specify that the new root property is available from a specific minor version. This permits new properties and features to be added to existing types without breaking existing programs.
+CppType의 작성자가 자신의 타입 정의의 새 버전에서 루트 프로퍼티를 CppType에 추가하면, root는 최상위 레벨 컴포넌트의 id이기도 하기 때문에 root.x는 이제 다른 값으로 해결됩니다. 작성자는 새 루트 프로퍼티를 특정 마이너 버전으로부터 사용할 수 있도록 지정할 수 있습니다. 이를 통해 기존 프로그램을 중단하지 않고 새로운 프로퍼티와 기능을 기존 타입에 추가할 수 있습니다.
 
-The REVISION tag is used to mark the root property as added in revision 1 of the type. Methods such as Q_INVOKABLE's, signals and slots can also be tagged for a revision using the Q_REVISION(x) macro:
+REVISION 태그는 타입의 리비전 1에 추가된 루트 프로퍼티를 표시하는 데 사용됩니다. [Q_INVOKABLE](https://doc.qt.io/qt-6/qobject.html#Q_INVOKABLE), 시그널 및 슬롯과 같은 메서드도 Q_REVISION(x) 매크로를 사용하여 리비전에 대해 태그를 지정할 수 있습니다:
 
 ```cpp
 class CppType : public BaseType
