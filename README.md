@@ -3133,21 +3133,21 @@ signals:
 };
 ```
 
-The revisions given this way are automatically interpreted as minor versions to the major version given in the project file. In this case, root is only available when MyTypes version 1.1 or higher is imported. Imports of MyTypes version 1.0 remain unaffected.
+이렇게 주어진 리비전은 자동으로 프로젝트 파일에 주어진 메이저 버전에 대한 마이너 버전으로 해석됩니다. 이 경우 루트는 MyTypes 버전 1.1 이상을 가져올 때만 사용할 수 있습니다. MyTypes 버전 1.0의 가져오기는 영향을 받지 않습니다.
 
-For the same reason, new types introduced in later versions should be tagged with the QML_ADDED_IN_MINOR_VERSION macro.
+같은 이유로, 이후 버전에 도입된 새로운 타입도 [QML_ADDED_IN_MINOR_VERSION](https://doc.qt.io/qt-6/qqmlengine.html#QML_ADDED_IN_MINOR_VERSION) 매크로로 태그를 지정해야 합니다.
 
-This feature of the language allows for behavioural changes to be made without breaking existing applications. Consequently QML module authors should always remember to document what changed between minor versions, and QML module users should check that their application still runs correctly before deploying an updated import statement.
+이 언어의 기능을 통해 기존 앱을 중단하지 않고 동작 변경을 수행할 수 있습니다. 따라서 QML 모듈 작성자는 항상 마이너 버전 간에 무엇이 변경되었는지 문서화해야 하며, QML 모듈 사용자는 업데이트된 import 문을 배포하기 전에 앱이 여전히 올바르게 실행되는지 확인해야 합니다.
 
-Revisions of a base class that your type depends upon are automatically registered when registering the type itself. This is useful when deriving from base classes provided by other authors, e.g. when extending classes from the Qt Quick module.
+타입이 의존하는 베이스 클래스의 리비전은 타입 자체를 등록할 때 자동으로 등록됩니다. 이는 Qt Quick 모듈로부터 클래스를 확장할 때와 같이 다른 작성자가 제공하는 베이스 클래스로부터 파생할 때 유용합니다.
 
-Note: The QML engine does not support revisions for properties or signals of grouped and attached property objects.
+주의: QML 엔진은 그룹화되고 부착된 프로퍼티 객체의 프로퍼티 또는 시그널에 대한 리비전을 지원하지 않습니다.
 
-* Registering Extension Objects
+* 확장 객체 등록하기
 
-When integrating existing classes and technology into QML, APIs will often need tweaking to fit better into the declarative environment. Although the best results are usually obtained by modifying the original classes directly, if this is either not possible or is complicated by some other concerns, extension objects allow limited extension possibilities without direct modifications.
+기존 클래스와 기술을 QML에 통합할 때, API는 선언 환경에 더 잘 맞도록 조정해야 하는 경우가 많습니다. 최상의 결과는 보통 원래 클래스를 직접 수정하여 얻을 수 있지만, 이것이 불가능하거나 다른 문제로 복잡하다면 확장 객체는 직접 수정 없이 제한된 확장 가능성을 허용합니다.
 
-Extension objects add additional properties to an existing type. An extended type definition allows the programmer to supply an additional type, known as the extension type, when registering the class. Its members are transparently merged with the original target class when used from within QML. For example:
+확장 객체는 기존 타입에 추가 프로퍼티를 추가합니다. 확장된 타입 정의를 사용하면 프로그래머가 클래스를 등록할 때 확장 타입이라고 하는 추가 타입을 제공할 수 있습니다. QML 내에서 사용할 때 원래 대상 클래스와 멤버가 투명하게 병합됩니다. 예를 들면:
 
 ```qml
 QLineEdit {
@@ -3155,20 +3155,20 @@ QLineEdit {
 }
 ```
 
-The leftMargin property is a new property added to an existing C++ type, QLineEdit, without modifying its source code.
+leftMargin 프로퍼티는 소스 코드를 수정하지 않고도 기존 C++ 타입인 [QLineEdit](https://doc.qt.io/qt-6/qlineedit.html)에 추가된 새 프로퍼티입니다.
 
-The QML_EXTENDED(extension) macro is for registering extended types. The argument is the name of another class to be used as extension.
+[QML_EXTENDED](https://doc.qt.io/qt-6/qqmlengine.html#QML_EXTENDED)(extension) 매크로는 확장 타입을 등록하기 위한 것으로, 인수는 확장 형식으로 사용할 다른 클래스의 이름입니다.
 
-You can also use QML_EXTENDED_NAMESPACE(namespace) to register a namespace, and especially the enumerations declared within, as an extension to a type. If the type you are extending is itself a namespace, you need to use QML_NAMESPACE_EXTENDED(namespace) instead.
+[QML_EXTENDED_NAMESPACE](https://doc.qt.io/qt-6/qqmlengine.html#QML_EXTENDED_NAMESPACE)(namespace)를 사용하여 네임스페이스를 등록할 수도 있으며, 특히 네임스페이스에 선언된 열거형을 타입에 대한 확장으로 등록할 수도 있습니다. 만약 확장하려는 타입이 자체 네임스페이스라면 QML_NAMESPACE_EXTENDED(namespace)를 대신 사용해야 합니다.
 
-An extension class is a regular QObject, with a constructor that takes a QObject pointer. However, the extension class creation is delayed until the first extended property is accessed. The extension class is created and the target object is passed in as the parent. When the property on the original is accessed, the corresponding property on the extension object is used instead.
+확장 클래스는 일반 [QObject](https://doc.qt.io/qt-6/qobject.html)이며, [QObject](https://doc.qt.io/qt-6/qobject.html) 포인터를 취하는 생성자를 갖고 있습니다. 그러나 확장 클래스 생성은 1번째 확장 프로퍼티가 접근될 때까지 지연됩니다. 확장 클래스가 생성되고 대상 객체가 부모 객체로 전달됩니다. 원본의 프로퍼티가 접근되면 확장 객체의 해당 프로퍼티를 대신 사용합니다.
 
-* Registering Foreign Types
+* Foreign 타입 등록하기
 
-There may be C++ types that cannot be modified to hold the above mentioned macros. Those may be types from 3rdparty libraries, or types that need to fulfill some contract that contradicts the presence of those macros. You can still expose those types to QML, though, using the QML_FOREIGN macro. In order to do this, create a separate struct that consists entirely of the registration macros, like this:
+위에 언급한 매크로를 유지하도록 수정할 수 없는 C++ 타입이 있을 수 있습니다. 서드파티 라이브러리의 타입이거나 매크로가 있는 것과 모순되는 계약을 이행해야 하는 타입일 수 있습니다. [QML_FOREIGN](https://doc.qt.io/qt-6/qqmlengine.html#QML_FOREIGN) 매크로를 사용하면 QML에 이러한 타입을 노출시킬 수 있습니다. 이렇게 하려면 다음과 같이 등록 매크로 전체로 구성된 별도의 구조를 만듭니다:
 
 ```cpp
-// Contains class Immutable3rdParty
+// 클래스 Immutable3rdParty를 포함하고 있음
 #include <3rdpartyheader.h>
 
 struct Foreign
@@ -3181,13 +3181,14 @@ struct Foreign
 };
 ```
 
-From this code, you get a QML type with the methods and properties of Immutable3rdParty, and the QML traits (e.g.: singleton, extended) specified in Foreign.
+이 코드로부터, 당신은 Immutable3rdParty의 메서드와 프로퍼티, 그리고 Foreign에 지정된 QML 특성(예: singleton, extended)을 가진 QML 타입을 얻습니다.
 
-* Defining QML-Specific Types and Attributes
+* QML-지정 타입 및 애트리뷰트 정의하기
 
-* Providing Attached Properties
+* 부착된 프로퍼티 제공하기
 
 In the QML language syntax, there is a notion of attached properties and attached signal handlers, which are additional attributes that are attached to an object. Essentially, such attributes are implemented and provided by an attaching type, and these attributes may be attached to an object of another type. This contrasts with ordinary object properties which are provided by the object type itself (or the object's inherited type).
+QML 언어 구문에는 객체에 부착되는 부가적인 애트리뷰트인 부착된 프로퍼티와 부착된 시그널 핸들러의 개념이 있습니다. 본질적으로 이러한 속성은 부가 유형(attaching type)에 의해 구현되고 제공되며, 이러한 속성은 다른 유형의 객체에 부가될 수 있습니다. 이는 객체 유형 자체(또는 객체의 상속 유형)에 의해 제공되는 일반적인 객체 속성과 대조됩니다.
 
 For example, the Item below uses attached properties and attached handlers:
 
