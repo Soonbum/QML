@@ -3187,10 +3187,9 @@ struct Foreign
 
 * 부착된 프로퍼티 제공하기
 
-In the QML language syntax, there is a notion of attached properties and attached signal handlers, which are additional attributes that are attached to an object. Essentially, such attributes are implemented and provided by an attaching type, and these attributes may be attached to an object of another type. This contrasts with ordinary object properties which are provided by the object type itself (or the object's inherited type).
-QML 언어 구문에는 객체에 부착되는 부가적인 애트리뷰트인 부착된 프로퍼티와 부착된 시그널 핸들러의 개념이 있습니다. 본질적으로 이러한 속성은 부가 유형(attaching type)에 의해 구현되고 제공되며, 이러한 속성은 다른 유형의 객체에 부가될 수 있습니다. 이는 객체 유형 자체(또는 객체의 상속 유형)에 의해 제공되는 일반적인 객체 속성과 대조됩니다.
+QML 언어 구문에는 객체에 부착되는 부가적인 애트리뷰트인 [부착된 프로퍼티와 부착된 시그널 핸들러](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#attached-properties-and-attached-signal-handlers)의 개념이 있습니다. 본질적으로 이러한 애트리뷰트는 부착하는 타입에 의해 구현되고 제공되며, 이러한 애트리뷰트는 다른 타입의 객체에 부착될 수 있습니다. 이는 객체 타입 자체(또는 객체의 상속 타입)에 의해 제공되는 일반적인 객체 프로퍼티와 대조됩니다.
 
-For example, the Item below uses attached properties and attached handlers:
+예를 들어, 아래 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)은 부착된 프로퍼티 및 부착된 핸들러를 사용합니다:
 
 ```qml
 import QtQuick 2.0
@@ -3204,9 +3203,9 @@ Item {
 }
 ```
 
-Here, the Item object is able to access and set the values of Keys.enabled and Keys.onReturnPressed. This allows the Item object to access these extra attributes as an extension to its own existing attributes.
+여기서 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 객체는 Keys.enabled 및 Keys.onReturnPressed의 값을 접근하고 설정할 수 있습니다. 그러면 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 객체는 이러한 추가 애트리뷰트를 자신의 기존 애트리뷰트에 대한 확장으로 접근할 수 있습니다.
 
-* Steps for Implementing Attached Objects
+* 부착된 객체 구현하기 단계
 
 When considering the above example, there are several parties involved:
 
