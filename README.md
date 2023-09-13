@@ -3207,20 +3207,21 @@ Item {
 
 * 부착된 객체 구현하기 단계
 
-When considering the above example, there are several parties involved:
+위의 예제를 고려할 때, 다음과 같은 일부 집단들이 관련되어 있습니다:
 
-- There is an instance of an anonymous attached object type, with an enabled and a returnPressed signal, that has been attached to the Item object to enable it to access and set these attributes.
-- The Item object is the attachee, to which the instance of the attached object type has been attached.
-- Keys is the attaching type, which provides the attachee with a named qualifier, "Keys", through which it may access the attributes of the attached object type.
+- 이러한 애트리뷰트에 접근하고 설정할 수 있도록 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 객체에 부착되어 있던 익명의 부착된 객체 타입의 인스턴스와 enabled와 returnPressed 시그널이 있습니다.
+- [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 객체는 부착된 객체 타입의 인스턴스가 부착된 attachee입니다.
+- [Keys](https://doc.qt.io/qt-6/qml-qtquick-keys.html)는 attaching 타입으로, 첨부된 객체 타입의 애트리뷰트에 접근할 수 있는 이름 한정자(qualifier)인 "Keys"와 함께 attachee를 제공합니다.
 
-When the QML engine processes this code, it creates a single instance of the attached object type and attaches this instance to the Item object, thereby providing it with access to the enabled and returnPressed attributes of the instance.
+QML 엔진은 이 코드를 처리할 때, 부착된 객체 타입의 단일 인스턴스를 생성하고 이 인스턴스를 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 객체에 부착하여 인스턴스의 enabled와 returnPressed 애트리뷰트에 대한 접근을 제공합니다.
 
-The mechanisms for providing attached objects can be implemented from C++ by providing classes for the attached object type and attaching type. For the attached object type, provide a QObject-derived class that defines the attributes to be made accessible to attachee objects. For the attaching type, provide a QObject-derived class that:
+부착된 객체를 제공하는 메커니즘은 C++에서 부착된 객체 타입과 attaching 타입에 대한 클래스를 제공하여 구현할 수 있습니다. 부착된 객체 타입의 경우, 부착된 객체 타입의 경우 Attachee 객체에 접근할 수 있도록 애트리뷰트를 정의하는 [QObject](https://doc.qt.io/qt-6/qobject.html)-파생 클래스를 제공하고, Attaching 타입의 경우, 다음을 위해 [QObject](https://doc.qt.io/qt-6/qobject.html)-파생 클래스를 제공합니다:
 
-- implements a static qmlAttachedProperties() with the following signature:
+- 다음 서명(signature)을 사용하여 정적 qmlAttachedProperties()를 구현합니다:
 ```cpp
 static <AttachedPropertiesType> *qmlAttachedProperties(QObject *object);
 ```
+
 This method should return an instance of the attached object type.
 
 The QML engine invokes this method in order to attach an instance of the attached object type to the attachee specified by the object parameter. It is customary, though not strictly required, for this method implementation to parent the returned instance to object in order to prevent memory leaks.
