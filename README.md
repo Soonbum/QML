@@ -3794,13 +3794,13 @@ prefer <Path>
 
 * 버전 관리 의미론 (Versioning Semantics)
 
-All QML types that are exported for a particular major version are available with the latest version of the same major version. For example, if a module provides a MyButton type in version 1.0 and MyWindow type in version 1.1, clients importing version 1.1 of the module get to use the MyButton and MyWindow types. However, the reverse is not true: a type exported for a particular minor version cannot be used by importing an older or earlier minor version. In the example mentioned earlier, if the client had imported version 1.0 of the module, they can use the MyButton type only but not the MyWindow type.
+특정 메이저 버전에 대해 내보내는 모든 QML 타입은 동일한 메이저 버전의 최신 버전에서 사용할 수 있습니다. 예를 들어, 모듈이 버전 1.0에서 MyButton 타입을 제공하고 버전 1.1에서 MyWindow 타입을 제공하는 경우, 모듈의 버전 1.1을 가져온 클라이언트는 MyButton과 MyWindow 타입을 사용하게 됩니다. 그러나 그 반대는 그렇지 않습니다: 특정 마이너 버전에 대해 내보낸 타입은 이전 또는 이전 마이너 버전을 가져온 경우 사용할 수 없습니다. 앞서 언급한 예제에서 클라이언트가 모듈의 버전 1.0을 가져온 경우에는 MyButton 타입만 사용할 수 있지만 MyWindow 타입은 사용할 수 없습니다.
 
-A module can offer multiple major versions but the clients have access to one major version only at a time. For example, importing MyExampleModule 2.0 provides access to that major version only and not the previous major version. Although you can organize the artifacts that belong to different major versions under a sigle directory and a qmldir file, it is recommended to use different directories for each major version. If you choose to go with the earlier approach (one directory and a qmldir file), try to use the version suffix for the file names. For example, artifacts that belong to MyExampleModule 2.0 can use .2 suffix in their file name.
+모듈은 여러 개의 메이저 버전을 제공할 수 있지만 클라이언트는 한 번에 하나의 메이저 버전에만 접근할 수 있습니다. 예를 들어, MyExampleModule 2.0을 가져오면 이전 메이저 버전이 아닌 해당 메이저 버전에만 접근할 수 있습니다. 다른 메이저 버전에 속하는 아티팩트를 단일 디렉토리 및 qmldir 파일로 구성할 수 있지만, 각 메이저 버전에 대해 다른 디렉토리를 사용하는 것이 좋습니다. 이전 접근 방식(하나의 디렉토리와 하나의 qmldir 파일)을 선택한 경우 파일 이름에 버전 접미사를 사용해 보십시오. 예를 들어, MyExampleModule 2.0에 속하는 아티팩트는 파일 이름에 .2 접미사를 사용할 수 있습니다.
 
-A version cannot be imported if no types have been explicitly exported for that version. If a module provides a MyButton type in version 1.0 and a MyWindow type in version 1.1, you cannot import version 1.2 or version 2.0 of that module.
+해당 버전에 대해 명시적으로 내보낸 타입이 없으면 버전을 가져올 수 없습니다. 모듈이 버전 1.0의 MyButton 타입과 버전 1.1의 MyWindow 타입을 제공하는 경우, 해당 모듈의 버전 1.2 또는 버전 2.0을 가져올 수 없습니다.
 
-A type can be defined by different files in different minor versions. In this case, the most closely matching version is used when imported by clients. For example, if a module had specified the following types via its qmldir file:
+타입은 다른 마이너 버전의 다른 파일에 의해 정의될 수 있습니다. 이 경우 클라이언트가 가져올 때 가장 일치하는 버전이 사용됩니다. 예를 들어, 모듈이 qmldir 파일을 통해 다음 타입을 지정한 경우:
 
 ```qml
 module ExampleModule
@@ -3810,13 +3810,13 @@ MyButton 1.3 MyButton13.qml
 MyRectangle 1.2 MyRectangle12.qml
 ```
 
-a client who imports version 1.2 of ExampleModule can use the MyButton type definition provided by MyButton11.qml as it is the latest version of that type, and the MyRectangle type definition provided by MyRectangle12.qml.
+ExampleModule 버전 1.2를 가져온 클라이언트는 MyButton11.qml에서 제공하는 MyButton 타입 정의를 해당 타입의 최신 버전으로 사용할 수 있으며, MyRectangle12.qml에서 제공하는 MyRectangle 타입 정의를 사용할 수 있습니다.
 
-The version system ensures that a given QML file works regardless of the version of installed software, as a versioned import only imports types for that version, leaving other identifiers available, even if the actual installed version might otherwise provide those identifiers.
+버전 시스템은 설치된 소프트웨어의 버전에 관계없이 지정된 QML 파일이 작동하도록 보장합니다. 버전 가져오기는 해당 버전에 대한 타입만 가져오기 때문에 실제 설치된 버전이 해당 식별자를 제공하는 경우에도 다른 식별자를 사용할 수 있습니다.
 
 * qmldir 파일의 예제
 
-One example of a qmldir file follows:
+qmldir 파일의 예제는 다음과 같습니다:
 
 ```qml
 module ExampleModule
@@ -3826,9 +3826,9 @@ plugin examplemodule
 MathFunctions 2.0 mathfuncs.js
 ```
 
-The above qmldir file defines a module called "ExampleModule". It defines the CustomButton QML object type in versions 2.0 and 2.1 of the module, with different implementations for each version. It specifies a plugin that must be loaded by the engine when the module is imported by clients, and that plugin may register various C++-defined types with the QML type system. On Unix-like systems the QML engine attempts to load libexamplemodule.so as a QQmlExtensionPlugin, and on Windows it loads examplemodule.dll as a QQmlExtensionPlugin. Finally, the qmldir file specifies a JavaScript resource, which is only available if version 2.0 or a later version (under the same major version) of the module is imported.
+위의 qmldir 파일은 "ExampleModule"이라는 모듈을 정의합니다. 이것은 모듈의 버전 2.0과 2.1에서 CustomButton QML 객체 타입을 정의하며, 각 버전마다 구현이 다릅니다. 이것은 클라이언트에서 모듈을 가져올 때 엔진에서 로드해야 하는 플러그인을 지정하며, 이 플러그인은 다양한 C++ 정의 타입을 QML 타입 시스템으로 등록할 수 있습니다. UNIX 계열 시스템에서는 QML 엔진이 libexamplemodule.so을 [QQmlExtensionPlugin](https://doc.qt.io/qt-6/qqmlextensionplugin.html)으로 로드하려고 하고, 윈도우에서는 examplemodule.dll을 [QQmlExtensionPlugin](https://doc.qt.io/qt-6/qqmlextensionplugin.html)으로 로드하려고 합니다. 마지막으로 qmldir 파일은 [JavaScript 리소스](https://doc.qt.io/qt-6/qtqml-javascript-resources.html)를 지정하며, 이는 모듈의 버전 2.0 이상(동일한 메이저 버전에서)을 가져올 때만 사용할 수 있습니다.
 
-If the module is installed into the QML import path, clients could import and use the module in the following manner:
+만약 모듈이 QML import 경로에 [설치된](https://doc.qt.io/qt-6/qtqml-modules-identifiedmodules.html) 경우, 클라이언트는 다음과 같은 방법으로 모듈을 가져와 사용할 수 있습니다:
 
 ```qml
 import QtQuick 2.0
