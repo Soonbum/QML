@@ -3313,21 +3313,20 @@ qDebug() << "Value of MessageBoard.expired:" << attached->expired();
 
 * 부착된 프로퍼티 전파하기
 
-QQuickAttachedPropertyPropagator can be subclassed to propagate attached properties from a parent object to its children, similar to font and palette propagation. It supports propagation through items, popups, and windows.
-QQuickAttachedPropertyPropagator는 글꼴 및 팔레트 전파와 유사하게 부착된 프로퍼티를 부모 객체에서 자식 개체로 전파할 수 있으며, 항목, 팝업 및 창을 통한 전파를 지원합니다.
+[QQuickAttachedPropertyPropagator](https://doc.qt.io/qt-6/qquickattachedpropertypropagator.html)는 [글꼴](https://doc.qt.io/qt-6/qml-qtquick-controls-control.html#font-prop) 및 [팔레트](https://doc.qt.io/qt-6/qml-qtquick-item.html#palette-prop) 전파와 유사하게 부착된 프로퍼티를 부모 객체에서 자식 객체로 전파하도록 분류될 수 있으며, [아이템](https://doc.qt.io/qt-6/qml-qtquick-item.html), [팝업](https://doc.qt.io/qt-6/qml-qtquick-controls-popup.html), [창](https://doc.qt.io/qt-6/qml-qtquick-window.html)을 통한 전파를 지원합니다.
 
 * 프로퍼티 수식어(Modifier) 타입
 
-A property modifier type is a special kind of QML object type. A property modifier type instance affects a property (of a QML object instance) which it is applied to. There are two different kinds of property modifier types:
+프로퍼티 수식어 타입은 QML 객체 타입의 특별한 종류입니다. 프로퍼티 수식어 타입 인스턴스는 해당 인스턴스에 적용되는 (QML 객체 인스턴스의) 프로퍼티에 영향을 줍니다. 프로퍼티 수식어 타입은 2가지 종류가 있습니다:
 
-- property value write interceptors
-- property value sources
+- 프로퍼티 값 쓰기 인터셉터(write interceptor)
+- 프로퍼티 값 소스(source)
 
-A property value write interceptor can be used to filter or modify values as they are written to properties. Currently, the only supported property value write interceptor is the Behavior type provided by the QtQuick import.
+프로퍼티 값 쓰기 인터셉터는 프로퍼티에 쓸 때 값을 필터링하거나 수정하는 데 사용할 수 있습니다. 현재 지원되는 프로퍼티 값 쓰기 인터셉터는 QtQuick import에서 제공하는 [Behavior](https://doc.qt.io/qt-6/qml-qtquick-behavior.html) 타입뿐입니다.
 
-A property value source can be used to automatically update the value of a property over time. Clients can define their own property value source types. The various property animation types provided by the QtQuick import are examples of property value sources.
+프로퍼티 값 소스는 시간 경과에 따라 자동으로 프로퍼티 값을 업데이트하는 데 사용할 수 있습니다. 클라이언트는 자신의 프로퍼티 값 소스 타입을 정의할 수 있습니다. QtQuick import에서 제공하는 다양한 [프로퍼티 애니메이션](https://doc.qt.io/qt-6/qtquick-statesanimations-animations.html) 타입이 프로퍼티 값 소스의 예시입니다.
 
-Property modifier type instances can be created and applied to a property of a QML object through the "<ModifierType> on <propertyName>" syntax, as the following example shows:
+프로퍼티 수식어 타입 인스턴스는 다음 예제와 같이 "<propertyName>의 <ModifierType>" 구문을 통해 QML 객체의 프로퍼티에 생성하고 적용할 수 있습니다:
 
 ```qml
 import QtQuick 2.0
@@ -3351,17 +3350,17 @@ Item {
 }
 ```
 
-This is commonly referred to as "on" syntax.
+이를 일반적으로 "on" 구문이라고 합니다.
 
-Clients can register their own property value source types, but currently not property value write interceptors.
+클라이언트는 자신의 프로퍼티 값 소스 타입을 등록할 수 있지만, 현재 프로퍼티 값 쓰기 인터셉터는 등록할 수 없습니다.
 
-* Property Value Sources
+* 프로퍼티 값 소스(Source)
 
-Property value sources are QML types that can automatically update the value of a property over time, using the <PropertyValueSource> on <property> syntax. For example, the various property animation types provided by the QtQuick module are examples of property value sources.
+프로퍼티 값 소스는 <property> 구문의 <PropertyValueSource>를 사용하여 시간 경과에 따라 프로퍼티 값을 자동으로 업데이트할 수 있는 QML 타입입니다. 예를 들어, QtQuick 모듈에서 제공하는 다양한 [프로퍼티 애니메이션](https://doc.qt.io/qt-6/qtquick-statesanimations-animations.html) 타입이 프로퍼티 값 소스의 예시입니다.
 
-A property value source can be implemented in C++ by subclassing QQmlPropertyValueSource and providing an implementation that writes different values to a property over time. When the property value source is applied to a property using the <PropertyValueSource> on <property> syntax in QML, it is given a reference to this property by the engine so that the property value can be updated.
+프로퍼티 값 소스는 [QQmlPropertyValueSource](https://doc.qt.io/qt-6/qqmlpropertyvaluesource.html)를 분류하고 시간에 따라 프로퍼티에 다른 값을 쓰는 구현을 제공함으로써 C++에서 구현할 수 있습니다. QML의 <property> 구문에 있는 <PropertyValueSource>를 사용하여 프로퍼티에 프로퍼티 값 소스를 적용할 때 프로퍼티 값을 업데이트할 수 있도록 엔진에서 이 프로퍼티에 대한 참조를 제공합니다.
 
-For example, suppose there is a RandomNumberGenerator class to be made available as a property value source, so that when applied to a QML property, it will update the property value to a different random number every 500 milliseconds. Additionally, a maxValue can be provided to this random number generator. This class can be implemented as follows:
+예를 들어, 프로퍼티 값 소스로 사용할 수 있는 RandomNumberGenerator 클래스가 있다고 가정하면 QML 프로퍼티에 적용될 때 매 500 밀리초마다 프로퍼티 값이 다른 난수로 업데이트됩니다. 또한 이 난수 생성기에 maxValue를 제공할 수 있습니다. 이 클래스는 다음과 같이 구현될 수 있습니다:
 
 ```cpp
 class RandomNumberGenerator : public QObject, public QQmlPropertyValueSource
@@ -3398,9 +3397,9 @@ private:
 };
 ```
 
-When the QML engine encounters a use of RandomNumberGenerator as a property value source, it invokes RandomNumberGenerator::setTarget() to provide the type with the property to which the value source has been applied. When the internal timer in RandomNumberGenerator triggers every 500 milliseconds, it will write a new number value to that specified property.
+QML 엔진에서 RandomNumberGenerator를 프로퍼티 값 소스로 사용할 때, RandomNumberGenerator::setTarget()을 호출하여 값 소스가 적용된 프로퍼티를 타입에 제공합니다. RandomNumberGenerator의 내부 타이머가 500밀리초마다 트리거하면, 해당 프로퍼티에 새로운 숫자 값을 씁니다.
 
-Once the RandomNumberGenerator class has been registered with the QML type system, it can be used from QML as a property value source. Below, it is used to change the width of a Rectangle every 500 milliseconds:
+RandomNumberGenerator 클래스가 QML 타입 시스템에 등록되면, QML로부터 프로퍼티 값 소스로 사용할 수 있습니다. 아래 예제는 500밀리초마다 [Rectangle](https://doc.qt.io/qt-6/qml-qtquick-rectangle.html)의 너비를 변경하는 데 사용됩니다:
 
 ```qml
 import QtQuick 2.0
@@ -3417,15 +3416,15 @@ Item {
 }
 ```
 
-In all other respects, property value sources are regular QML types that can have properties, signals methods and so on, but with the added capability that they can be used to change property values using the <PropertyValueSource> on <property> syntax.
+다른 모든 측면에서 프로퍼티 값 소스는 프로퍼티, 시그널 메서드 등을 가질 수 있는 일반 QML 타입이지만, <property> 구문에서 <PropertyValueSource>를 사용하여 프로퍼티 값을 변경하는 데 사용할 수 있는 기능이 추가되었습니다.
 
-When a property value source object is assigned to a property, QML first tries to assign it normally, as though it were a regular QML type. Only if this assignment fails does the engine call the setTarget() method. This allows the type to also be used in contexts other than just as a value source.
+프로퍼티 값 소스 객체가 프로퍼티에 할당되면, QML은 먼저 일반 QML 타입인 것처럼 해당 객체를 정상적으로 할당하려고 합니다. 엔진은 이 할당에 실패할 경우에만 [setTarget](https://doc.qt.io/qt-6/qqmlpropertyvaluesource.html#setTarget)() 메서드를 호출합니다. 이를 통해 타입을 단순히 값 소스가 아닌 다른 컨텍스트에서도 사용할 수 있습니다.
 
-* Specifying Default and Parent Properties for QML Object Types
+* QML 객체 타입에 대한 기본 및 부모 프로퍼티 지정하기
 
-Any QObject-derived type that is registered as an instantiable QML object type can optionally specify a default property for the type. A default property is the property to which an object's children are automatically assigned if they are not assigned to any specific property.
+인스턴트화 할 수 있는 QML 객체 타입으로 등록된 [QObject](https://doc.qt.io/qt-6/qobject.html)-파생 타입은 해당 타입의 기본 프로퍼티를 선택적으로 지정할 수 있습니다. 기본 프로퍼티는 객체의 자식이 특정 프로퍼티에 할당되지 않은 경우 자동으로 할당되는 프로퍼티입니다.
 
-The default property can be set by calling the Q_CLASSINFO() macro for a class with a specific "DefaultProperty" value. For example, the MessageBoard class below specifies its messages property as the default property for the class:
+기본 프로퍼티는 특정 "DefaultProperty" 값을 가진 클래스에 대해 [Q_CLASSINFO](https://doc.qt.io/qt-6/qobject.html#Q_CLASSINFO)() 매크로를 호출하여 설정할 수 있습니다. 예를 들면, 아래의 MessageBoard 클래스는 해당 메시지 프로퍼티를 클래스의 기본 프로퍼티로 지정합니다:
 
 ```cpp
 class MessageBoard : public QObject
@@ -3442,7 +3441,7 @@ private:
 };
 ```
 
-This enables children of a MessageBoard object to be automatically assigned to its messages property if they are not assigned to a specific property. For example:
+이를 통해 MessageBoard 객체의 자식이 특정 속성에 할당되지 않은 경우 메시지 프로퍼티에 자동으로 할당됩니다. 예를 들면:
 
 ```qml
 MessageBoard {
@@ -3451,7 +3450,7 @@ MessageBoard {
 }
 ```
 
-If messages was not set as the default property, then any Message objects would have to be explicitly assigned to the messages property instead, as follows:
+만약 메시지가 기본 프로퍼티로 설정되지 않은 경우, Message 객체는 다음과 같이 메시지 프로퍼티에 명시적으로 할당해야 합니다:
 
 ```qml
 MessageBoard {
@@ -3462,9 +3461,9 @@ MessageBoard {
 }
 ```
 
-(Incidentally, the Item::data property is its default property. Any Item objects added to this data property are also added to the list of Item::children, so the use of the default property enables visual children to be declared for an item without explicitly assigning them to the children property.)
+(우연히 [Item::data](https://doc.qt.io/qt-6/qml-qtquick-item.html#data-prop) 프로퍼티는 기본 프로퍼티입니다. 이 데이터 프로퍼티에 추가된 모든 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 객체도 [Item::children](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) 리스트에 추가되므로 기본 프로퍼티를 사용하면 [자식](https://doc.qt.io/qt-6/qml-qtquick-item.html#children-prop) 프로퍼티에 명시적으로 할당하지 않고도 아이템에 대해 시각적 자식을 선언할 수 있습니다.)
 
-Additionally, you can declare a "ParentProperty" Q_CLASSINFO() to inform the QML engine which property should denote the parent object in the QML hierarchy. For example, the Message type might be declared as follows:
+또한 "ParentProperty" [Q_CLASSINFO](https://doc.qt.io/qt-6/qobject.html#Q_CLASSINFO)()를 선언하여 QML 엔진에게 QML 계층의 부모 객체를 나타내는 프로퍼티를 알릴 수 있습니다. 예를 들어, Message 타입은 다음과 같이 선언될 수 있습니다:
 
 ```cpp
 class Message : public QObject
@@ -3490,21 +3489,21 @@ private:
 };
 ```
 
-Defining the parent property affords qmllint and other tools better insight into the intention of your code and avoids false positive warnings on some property accesses.
+부모 프로퍼티를 정의하면 [qmllint](https://doc.qt.io/qt-6/qtquick-tool-qmllint.html) 및 기타 도구를 사용하여 코드의 의도를 더 잘 파악할 수 있고 일부 프로퍼티 접근에 대한 잘못된 긍정 경고를 방지할 수 있습니다.
 
-* Defining Visual Items with the Qt Quick Module
+* Qt Quick 모듈을 사용하여 시각적 아이템 정의하기
 
-When building user interfaces with the Qt Quick module, all QML objects that are to be visually rendered must derive from the Item type, as it is the base type for all visual objects in Qt Quick. This Item type is implemented by the QQuickItem C++ class, which is provided by the Qt Quick module. Therefore, this class should be subclassed when it is necessary to implement a visual type in C++ that can be integrated into a QML-based user interface.
+[Qt Quick](https://doc.qt.io/qt-6/qtquick-index.html) 모듈을 사용하여 사용자 인터페이스를 구축할 때, [Qt Quick](https://doc.qt.io/qt-6/qtquick-index.html)의 모든 시각적 객체에 대한 베이스 타입이므로 시각적으로 렌더링할 모든 QML 객체는 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 타입에서 파생되어야 합니다. 이 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 타입은 [Qt Quick](https://doc.qt.io/qt-6/qtquick-index.html) 모듈에서 제공하는 [QQuickItem](https://doc.qt.io/qt-6/qquickitem.html) C++ 클래스에 의해 구현되므로 QML-기반 사용자 인터페이스에 통합할 수 있는 시각적 타입을 C++에 구현해야 할 때 이 클래스는 분류되어야 합니다.
 
-See the QQuickItem documentation for more information. Additionally, the Writing QML Extensions with C++ tutorial demonstrates how a QQuickItem-based visual item can be implemented in C++ and integrated into a Qt Quick-based user interface.
+자세한 내용은 [QQuickItem](https://doc.qt.io/qt-6/qquickitem.html) 문서를 보십시오. 또한 [C++로 QML 확장 작성하기](https://doc.qt.io/qt-6/qtqml-tutorials-extending-qml-example.html) 튜토리얼에서는 [QQuickItem](https://doc.qt.io/qt-6/qquickitem.html)-기반 시각적 아이템을 C++로 구현하고 Qt Quick-기반 사용자 인터페이스에 통합하는 방법을 보여줍니다.
 
-* Receiving Notifications for Object Initialization
+* 객체 초기화에 대한 알림 수신하기
 
-For some custom QML object types, it may be beneficial to delay the initialization of particular data until the object has been created and all of its properties have been set. For example, this may be the case if the initialization is costly, or if the initialization should not be performed until all property values have been initialized.
+일부 커스텀 QML 객체 타입의 경우, 객체가 생성되고 모든 프로퍼티가 설정될 때까지 특정 데이터의 초기화를 지연시키는 것이 유익할 수 있습니다. 예를 들어, 초기화에 비용이 많이 드는 경우 또는 모든 프로퍼티 값이 초기화될 때까지 초기화를 수행하지 않아야 하는 경우가 이에 해당할 수 있습니다.
 
-The Qt QML module provides the QQmlParserStatus to be subclassed for these purposes. It defines a number of virtual methods that are invoked at various stages during component instantiation. To receive these notifications, a C++ class should inherit QQmlParserStatus and also notify the Qt meta system using the Q_INTERFACES() macro.
+[Qt QML](https://doc.qt.io/qt-6/qtqml-index.html) 모듈은 이러한 목적으로 분류될 [QQmlParserStatus](https://doc.qt.io/qt-6/qqmlparserstatus.html)를 제공합니다. 컴포넌트 인스턴스화 중 다양한 단계에서 호출되는 여러 가상 메서드를 정의합니다. 이러한 알림을 받으려면 C++ 클래스가 [QQmlParserStatus](https://doc.qt.io/qt-6/qqmlparserstatus.html)를 상속해야 하며 [Q_INTERFACES](https://doc.qt.io/qt-6/qobject.html#Q_INTERFACES)() 매크로를 사용하여 Qt 메타 시스템에 통지해야 합니다.
 
-For example:
+예제:
 
 ```cpp
 class MyQmlType : public QObject, public QQmlParserStatus
