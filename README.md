@@ -3563,72 +3563,72 @@ C++로 구현되는 논리가 많거나, C++로 타입을 정의하여 QML에 �
 
 ##### QML 모듈 지정하기
 
-* Module Definition qmldir Files
+* 모듈 정의 qmldir 파일
 
-There are two distinct types of qmldir files:
+qmldir 파일은 2가지 타입이 있습니다:
 
-- QML document directory listing files
-- QML module definition files
+- QML 문서 디렉토리 리스팅 파일
+- QML 모듈 정의 파일
 
-This documentation covers only the second form of qmldir file, which lists the QML types, JavaScript files, and plugins that are available under a module. For more information about the first form of qmldir file, see directory listing qmldir files.
+이 문서에서는 모듈에서 사용할 수 있는 QML 타입, JavaScript 파일 및 플러그인을 나열하는 2번째 형태의 qmldir 파일에 대해서만 설명합니다. 1번째 형태의 qmldir 파일에 대한 자세한 내용은 [qmldir 파일 리스팅 디렉터리](https://doc.qt.io/qt-6/qtqml-syntax-directoryimports.html#directory-listing-qmldir-files)를 보십시오.
 
-* Contents of a Module Definition qmldir File
+* 모듈 정의 qmldir 파일 목차
 
-A qmldir file is a plain-text file that contains the following commands:
+qmldir 파일은 다음 커맨드를 포함하는 일반 텍스트 파일입니다:
 
-- Module Identifier Declaration
-- Object Type Declaration
-- Internal Object Type Declaration
-- JavaScript Resource Declaration
-- Plugin Declaration
-- Plugin Classname Declaration
-- Type Description File Declaration
-- Module Dependencies Declaration
-- Module Import Declaration
-- Designer Support Declaration
-- Preferred Path Declaration
+- [모듈 식별자 선언](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html#module-identifier-declaration)
+- [객체 타입 선언](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html#object-type-declaration)
+- [내부 객체 타입 선언](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html#internal-object-type-declaration)
+- [JavaScript 리소스 선언](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html#javascript-resource-declaration)
+- [플러그인 선언](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html#plugin-declaration)
+- [플러그인 클래스 이름 선언](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html#plugin-classname-declaration)
+- [타입 설명 파일 선언](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html#type-description-file-declaration)
+- [모듈 의존성 선언](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html#module-dependencies-declaration)
+- [모듈 가져오기 선언](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html#module-import-declaration)
+- [디자이너 지원 선언](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html#designer-support-declaration)
+- [선호하는 경로 선언](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html#preferred-path-declaration)
 
-Note: Each command in a qmldir file must be on a separate line.
+주의: qmldir 파일에 있는 각 커맨드는 분리된 라인으로 있어야 합니다.
 
-In addition to commands, you can also add comments, which are lines starting with #.
+명령어 외에 #로 시작하는 줄인 주석도 추가할 수 있습니다.
 
-* Module Identifier Declaration
+* 모듈 식별자 선언
 
 ```qml
 module <ModuleIdentifier>
 ```
 
-Declares the module identifier of the module. The <ModuleIdentifier> is the (dotted URI notation) identifier for the module, which must match the module's install path.
+모듈의 모듈 식별자를 선언합니다. <ModuleIdentifier>는 모듈에 대한 (dotted URI 표기) 식별자로 모듈의 설치 경로와 일치해야 합니다.
 
-The module identifier directive must be the first line of the file. Exactly one module identifier directive may exist in the qmldir file.
+[모듈 식별자 지시문](https://doc.qt.io/qt-6/qtqml-modules-identifiedmodules.html#semantics-of-identified-modules)은 파일의 첫 줄이어야 합니다. qmldir 파일에는 모듈 식별자 지시문이 정확히 하나 존재할 수 있습니다.
 
-Example:
+예제:
 
 ```qml
 module ExampleModule
 ```
 
-* Object Type Declaration
+* 객체 타입 선언
 
 ```qml
 [singleton] <TypeName> <InitialVersion> <File>
 ```
 
-Declares a QML object type to be made available by the module.
+모듈에서 [QML 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)을 사용할 수 있도록 선언합니다.
 
-- [singleton] Optional. Used to declare a singleton type.
-- <TypeName> is the type being made available
-- <InitialVersion> is the module version for which the type is to be made available
-- <File> is the (relative) file name of the QML file that defines the type
+- [singleton] 선택사항입니다. 싱글톤 타입을 선언하는 데 사용합니다.
+- <TypeName>은 사용할 수 있는 타입입니다.
+- <InitialVersion>은 해당 타입을 사용할 수 있는 모듈 버전입니다.
+- <File>은 타입을 정의하는 QML 파일의 (상대적) 파일 이름입니다.
 
-Zero or more object type declarations may exist in the qmldir file. However, each object type must have a unique type name within any particular version of the module.
+qmldir 파일에 객체 타입 선언이 0개 이상 존재할 수 있습니다. 그러나 각 객체 타입은 특정 버전의 모듈 내에서 고유한 타입 이름을 가져야 합니다.
 
-Note: To declare a singleton type, the QML file defining the type must include the pragma Singleton statement.
+주의: 싱글톤 타입을 선언하려면, 타입을 정의하는 QML 파일은 pragma Singleton 문이 포함되어야 합니다.
 
-Example:
+예제:
 
 ```qml
-//Style.qml with custom singleton type definition
+// 커스텀 싱글톤 타입 정의를 가진 Style.qml
 pragma Singleton
 import QtQuick 2.0
 
@@ -3637,11 +3637,11 @@ QtObject {
     property color textColor: "green"
 }
 
-// qmldir declaring the singleton type
+// 싱글톤 타입을 선언하는 qmldir
 module CustomStyles
 singleton Style 1.0 Style.qml
 
-// singleton type in use
+// 사용 중인 싱글톤 타입
 import QtQuick 2.0
 import CustomStyles 1.0
 
@@ -3652,147 +3652,147 @@ Text {
 }
 ```
 
-* Internal Object Type Declaration
+* 내부 객체 타입 선언
 
 ```qml
 internal <TypeName> <File>
 ```
 
-Declares an object type that is in the module but should not be made available to users of the module.
+모듈에 있지만 모듈의 사용자가 사용할 수 없도록 해야 하는 객체 타입을 선언합니다.
 
-Zero or more internal object type declarations may exist in the qmldir file.
+qmldir 파일에 0개 이상의 내부 객체 타입 선언이 있을 수 있습니다.
 
-Example:
+예제:
 
 ```qml
 internal MyPrivateType MyPrivateType.qml
 ```
 
-This is necessary if the module is imported remotely (see Remotely Installed Identified Modules) because if an exported type depends on a non-exported type within the module, the engine must also load the non-exported type.
+내보낸 유형이 모듈 내의 내보내지 않은 타입에 따라 달라지는 경우 엔진이 내보내지 않은 타입도 로드해야 하므로, 모듈을 원격으로 가져온 경우 ([원격으로 설치된 식별된 모듈](https://doc.qt.io/qt-6/qtqml-modules-identifiedmodules.html#remotely-installed-identified-modules) 참조) 이 작업이 필요합니다.
 
-* JavaScript Resource Declaration
+* JavaScript 리소스 선언
 
 ```qml
 <ResourceIdentifier> <InitialVersion> <File>
 ```
 
-Declares a JavaScript file to be made available by the module. The resource will be made available via the specified identifier with the specified version number.
+모듈에서 JavaScript 파일을 사용할 수 있도록 선언합니다. 지정된 버전 번호를 가진 식별자를 통해 리소스를 사용할 수 있습니다.
 
-Zero or more JavaScript resource declarations may exist in the qmldir file. However, each JavaScript resource must have a unique identifier within any particular version of the module.
+0개 이상의 JavaScript 리소스 선언이 qmldir 파일에 존재할 수 있지만, 각 JavaScript 리소스는 특정 버전의 모듈 내에서 고유한 식별자를 가져야 합니다.
 
-Example:
+예제:
 
 ```qml
 MyScript 1.0 MyScript.js
 ```
 
-See the documentation about defining JavaScript resources and Importing JavaScript Resources In QML for more information.
+자세한 내용은 [JavaScript 리소스 정의하기](https://doc.qt.io/qt-6/qtqml-javascript-resources.html)와 [QML에서 JavaScript 리소스 가져오기](https://doc.qt.io/qt-6/qtqml-javascript-imports.html)에 대한 문서를 보십시오.
 
-* Plugin Declaration
+* 플러그인 선언
 
 ```qml
 [optional] plugin <Name> [<Path>]
 ```
 
-Declares a plugin to be made available by the module.
+모듈에서 플러그인을 사용할 수 있도록 선언합니다.
 
-- optional denotes that the plugin itself does not contain any relevant code and only serves to load a library it links to. If given, and if any types for the module are already available, indicating that the library has been loaded by some other means, QML will not load the plugin.
-- <Name> is the plugin library name. This is usually not the same as the file name of the plugin binary, which is platform dependent. For example, the library MyAppTypes would produce libMyAppTypes.so on Linux and MyAppTypes.dll on Windows.
-- <Path> (optional) specifies either:
-  - an absolute path to the directory containing the plugin file, or
-  - a relative path from the directory containing the qmldir file to the directory containing the plugin file.
+- optional은 플러그인 자체에 어떠한 관련 코드도 포함하지 않고 오직 그것이 연결되어 있는 라이브러리를 로드하는 역할만 한다는 것을 의미합니다. 만약 이것이 주어지면, 그리고 라이브러리가 다른 방법으로 로드되었음을 나타내는 모듈에 대한 어떤 타입이라도 이미 사용 가능하다면, QML은 플러그인을 로드하지 않을 것입니다.
+- <Name>은 플러그인 라이브러리 이름입니다. 이는 일반적으로 플랫폼에 종속되는 플러그인 바이너리의 파일 이름과 같지 않습니다. 예를 들어, 라이브러리 MyAppTypes는 Linux에서 libMyAppTypes.so를 생성하고 Windows에서 MyAppTypes.dll을 생성합니다.
+- <Path> (선택사항) 둘 중 하나를 지정합니다:
+  - 플러그인 파일을 포함하는 디렉토리의 절대 경로 또는
+  - qmldir 파일이 포함된 디렉토리에서 플러그인 파일이 포함된 디렉토리로의 상대 경로
 
-By default, the engine searches for the plugin library in the directory that contains the qmldir file. (The plugin search path can be queried with QQmlEngine::pluginPathList() and modified using QQmlEngine::addPluginPath().)
+기본적으로 엔진은 qmldir 파일이 포함된 디렉토리에서 플러그인 라이브러리를 검색합니다. (플러그인 검색 경로는 [QQmlEngine::pluginPathList](https://doc.qt.io/qt-6/qqmlengine.html#pluginPathList)()로 쿼리하고 [QQmlEngine::addPluginPath](https://doc.qt.io/qt-6/qqmlengine.html#addPluginPath)()를 사용하여 수정할 수 있습니다.)
 
-Zero or more C++ plugin declarations may exist in the qmldir file. However, since plugin loading is a relatively expensive operation, clients are advised to specify at most a single plugin.
+qmldir 파일에 0개 이상의 C++ 플러그인 선언이 있을 수 있습니다. 그러나 플러그인 로딩은 상대적으로 비용이 많이 드는 작업이므로 클라이언트는 기껏해야 단일 플러그인만 지정하는 것이 좋습니다.
 
-Example:
+예제:
 
 ```qml
 plugin MyPluginLibrary
 ```
 
-* Plugin Classname Declaration
+* 플러그인 클래스 이름 선언
 
 ```qml
 classname <C++ plugin class>
 ```
 
-Provides the class name of the C++ plugin used by the module.
+모듈에서 사용하는 C++ 플러그인의 클래스 이름을 제공합니다.
 
-This information is required for all the QML modules that depend on a C++ plugin for additional functionality. Qt Quick applications built with static linking cannot resolve the module imports without this information.
+이 정보는 추가 기능을 위해 C++ 플러그인에 의존하는 모든 QML 모듈에 필요합니다. 정적 링크로 구축된 Qt Quick 앱은 이 정보가 없으면 모듈 가져오기를 해결할 수 없습니다.
 
-* Type Description File Declaration
+* 타입 설명 파일 선언
 
 ```qml
 typeinfo <File>
 ```
 
-Declares a type description file for the module that can be read by QML tools such as Qt Creator to access information about the types defined by the module's plugins. <File> is the (relative) file name of a .qmltypes file.
+Qt Creator와 같은 QML 도구가 모듈의 플러그인에 의해 정의된 타입에 대한 정보에 접근하기 위해 읽을 수 있는 모듈의 [타입 설명 파일](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html#type-description-files)을 선언합니다. <File>은 .qmltypes 파일의 (상대적) 파일 이름입니다.
 
-Example:
+예제:
 
 ```qml
 typeinfo mymodule.qmltypes
 ```
 
-Without such a file, QML tools may be unable to offer features such as code completion for the types defined in your plugins.
+이러한 파일이 없으면 QML 도구는 플러그인에 정의된 타입에 대한 코드 완료와 같은 기능을 제공할 수 없습니다.
 
-* Module Dependencies Declaration
+* 모듈 의존성 선언
 
 ```qml
 depends <ModuleIdentifier> <InitialVersion>
 ```
 
-Declares that this module depends on another.
+이 모듈이 다른 모듈에 의존함을 선언합니다.
 
-Example:
+예제:
 
 ```qml
 depends MyOtherModule 1.0
 ```
 
-This declaration is necessary only in cases when the dependency is hidden: for example, when the C++ code for one module is used to load QML (perhaps conditionally), which then depends on other modules. In such cases, the depends declaration is necessary to include the other modules in application packages.
+이 선언은 종속성이 숨겨진 경우에만 필요합니다: 예를 들어, 한 모듈에 대한 C++ 코드를 사용하여 QML을 로드하는 경우(아마도 조건부로), 다른 모듈에 종속됩니다. 이 경우, 종속성 선언은 앱 패키지에 다른 모듈을 포함하는 데 필요합니다.
 
-* Module Import Declaration
+* 모듈 가져오기 선언
 
 ```qml
 import <ModuleIdentifier> [<Version>]
 ```
 
-Declares that this module imports another.
+이 모듈이 다른 모듈을 가져온다고 선언합니다.
 
-Example:
+예제:
 
 ```qml
 import MyOtherModule 1.0
 ```
 
-The types from the other module are made available in the same type namespace as this module is imported into. Omitting the version imports the latest version available of the other module. Specifying auto as version imports the same version as the version of this module specified in the QML import statement.
+다른 모듈의 타입은 이 모듈을 가져온 것과 동일한 타입 네임스페이스에서 사용할 수 있습니다. 버전을 생략하면 다른 모듈의 사용 가능한 최신 버전을 가져옵니다. 버전으로 auto를 지정하면 QML import 문에 지정된 이 모듈의 버전과 동일한 버전을 가져옵니다.
 
-* Designer Support Declaration
+* 디자이너 지원 선언
 
 ```qml
 designersupported
 ```
 
-Set this property if the plugin is supported by Qt Quick Designer. By default, the plugin will not be supported.
+플러그인이 Qt Quick Designer에서 지원되는 경우 이 프로퍼티를 설정합니다. 기본적으로 플러그인은 지원되지 않습니다.
 
-A plugin that is supported by Qt Quick Designer has to be properly tested. This means that the plugin does not crash when running inside the qml2puppet that is used by Qt Quick Designer to execute QML. Generally, the plugin should work well in the Qt Quick Designer and not cause any show stoppers, like taking excessive amounts of memory, slowing down the qml2puppet heavily, or anything else that renders the plugin effectively unusable in the Qt Quick Designer.
+Qt Quick Designer에서 지원하는 플러그인을 적절하게 테스트해야 합니다. 즉, Qt Quick Designer에서 QML을 실행하는 데 사용하는 qml2puppet 내부에서 실행할 때 플러그인이 충돌하지 않습니다. 일반적으로 플러그인은 Qt Quick Designer에서 잘 작동해야 하며 과도한 메모리 사용, qml2puppet 속도 저하 또는 Qt Quick Designer에서 플러그인을 효과적으로 사용할 수 없도록 만드는 기타 작업을 수행하지 않아야 합니다.
 
-The items of an unsupported plugin are not painted in the Qt Quick Designer, but they are still available as empty boxes and the properties can be edited.
+지원되지 않는 플러그인의 항목은 Qt Quick Designer에 표시되지 않지만, 빈 상자로 계속 사용할 수 있으며 프로퍼티를 편집할 수 있습니다.
 
-* Preferred Path Declaration
+* 선호하는 경로 선언
 
 ```qml
 prefer <Path>
 ```
 
-This property directs the QML engine to load any further files for this module from <path>, rather than the current directory. This can be used to load files compiled with qmlcachegen.
+이 프로퍼티는 QML 엔진이 현재 디렉터리가 아닌 <path>에서 이 모듈에 대한 추가 파일을 로드하도록 지시합니다. 이 속성은 qmlcachegen으로 컴파일된 파일을 로드하는 데 사용할 수 있습니다.
 
-For example, you can add a module's QML files as resources to a resource path :/my/path/MyModule/. Then, add prefer :/my/path/MyModule to the qmldir file in order to use the files in the resource system, rather than the ones in the file system. If you then use qmlcachegen for those, the pre-compiled files will be available to any clients of the module.
+예를 들어, 모듈의 QML 파일을 리소스 경로 :/my/path/MyModule/에 리소스로 추가할 수 있습니다. 그런 다음 qmldir 파일에 prefer :/my/path/MyModule을 추가하여 파일 시스템의 파일이 아닌 리소스 시스템의 파일을 사용할 수 있습니다. 그런 다음 qmlcachegen을 사용하면 모듈의 모든 클라이언트에서 미리 컴파일된 파일을 사용할 수 있습니다.
 
-* Versioning Semantics
+* 버전 관리 의미론 (Versioning Semantics)
 
 All QML types that are exported for a particular major version are available with the latest version of the same major version. For example, if a module provides a MyButton type in version 1.0 and MyWindow type in version 1.1, clients importing version 1.1 of the module get to use the MyButton and MyWindow types. However, the reverse is not true: a type exported for a particular minor version cannot be used by importing an older or earlier minor version. In the example mentioned earlier, if the client had imported version 1.0 of the module, they can use the MyButton type only but not the MyWindow type.
 
@@ -3814,7 +3814,7 @@ a client who imports version 1.2 of ExampleModule can use the MyButton type defi
 
 The version system ensures that a given QML file works regardless of the version of installed software, as a versioned import only imports types for that version, leaving other identifiers available, even if the actual installed version might otherwise provide those identifiers.
 
-* Example of a qmldir File
+* qmldir 파일의 예제
 
 One example of a qmldir file follows:
 
@@ -3849,7 +3849,7 @@ Rectangle {
 
 The CustomButton type used above would come from the definition specified in the CustomButton21.qml file, and the JavaScript resource identified by the MathFunctions identifier would be defined in the mathfuncs.js file.
 
-* Type Description Files
+* 타입 설명 파일
 
 QML modules may refer to one or more type information files in their qmldir file. These usually have the .qmltypes extension and are read by external tools to gain information about types defined in C++ and typically imported via plugins.
 
