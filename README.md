@@ -3222,17 +3222,17 @@ QML 엔진은 이 코드를 처리할 때, 부착된 객체 타입의 단일 인
 static <AttachedPropertiesType> *qmlAttachedProperties(QObject *object);
 ```
 
-This method should return an instance of the attached object type.
+이 메서드는 부착된 객체 타입의 인스턴스를 리턴해야 합니다.
 
-The QML engine invokes this method in order to attach an instance of the attached object type to the attachee specified by the object parameter. It is customary, though not strictly required, for this method implementation to parent the returned instance to object in order to prevent memory leaks.
+QML 엔진은 객체 파라미터에 의해 지정된 attachee에 첨부된 객체 타입의 인스턴스를 첨부하기 위해 이 메서드를 호출합니다. 이 메서드 구현은 엄격하게 요구되지는 않지만 메모리 유출을 방지하기 위해 리턴된 인스턴스를 객체에 부모화하는 것이 관례입니다.
 
-This method is called at most once by the engine for each attachee object instance, as the engine caches the returned instance pointer for subsequent attached property accesses. Consequently the attachment object may not be deleted until the attachee object is destroyed.
+이 메서드는 엔진이 이후의 첨부된 프로퍼티 접근을 위해 리턴된 인스턴스 포인터를 캐시하기 때문에 각 attachee 객체 인스턴스에 대해 엔진에 의해 한 번만 호출됩니다. 따라서 attachee 객체가 파괴될 때까지 첨부 객체는 삭제되지 않을 수 있습니다.
 
-- is declared as an attaching type, by adding the QML_ATTACHED(attached) macro to the class declaration. The argument is the name of the attached object type
+- 클래스 선언에 [QML_ATTACHED](https://doc.qt.io/qt-6/qqmlengine.html#QML_ATTACHED)(attached) 매크로를 추가하여 Attaching 타입으로 선언합니다. 인수는 Attached 객체 타입의 이름입니다.
 
-* Implementing Attached Objects: An Example
+* 부착된 객체 구현하기: 예제
 
-For example, take the Message type described in an earlier example:
+예를 들어, [위 예제](https://doc.qt.io/qt-6/qtqml-cppintegration-definetypes.html#registering-an-instantiable-object-type)에서 설명한 Message 타입을 취한다고 합시다:
 
 ```cpp
 class Message : public QObject
@@ -3246,13 +3246,13 @@ public:
 };
 ```
 
-Suppose it is necessary to trigger a signal on a Message when it is published to a message board, and also track when the message has expired on the message board. Since it doesn't make sense to add these attributes directly to a Message, as the attributes are more relevant to the message board context, they could be implemented as attached attributes on a Message object that are provided through a "MessageBoard" qualifier. In terms of the concepts described earlier, the parties involved here are:
+Message가 메시지 보드에 게시될 때 Message 상에서 시그널을 트리거하고 메시지 보드에서 메시지가 만료된 시점을 추적해야 한다고 가정합니다. 이러한 애트리뷰트를 Message에 직접 추가하는 것은 말이 되지 않으므로 애트리뷰트가 메시지 보드 컨텍스트와 더 관련이 있으므로 "MessageBoard" 한정자를 통해 제공되는 Message 객체에 첨부된 애트리뷰트로 구현할 수 있습니다. 앞에서 설명한 개념을 보면 당사자는 다음과 같습니다:
 
-- An instance of an anonymous attached object type, which provides a published signal and an expired property. This type is implemented by MessageBoardAttachedType below
-- A Message object, which will be the attachee
-- The MessageBoard type, which will be the attaching type that is used by Message objects to access the attached attributes
+- 게시된 시그널과 만료된 프로퍼티를 제공하는 익명의 부착된 객체 타입의 인스턴스입니다. 이 타입은 아래의 MessageBoardAttachedType에 의해 구현됩니다.
+- attachee가 될 Message 객체
+- MessageBoard 타입 - 이것은 첨부된 애트리뷰트에 접근하기 위해 Message 객체에 의해 사용되는 attaching 타입이 될 것입니다.
 
-Following is an example implementation. First, there needs to be an attached object type with the necessary properties and signals that will be accessible to the attachee:
+구현 예제는 다음과 같습니다. 먼저, attachee가 접근할 수 있는 필수 프로퍼티와 시그널을 가진 부착된 객체 타입이 있어야 합니다:
 
 ```cpp
 class MessageBoardAttachedType : public QObject
@@ -3270,7 +3270,7 @@ signals:
 };
 ```
 
-Then the attaching type, MessageBoard, must declare a qmlAttachedProperties() method that returns an instance of the attached object type as implemented by MessageBoardAttachedType. Additionally, MessageBoard must be declared as an attaching type via the QML_ATTACHED() macro:
+그런 다음 attaching 타입인 MessageBoard는 MessageBoardAttachedType에 의해 구현된 부착된 객체 타입의 인스턴스를 리턴하는 qmlAttachedProperties() 메서드를 선언해야 합니다. 또한 MessageBoard는 [QML_ATTACHED](https://doc.qt.io/qt-6/qqmlengine.html#QML_ATTACHED)() 매크로를 통해 attaching 타입으로 선언해야 합니다:
 
 ```cpp
 class MessageBoard : public QObject
@@ -3286,7 +3286,7 @@ public:
 };
 ```
 
-Now, a Message type can access the properties and signals of the attached object type:
+이제 Message 타입은 부착된 객체 타입의 프로퍼티 및 시그널에 접근할 수 있습니다:
 
 ```cpp
 Message {
@@ -3299,9 +3299,9 @@ published!")
 }
 ```
 
-Additionally, the C++ implementation may access the attached object instance that has been attached to any object by calling the qmlAttachedPropertiesObject() function.
+또한 C++ 구현에서는 qmlAttachedPropertiesObject() 함수를 호출하여 객체에 첨부된 부착된 객체 인스턴스에 접근할 수 있습니다.
 
-For example:
+예를 들면:
 
 ```cpp
 Message *msg = someMessageInstance();
@@ -3311,11 +3311,12 @@ MessageBoardAttachedType *attached =
 qDebug() << "Value of MessageBoard.expired:" << attached->expired();
 ```
 
-* Propagating Attached Properties
+* 부착된 프로퍼티 전파하기
 
 QQuickAttachedPropertyPropagator can be subclassed to propagate attached properties from a parent object to its children, similar to font and palette propagation. It supports propagation through items, popups, and windows.
+QQuickAttachedPropertyPropagator는 글꼴 및 팔레트 전파와 유사하게 부착된 프로퍼티를 부모 객체에서 자식 개체로 전파할 수 있으며, 항목, 팝업 및 창을 통한 전파를 지원합니다.
 
-* Property Modifier Types
+* 프로퍼티 수식어(Modifier) 타입
 
 A property modifier type is a special kind of QML object type. A property modifier type instance affects a property (of a QML object instance) which it is applied to. There are two different kinds of property modifier types:
 
