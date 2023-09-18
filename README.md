@@ -3868,36 +3868,36 @@ typeinfo plugins.qmltypes
 ```
 
 
-##### 지원되는 QML 모듈 타입 - Identified 모듈
+##### 지원되는 QML 모듈 타입 - 식별된(Identified) 모듈
 
-* Identified Modules
+* 식별된 모듈
 
-Identified modules are modules that are installed and identifiable to the QML engine by a URI in the form of a dotted identifier string, which should be specified by the module in its qmldir file. This enables such modules to be imported with a unique identifier that remains the same no matter where the module is located on the local file system.
+식별된 모듈은 URI에 의해 dotted 식별자 문자열의 형태로 QML 엔진에 설치되고 식별 가능한 모듈이며, 이는 qmldir 파일에 있는 모듈에 의해 지정되어야 합니다. 이를 통해 이러한 모듈을 로컬 파일 시스템의 어느 위치에 있는 모듈에 상관없이 동일한 고유 식별자로 가져올 수 있습니다.
 
-When importing an identified module, an unquoted identifier is used, with an optional version number:
+식별된 모듈을 가져올 때에는 따옴표를 붙이지 않은 식별자가 사용되며 버전 번호는 옵션으로 지정할 수 있습니다:
 
 ```qml
 import QtQuick 2.0
 import com.nokia.qml.mymodule 1.0
 ```
 
-Identified modules must be installed into the import path in order to be found by the QML engine.
+식별된 모듈을 [import 경로](https://doc.qt.io/qt-6/qtqml-syntax-imports.html#qml-import-path)에 설치해야 QML 엔진이 그 모듈을 찾을 수 있습니다.
 
-Syntactically, each dot-separated segment of the URI must be a well-formed ECMAScript Identifier Name. This means, for example, the segments must not start with a number and they must not contain - (minus) characters. As the URI will be translated into directory names, you should restrict it to alphanumeric characters of the latin alphabet, underscores, and dots.
+구문적으로 URI의 각 점으로 구분된 세그먼트는 올바른 형식의 ECMAScript Identifier Name이어야 합니다. 예를 들어, 세그먼트는 숫자로 시작해서는 안 되며 -(마이너스) 문자를 포함해서는 안 됩니다. URI는 디렉토리 이름으로 변환되므로 라틴 알파벳, 밑줄, 도트의 영숫자로 제한해야 합니다.
 
-* Locally Installed Identified Modules
+* 로컬에 설치된 식별된 모듈
 
-A directory of QML and/or C++ files can be shared as an identified module if it contains a qmldir file with the module metadata and is installed into the QML import path. Any QML file on the local file system can import this directory as a module by using an import statement that refers to the module's URI, enabling the file to use the QML object types and JavaScript resources defined by the module.
+QML 그리고/또는 C++ 파일의 디렉토리는 모듈 메타데이터가 포함된 [qmldir 파일](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html)을 포함하고 QML import 경로에 설치된 경우 식별된 모듈로 공유할 수 있습니다. 로컬 파일 시스템의 QML 파일은 모듈의 URI를 참조하는 [import](https://doc.qt.io/qt-6/qtqml-syntax-imports.html) 문을 사용하여 이 디렉토리를 모듈로 가져올 수 있으며, 이를 통해 파일은 모듈에서 정의한 [QML 객체 타입](https://doc.qt.io/qt-6/qtqml-typesystem-objecttypes.html)과 [JavaScript 리소스](https://doc.qt.io/qt-6/qtqml-javascript-resources.html)를 사용할 수 있습니다.
 
-The module's qmldir file must reside in a directory structure within the import path that reflects the URI dotted identifier string, where each dot (".") in the identifier reflects a sub-level in the directory tree. For example, the qmldir file of the module com.mycompany.mymodule must be located in the sub-path com/mycompany/mymodule/qmldir somewhere in the import path.
+모듈의 qmldir 파일은 URI dotted 식별자 문자열을 반영하는 [import 경로](https://doc.qt.io/qt-6/qtqml-syntax-imports.html#qml-import-path) 내의 디렉터리 구조에 있어야 하며, 여기서 식별자의 각 점(".")은 디렉터리 트리의 하위 수준을 반영합니다. 예를 들어, 모듈 com.mycompany.module의 qmldir 파일은 [import 경로](https://doc.qt.io/qt-6/qtqml-syntax-imports.html#qml-import-path)의 어딘가에 있는 하위 경로 com/mycompany/mymodule/qmldir에 있어야 합니다.
 
-It is possible to store different versions of a module in subdirectories of its own. For example, a version 2.1 of a module could be located under com/mycompany/mymodule.2/qmldir or com/mycompany/mymodule.2.1/qmldir. The engine will automatically load the module which matches best.
+다른 버전의 모듈을 자체 서브 디렉토리에 저장할 수 있습니다. 예를 들어, com/mycompany/mymodule.2/qmldir 또는 com/mycompany/mymodule.2.1/qmldir 아래에 모듈의 버전 2.1이 있을 수 있습니다. 엔진이 가장 적합한 모듈을 자동으로 로드합니다.
 
-Alternatively, versioning for different types can be defined within a qmldir file itself, however this can make updating such a module more difficult (as a qmldir file merge must take place as part of the update procedure).
+또는 qmldir 파일 자체 내에서 다른 타입에 대한 버전 지정을 정의할 수도 있지만, 이로 인해 모듈을 업데이트하는 것이 더 어려워질 수 있습니다. (업데이트 절차의 일부로 qmldir 파일 병합이 수행되어야 하기 때문입니다)
 
-* An Example
+* 예제
 
-Consider the following QML project directory structure. Under the top level directory myapp, there are a set of common UI components in a sub-directory named mycomponents, and the main application code in a sub-directory named main, like this:
+다음과 같은 QML 프로젝트 디렉터리 구조를 생각해 보십시오. 최상위 디렉터리 myapp 아래에는 mycomponents라는 이름의 하위 디렉터리에 공통 UI 컴포넌트 집합이 있고, main이라는 이름의 하위 디렉터리에 메인 앱 코드가 있습니다:
 
 ```
 myapp
@@ -3909,7 +3909,7 @@ myapp
         |- application.qml
 ```
 
-To make the mycomponents directory available as an identified module, the directory must include a qmldir file that defines the module identifier, and describes the object types made available by the module. For example, to make the CheckBox, DialogBox and Slider types available for version 1.0 of the module, the qmldir file would contain the following:
+mycomponents 디렉토리를 식별된 모듈로 사용할 수 있도록 하려면, 디렉토리에 모듈 식별자를 정의하고 모듈에서 사용할 수 있는 객체 타입을 설명하는 [qmldir 파일](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html)이 포함되어야 합니다. 예를 들어, 모듈 버전 1.0에서 CheckBox, DialogBox, Slider 타입을 사용할 수 있도록 하려면 qmldir 파일에 다음이 포함되어야 합니다:
 
 ```qml
 module myapp.mycomponents
@@ -3918,12 +3918,12 @@ DialogBox 1.0 DialogBox.qml
 Slider 1.0 Slider.qml
 ```
 
-Additionally, the location of the qmldir file in the import path must match the module's dotted identifier string. So, say the top level myapp directory is located in C:\qml\projects, and say the module should be identified as "myapp.mycomponents". In this case:
+또한 [import 경로](https://doc.qt.io/qt-6/qtqml-syntax-imports.html#qml-import-path)에서 qmldir 파일의 위치는 모듈의 dotted 식별자 문자열과 일치해야 합니다. 따라서 최상위 수준의 myapp 디렉터리가 C:\qml\projects에 있다고 가정하고 모듈은 "myapp.mycomponents"로 식별되어야 합니다. 이 경우:
 
-- The path C:\qml\projects should be added to the import path
-- The qmldir file should be located under C:\qml\projects\myapp\mycomponents\qmldir
+- 경로 C:\qml\projects는 [import 경로](https://doc.qt.io/qt-6/qtqml-syntax-imports.html#qml-import-path)에 추가되어야 함
+- qmldir 파일이 C:\qml\projects\myapp\mycomponents\qmldir에 있어야 함
 
-Once this is done, a QML file located anywhere on the local filesystem can import the module by referring to its URI and the appropriate version:
+이 작업이 완료되면, 로컬 파일 시스템의 어느 위치에 있는 QML 파일은 해당 URI와 해당 버전을 참조하여 모듈을 가져올 수 있습니다:
 
 ```qml
 import myapp.mycomponents 1.0
@@ -3938,50 +3938,50 @@ DialogBox {
 }
 ```
 
-* Remotely Installed Identified Modules
+* 원격으로 설치된 식별된 모듈
 
-Identified modules are also accessible as a network resource. In the previous example, if the C:\qml\projects directory was hosted as http://www.some-server.com/qml/projects and this URL was added to the QML import path, the module could be imported in exactly the same way.
+식별된 모듈은 네트워크 리소스로도 접근할 수 있습니다. 이전 예제에서 C:\qml\projects 디렉토리를 http://www.some-server.com/qml/projects으로 호스팅하고 이 URL을 QML import 경로에 추가하면 모듈을 정확히 동일한 방법으로 가져올 수 있습니다.
 
-Note that when a file imports a module over a network, it can only access QML and JavaScript resources provided by the module; it cannot access any types defined by C++ plugins in the module.
+파일이 네트워크를 통해 모듈을 가져올 때, 모듈이 제공하는 QML 및 JavaScript 리소스에만 접근할 수 있습니다; 모듈의 C++ 플러그인에 의해 정의된 타입에는 접근할 수 없습니다.
 
-* Semantics of Identified Modules
+* 식별된 모듈의 의미론
 
-An identified module is provided with the following guarantees by the QML engine:
+식별된 모듈은 QML 엔진을 통해 다음과 같은 보증을 제공 받습니다:
 
-- other modules are unable to modify or override types in the module's namespace
-- other modules are unable to register new types into the module's namespace
-- usage of type names by clients will resolve deterministically to a given type definition depending on the versioning specified and the import order
+- 다른 모듈이 모듈의 네임스페이스에서 타입을 수정하거나 재정의할 수 없음
+- 다른 모듈이 모듈의 네임스페이스에 새 타입을 등록할 수 없음
+- 클라이언트가 타입 이름을 사용하면 지정된 버전 지정 및 import 순서에 따라 주어진 타입 정의로 결정적으로 해결됨
 
-This ensures that clients which use the module can be certain that the object types defined in the module will behave as the module author documented.
+이렇게 하면 모듈을 사용하는 클라이언트는 모듈 작성자가 문서화한 대로 모듈에 정의된 객체 타입이 동작하는지 확인할 수 있습니다.
 
-An identified module has several restrictions upon it:
+식별된 모듈에는 다음과 같은 몇 가지 제약 사항이 있습니다:
 
-- an identified module must be installed into the QML import path
-- the module identifier specified in the module identifier directive must match the install path of the module (relative to the QML import path, where directory separators are replaced with period characters)
-- the module must register its types into the module identifier type namespace
-- the module may not register types into any other module's namespace
-- clients must specify a version when importing the module
+- 식별된 모듈을 [QML import 경로](https://doc.qt.io/qt-6/qtqml-syntax-imports.html#qml-import-path)에 설치해야 합니다.
+- [모듈 식별자 지시문](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html)에 지정된 모듈 식별자는 모듈의 설치 경로와 일치해야 합니다. (디렉토리 구분자가 마침표 문자로 대체되는 QML import 경로에 상대적임)
+- 모듈은 해당 타입을 모듈 식별자 타입 네임스페이스에 등록해야 합니다.
+- 모듈은 다른 모듈의 네임스페이스에 타입을 등록할 수 없습니다.
+- 클라이언트는 모듈을 가져올 때 버전을 지정해야 합니다.
 
-For example, if an identified module is installed into $QML_IMPORT_PATH/ExampleModule, the module identifier directive must be:
+예를 들어, 식별된 모듈이 $QML_IMPORT_PATH/ExampleModule에 설치된 경우 모듈 식별자 지시문은 다음과 같아야 합니다:
 
 ```qml
 module ExampleModule
 ```
 
-If the strict module is installed into $QML_IMPORT_PATH/com/example/CustomUi, the module identifier directive must be:
+strict 모듈이 $QML_IMPORT_PATH/com/example/CustomUi에 설치된 경우, 모듈 식별자 지시문은 다음과 같아야 합니다:
 
 ```qml
 module com.example.CustomUi
 ```
 
-Clients will then be able to import the above module with the following import statement (assuming that the module registers types into version 1.0 of its namespace):
+그러면 클라이언트는 다음과 같은 import 문과 함께 위 모듈을 가져올 수 있습니다. (모듈이 자신의 네임스페이스 버전 1.0에 타입을 등록한다고 가정):
 
 ```qml
 import com.example.CustomUi 1.0
 ```
 
 
-##### 지원되는 QML 모듈 타입 - Legacy 모듈
+##### 지원되는 QML 모듈 타입 - 레거시(Legacy) 모듈
 
 -
 
