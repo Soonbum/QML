@@ -4274,15 +4274,15 @@ Component {
 
 * 범위 및 네이밍 규칙
 
-QML property bindings, inline functions, and imported JavaScript files all run in a JavaScript scope. Scope controls which variables an expression can access, and which variable takes precedence when two or more names conflict.
+QML 프로퍼티 바인딩, 인라인 함수, 가져온 JavaScript 파일 모두 JavaScript 범위에서 실행됩니다. 범위는 2개 이상의 이름이 충돌할 때 표현식에 접근할 수 있는 변수와 우선하는 변수를 제어합니다.
 
-As JavaScript's built-in scope mechanism is very simple, QML enhances it to fit more naturally with the QML language extensions.
+JavaScript의 내장 범위 메커니즘은 매우 간단하기 때문에 QML은 QML 언어 확장에 보다 자연스럽게 맞도록 개선합니다.
 
-* JavaScript Scope
+* JavaScript 범위
 
-QML's scope extensions do not interfere with JavaScript's natural scoping. JavaScript programmers can reuse their existing knowledge when programming functions, property bindings or imported JavaScript files in QML.
+QML의 범위 확장은 JavaScript의 자연스러운 범위 지정을 방해하지 않습니다. JavaScript 프로그래머는 QML에서 함수, 프로퍼티 바인딩 또는 가져온 JavaScript 파일을 프로그래밍할 때 기존 지식을 재사용할 수 있습니다.
 
-In the following example, the addConstant() method will add 13 to the parameter passed just as the programmer would expect irrespective of the value of the QML object's a and b properties.
+다음 예제에서 addConstant() 메서드는 QML 객체의 a 및 b 프로퍼티 값에 관계없이 프로그래머가 예상하는 것처럼 전달된 매개 변수에 13을 더합니다.
 
 ```qml
 QtObject {
@@ -4296,7 +4296,7 @@ QtObject {
 }
 ```
 
-That QML respects JavaScript's normal scoping rules even applies in bindings. This totally evil, abomination of a binding will assign 12 to the QML object's a property.
+QML이 JavaScript의 일반적인 범위 규칙을 존중한다는 것은 바인딩에서도 적용됩니다. 이는 완전히 사악한 것으로, 바인딩을 혐오하면 QML 객체의 프로퍼티에 12가 할당됩니다.
 
 ```qml
 QtObject {
@@ -4306,13 +4306,13 @@ QtObject {
 }
 ```
 
-Every JavaScript expression, function or file in QML has its own unique variable object. Local variables declared in one will never conflict with local variables declared in another.
+QML의 모든 JavaScript 표현식, 함수 또는 파일은 고유한 변수 객체를 가지고 있습니다. 하나에 선언된 로컬 변수는 다른 하나에 선언된 로컬 변수와 절대 충돌하지 않습니다.
 
-* Type Names and Imported JavaScript Files
+* 타입 이름과 가져온 JavaScript 파일
 
-QML Documents include import statements that define the type names and JavaScript files visible to the document. In addition to their use in the QML declaration itself, type names are used by JavaScript code when accessing attached properties and enumeration values.
+[QML 문서](https://doc.qt.io/qt-6/qtqml-documents-topic.html)에는 문서에 보이는 타입 이름과 JavaScript 파일을 정의하는 import 문이 포함되어 있습니다. 게다가 타입 이름은 QML 선언 자체에서 사용하는 것 외에도 [부착된 프로퍼티](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#attached-properties-and-attached-signal-handlers)와 열거형 값에 접근할 때 JavaScript 코드에 의해 사용됩니다.
 
-The effect of an import applies to every property binding, and JavaScript function in the QML document, even those in nested inline components. The following example shows a simple QML file that accesses some enumeration values and calls an imported JavaScript function.
+import의 효과는 QML 문서의 모든 프로퍼티 바인딩 및 JavaScript 함수, 심지어 중첩된 인라인 컴포넌트의 함수에도 적용됩니다. 다음 예제는 일부 열거형 값에 접근하여 가져온 JavaScript 함수를 호출하는 간단한 QML 파일을 보여줍니다.
 
 ```qml
 import QtQuick 2.0
@@ -4331,9 +4331,9 @@ ListView {
 }
 ```
 
-* Binding Scope Object
+* 범위 객체 바인딩
 
-An object which has a property binding is known as the binding's scope object. In the following example, the Item object is the binding's scope object.
+[프로퍼티 바인딩](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)을 갖는 객체를 바인딩의 범위 객체라고 합니다. 다음 예제에서 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html) 객체는 바인딩의 범위 객체입니다.
 
 ```qml
 Item {
@@ -4342,10 +4342,13 @@ Item {
 ```
 
 Bindings have access to the scope object's properties without qualification. In the previous example, the binding accesses the Item's parent property directly, without needing any form of object prefix. QML introduces a more structured, object-oriented approach to JavaScript, and consequently does not require the use of the JavaScript this property.
+바인딩은 스코프 개체의 속성에 자격 없이 액세스할 수 있습니다. 이전 예에서 바인딩은 개체 접두사의 형식을 필요로 하지 않고 항목의 상위 속성에 직접 액세스합니다. QML은 자바스크립트에 더 구조화되고 개체 지향적인 접근법을 도입하여 결과적으로 자바스크립트의 속성을 사용할 필요가 없습니다.
 
 Care must be used when accessing attached properties from bindings due to their interaction with the scope object. Conceptually attached properties exist on all objects, even if they only have an effect on a subset of those. Consequently unqualified attached property reads will always resolve to an attached property on the scope object, which is not always what the programmer intended.
+범위 객체와의 상호 작용으로 인해 바인딩에서 첨부 속성에 액세스할 때는 주의해야 합니다. 개념적으로 첨부된 속성은 모든 객체에 존재하며, 이는 해당 객체의 하위 집합에만 영향을 미치더라도 마찬가지입니다. 결과적으로 정규화되지 않은 첨부 속성 읽기는 항상 범위 객체의 첨부 속성으로 해결되지만 프로그래머가 의도한 것은 아닙니다.
 
 For example, the PathView type attaches interpolated value properties to its delegates depending on their position in the path. As PathView only meaningfully attaches these properties to the root object in the delegate, any sub-object that accesses them must explicitly qualify the root object, as shown below.
+예를 들어 PathView 유형은 경로 내 위치에 따라 대리인에 보간된 값 속성을 부여합니다. PathView는 대리인의 루트 개체에만 이러한 속성을 의미 있게 부여하므로, 아래와 같이 이 속성에 액세스하는 모든 하위 개체는 루트 개체의 자격을 명시적으로 부여해야 합니다.
 
 ```qml
 PathView {
@@ -4361,10 +4364,12 @@ PathView {
 ```
 
 If the Image object omitted the root prefix, it would inadvertently access the unset PathView.scale attached property on itself.
+Image 개체가 루트 접두사를 생략한 경우 실수로 자신의 설정되지 않은 PathView.scale 연결 속성에 액세스하게 됩니다.
 
-* Component Scope
+* 컴포넌트 범위
 
 Each QML component in a QML document defines a logical scope. Each document has at least one root component, but can also have other inline sub-components. The component scope is the union of the object ids within the component and the component's root object's properties.
+QML 문서의 각 QML 구성 요소는 논리적 범위를 정의합니다. 각 문서에는 적어도 하나의 루트 구성 요소가 있지만 다른 인라인 하위 구성 요소도 있을 수 있습니다. 구성 요소 범위는 구성 요소 내의 개체 ID와 구성 요소의 루트 개체 속성의 결합입니다.
 
 ```qml
 Item {
@@ -4386,14 +4391,18 @@ Item {
 ```
 
 The example above shows a simple QML component that displays a rich text title string at the top, and a smaller copy of the same text at the bottom. The first Text type directly accesses the component's title property when forming the text to display. That the root type's properties are directly accessible makes it trivial to distribute data throughout the component.
+위의 예는 리치 텍스트 제목 문자열을 상단에 표시하는 간단한 QML 구성 요소와 동일한 텍스트의 작은 복사본을 하단에 표시합니다. 첫 번째 텍스트 유형은 표시할 텍스트를 구성할 때 구성 요소의 제목 속성에 직접 액세스합니다. 루트 유형의 속성에 직접 액세스할 수 있다는 점은 구성 요소 전체에 데이터를 배포하는 것을 사소한 일로 만듭니다.
 
 The second Text type uses an id to access the first's text directly. IDs are specified explicitly by the QML programmer so they always take precedence over other property names (except for those in the JavaScript Scope). For example, in the unlikely event that the binding's scope object had a titletype property in the previous example, the titletype id would still take precedence.
+두 번째 텍스트 유형은 첫 번째 텍스트에 직접 액세스하기 위해 ID를 사용합니다. ID는 QML 프로그래머에 의해 명시적으로 지정되므로 항상 다른 속성 이름보다 우선합니다(JavaScript Scope의 경우는 제외). 예를 들어 이전 예에서 바인딩의 스코프 개체에 제목 유형 속성이 있는 경우에는 제목 유형 ID가 여전히 우선합니다.
 
-* Component Instance Hierarchy
+* 컴포넌트 인스턴스 계층
 
 In QML, component instances connect their component scopes together to form a scope hierarchy. Component instances can directly access the component scopes of their ancestors.
+QML에서 컴포넌트 인스턴스는 자신의 컴포넌트 스코프를 서로 연결하여 스코프 계층을 형성합니다. 컴포넌트 인스턴스는 자신의 조상의 컴포넌트 스코프에 직접 액세스할 수 있습니다.
 
 The easiest way to demonstrate this is with inline sub-components whose component scopes are implicitly scoped as children of the outer component.
+이를 입증하는 가장 쉬운 방법은 구성 요소 범위가 외부 구성 요소의 하위 항목으로 암시적으로 범위가 지정된 인라인 하위 구성 요소입니다.
 
 ```qml
 Item {
@@ -4410,8 +4419,10 @@ Item {
 ```
 
 The component instance hierarchy allows instances of the delegate component to access the defaultColor property of the Item type. Of course, had the delegate component had a property called defaultColor that would have taken precedence.
+구성 요소 인스턴스 계층 구조를 사용하면 위임 구성 요소의 인스턴스가 Item 유형의 defaultColor 속성에 액세스할 수 있습니다. 물론, 위임 구성 요소에 defaultColor라는 속성이 있으면 우선 순위가 지정됩니다.
 
 The component instance scope hierarchy extends to out-of-line components, too. In the following example, the TitlePage.qml component creates two TitleText instances. Even though the TitleText type is in a separate file, it still has access to the title property when it is used from within the TitlePage. QML is a dynamically scoped language - depending on where it is used, the title property may resolve differently.
+구성 요소 인스턴스 범위 계층 구조는 오프라인 구성 요소로도 확장됩니다. 다음 예제에서 TitlePage.qml 구성 요소는 두 개의 TitleText 인스턴스를 만듭니다. TitleText 유형이 별도의 파일에 있지만 TitlePage 내에서 사용할 때에도 TitleText 속성에 액세스할 수 있습니다. QML은 동적 범위 언어로, 사용되는 위치에 따라 제목 속성이 다르게 확인될 수 있습니다.
 
 ```qml
 // TitlePage.qml
@@ -4440,6 +4451,7 @@ Text {
 ```
 
 Dynamic scoping is very powerful, but it must be used cautiously to prevent the behavior of QML code from becoming difficult to predict. In general it should only be used in cases where the two components are already tightly coupled in another way. When building reusable components, it is preferable to use property interfaces, like this:
+동적 범위 지정은 매우 강력하지만 QML 코드의 동작을 예측하기 어려워지지 않도록 주의하여 사용해야 합니다. 일반적으로 두 구성 요소가 다른 방식으로 이미 단단히 결합되어 있는 경우에만 사용해야 합니다. 재사용 가능한 구성 요소를 만들 때는 다음과 같은 속성 인터페이스를 사용하는 것이 좋습니다:
 
 ```qml
 // TitlePage.qml
@@ -4472,9 +4484,10 @@ Text {
 }
 ```
 
-* Overridden Properties
+* 재정의된 프로퍼티
 
 QML permits property names defined in an object declaration to be overridden by properties declared within another object declaration that extends the first. For example:
+QML은 개체 선언에 정의된 속성 이름이 첫 번째 개체 선언을 확장하는 다른 개체 선언 내에서 선언된 속성에 의해 재정의되도록 허용합니다. 예를 들어:
 
 ```qml
 // Displayable.qml
@@ -4503,15 +4516,21 @@ Displayable {
 ```
 
 Here, the name title is given to both the heading of the output text for Displayable, and also to the honorific title of the Person object.
+여기서 이름 제목은 출력 텍스트의 표시 가능 제목과 사용자 개체의 존칭 제목 모두에 부여됩니다.
 
 An overridden property is resolved according to the scope in which it is referenced. Inside the scope of the Person component, or from an external scope that refers to an instance of the Person component, title resolves to the property declared inside Person.qml. The fullName function will refer to the title property declared inside Person.
+재정의된 속성은 참조되는 범위에 따라 해결됩니다. Person 구성 요소의 범위 내에서 또는 Person 구성 요소의 인스턴스를 참조하는 외부 범위에서 제목은 Person.qml 내부에 선언된 속성으로 결정됩니다. fullName 함수는 Person 내부에 선언된 제목 속성을 참조합니다.
 
 Inside the Displayable component, however, title refers to the property declared in Displayable.qml. The getTitle() and setTitle() functions, and the binding for the text property of the Text object will all refer to the title property declared in the Displayable component.
+그러나 Displayable 구성 요소 내부에서 title은 Displayable.qml에 선언된 속성을 나타냅니다. getTitle() 및 setTitle() 기능이 있고 Text 개체의 텍스트 속성에 대한 바인딩은 모두 Displayable 구성 요소에 선언된 title 속성을 나타냅니다.
 
 Despite sharing the same name, the two properties are entirely separate. An onChanged signal handler for one of the properties will not be triggered by a change to the other property with the same name. An alias to either property will refer to one or the other, but not both.
+같은 이름을 공유하고 있지만 두 속성은 완전히 별개입니다. 속성 중 하나에 대한 onChanged signal handler는 이름이 같은 다른 속성을 변경해도 트리거되지 않습니다. 둘 중 하나의 속성에 대한 별칭은 둘 중 하나를 가리킬 뿐 둘 다를 지칭하지는 않습니다.
 
-* JavaScript Global Object
+* JavaScript 글로벌 객체
 
 QML disallows type, id and property names that conflict with the properties on the global object to prevent any confusion. Programmers can be confident that Math.min(10, 9) will always work as expected!
+QML은 혼동을 방지하기 위해 전역 개체의 속성과 충돌하는 유형, id 및 속성 이름을 허용하지 않습니다. 프로그래머는 Math.min(10, 9)이 항상 예상대로 작동할 것이라고 확신할 수 있습니다!
 
 See JavaScript Host Environment for more information.
+자세한 내용은 JavaScript Host Environment를 참조하십시오.
