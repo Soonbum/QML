@@ -4182,7 +4182,7 @@ QML 파일에는 루트 객체 정의가 하나만 포함되어야 합니다. �
 import QtQuick 2.0
 
 Rectangle { width: 200; height: 200; color: "red" }
-Rectangle { width: 200; height: 200; color: "blue" }    // invalid!
+Rectangle { width: 200; height: 200; color: "blue" }    // 유효하지 않음!
 ```
 
 이는 .qml 파일이 자동으로 QML 타입을 정의하기 때문이며, 이는 단일 QML 객체 정의를 캡슐화합니다. 이에 대해서는 [QML 객체 타입 정의로서의 문서](https://doc.qt.io/qt-6/qtqml-documents-definetypes.html)에서 더 자세히 다루겠습니다.
@@ -4190,9 +4190,9 @@ Rectangle { width: 200; height: 200; color: "blue" }    // invalid!
 
 ##### 리소스 로딩 및 네트워크 투명성
 
-* Resource Loading and Network Transparency
+* 리소스 로딩 및 네트워크 투명성
 
-QML supports network transparency by using URLs (rather than file names) for all references from a QML document to other content. This means that anywhere a URL source is expected, QML can handle remote resources as well as local ones, for example in the following image source:
+QML은 QML 문서에서 다른 내용에 대한 모든 참조에 대해 (파일 이름이 아닌) URL을 사용하여 네트워크 투명성을 지원합니다. 이는 URL 소스가 예상되는 곳에서 QML은 로컬 리소스뿐만 아니라 원격 리소스도 처리할 수 있음을 의미합니다. 예를 들면, 다음 이미지 소스에서:
 
 ```qml
 Image {
@@ -4200,7 +4200,7 @@ Image {
 }
 ```
 
-Since a relative URL is the same as a relative file, development of QML on regular file systems remains simple:
+상대적인 URL이 상대적인 파일과 동일하기 때문에 일반 파일 시스템에서의 QML 개발은 간단합니다:
 
 ```qml
 Image {
@@ -4208,15 +4208,15 @@ Image {
 }
 ```
 
-Network transparency is supported throughout QML, for example, both the FontLoader and Image elements support loading resources from a remote server.
+네트워크 투명성은 QML 전체에서 지원됩니다. 예를 들면, [FontLoader](https://doc.qt.io/qt-6/qml-qtquick-fontloader.html)와 Image 요소 모두 원격 서버에서 리소스 로드를 지원합니다.
 
-Even QML types themselves can be on the network: if the qml tool is used to load http://example.com/mystuff/Hello.qml and that content refers to a type "World", the engine will load http://example.com/mystuff/qmldir and resolve the type just as it would for a local file. For example if the qmldir file contains the line "World World.qml", it will load http://example.com/mystuff/World.qml Any other resources that Hello.qml referred to, usually by a relative URL, would similarly be loaded from the network.
+QML 타입 자체도 네트워크에 존재할 수 있습니다: [qml 도구](https://doc.qt.io/qt-6/qtquick-qml-runtime.html)를 사용하여 http://example.com/mystuff/Hello.qml을 로드하고 해당 콘텐츠가 타입 "World"를 참조하는 경우, 엔진은 http://example.com/mystuff/qmldir을 로드하고 로컬 파일과 마찬가지로 타입을 해결합니다. 예를 들어, qmldir 파일에 "World World.qml" 행이 포함되어 있으면 http://example.com/mystuff/World.qml을 로드합니다. 일반적으로 상대 URL에서 Hello.qml이 참조하는 다른 리소스도 마찬가지로 네트워크에서 로드됩니다.
 
-* Relative vs. Absolute URLs
+* 상대 vs. 절대 URL
 
-Whenever an object has a property of type URL (QUrl), assigning a string to that property will actually assign an absolute URL - by resolving the string against the URL of the document where the string is used.
+객체에 타입 URL([QUrl](https://doc.qt.io/qt-6/qurl.html))의 프로퍼티가 있을 때마다, 해당 프로퍼티에 문자열을 할당하면 실제로 - 문자열이 사용되는 문서의 URL에 대해 문자열을 해결하여 - 절대 URL을 할당하게 됩니다.
 
-For example, consider this content in http://example.com/mystuff/test.qml:
+예를 들면, http://example.com/mystuff/test.qml에 있는 다음 내용을 생각해 보십시오:
 
 ```qml
 Image {
@@ -4224,37 +4224,37 @@ Image {
 }
 ```
 
-The Image source property will be assigned http://example.com/mystuff/images/logo.png, but while the QML is being developed, in say C:\User\Fred\Documents\MyStuff\test.qml, it will be assigned C:\User\Fred\Documents\MyStuff\images\logo.png.
+[Image](https://doc.qt.io/qt-6/qml-qtquick-image.html) source 프로퍼티는 http://example.com/mystuff/images/logo.png가 할당되야 하지만, QML이 개발되는 동안 C:\User\Fred\Documents\MyStuff\test.qml 안에 있으므로 C:\User\Fred\Documents\MyStuff\images\logo.png가 할당됩니다.
 
-If the string assigned to a URL is already an absolute URL, then "resolving" does not change it and the URL is assigned directly.
+URL에 할당된 문자열이 이미 절대 URL인 경우, "해결"해도 해당 문자열은 변경되지 않고 URL이 직접 할당됩니다.
 
-* QRC Resources
+* QRC 리소스
 
-One of the URL schemes built into Qt is the "qrc" scheme. This allows content to be compiled into the executable using The Qt Resource System. Using this, an executable can reference QML content that is compiled into the executable:
+Qt에 내장된 URL 체계 중 하나는 "qrc" 체계입니다. 이를 통해 [Qt Resource System](https://doc.qt.io/qt-6/resources.html)을 사용하여 콘텐츠를 실행 파일로 컴파일할 수 있습니다. 이를 통해 실행 파일은 실행 파일로 컴파일되는 QML 콘텐츠를 참조할 수 있습니다:
 
 ```cpp
 QQuickView *view = new QQuickView;
 view->setUrl(QUrl("qrc:/dial.qml"));
 ```
 
-The content itself can then use relative URLs, and so be transparently unaware that the content is compiled into the executable.
+그러면 컨텐츠 자체가 상대 URL을 사용할 수 있으므로 컨텐츠가 실행 파일로 컴파일된다는 사실을 투명하게 알 수 없습니다.
 
-* Limitations
+* 제한사항
 
-The import statement is only network transparent if it has an "as" clause.
+import 문에 "as" 절이 있는 경우에만 네트워크 투명성이 있습니다.
 
-More specifically:
+보다 구체적으로:
 
-- import "dir" only works on local file systems
-- import libraryUri only works on local file systems
-- import "dir" as D works network transparently
-- import libraryUrl as U works network transparently
+- import "dir": 로컬 파일 시스템에서만 작동함
+- import libraryUri: 로컬 파일 시스템에서만 작동함
+- import "dir" as D: 네트워크에서 투명하게 작동함
+- import libraryUrl as U: 네트워크에서 투명하게 작동함
 
-* Implications for Application Security
+* 애플리케이션 보안을 위한 시사점
 
-The QML security model is that QML content is a chain of trusted content: the user installs QML content that they trust in the same way as they install native Qt applications, or programs written with runtimes such as Python and Perl. That trust is establish by any of a number of mechanisms, including the availability of package signing on some platforms.
+QML 보안 모델은 QML 콘텐츠가 신뢰할 수 있는 콘텐츠 체인이라는 것입니다: 사용자는 네이티브 Qt 앱이나 Python, Perl과 같은 런타임으로 작성된 프로그램을 설치할 때와 동일한 방식으로 신뢰할 수 있는 QML 콘텐츠를 설치합니다. 이러한 신뢰는 일부 플랫폼에서 패키지 서명을 할 수 있는 것을 포함한 여러 메커니즘 중 하나에 의해 설정됩니다.
 
-In order to preserve the trust of users, QML application developers should not load and execute arbitrary JavaScript or QML resources. For example, consider the QML code below:
+사용자의 신뢰를 유지하기 위해 QML 앱 개발자는 임의의 JavaScript나 QML 리소스를 로드 및 실행하지 말아야 합니다. 예를 들어, 아래 QML 코드를 생각해 보십시오:
 
 ```qml
 import QtQuick 2.0
@@ -4265,14 +4265,14 @@ Component {
 }
 ```
 
-This is equivalent to downloading and executing "http://evil.com/evil.exe". The QML engine will not prevent particular resources from being loaded. Unlike JavaScript code that is run within a web browser, a QML application can load remote or local filesystem resources in the same way as any other native applications, so application developers must be careful in loading and executing any content.
+이것은 "http://evil.com/evil.exe"을 다운로드하여 실행하는 것과 같습니다. QML 엔진은 특정 리소스가 로드되는 것을 막지 않습니다. 웹 브라우저 내에서 실행되는 JavaScript 코드와 달리 QML 앱은 다른 네이티브 앱과 동일한 방식으로 원격 또는 로컬 파일 시스템 리소스를 로드할 수 있으므로, 앱 개발자는 콘텐츠를 로드하고 실행할 때 주의해야 합니다.
 
-As with any application accessing other content beyond its control, a QML application should perform appropriate checks on any untrusted data it loads. Do not, for example, use import, Loader or XMLHttpRequest to load any untrusted code or content.
+앱이 통제할 수 없는 다른 콘텐츠에 접근하는 것과 마찬가지로 QML 앱은 로드하는 신뢰할 수 없는 데이터에 대해 적절한 검사를 수행해야 합니다. 예를 들어 신뢰할 수 없는 코드나 콘텐츠를 로드하는 데 import, [Loader](https://doc.qt.io/qt-6/qml-qtquick-loader.html) 또는 [XMLHttpRequest](https://doc.qt.io/qt-6/qml-qtqml-xmlhttprequest.html)를 사용하지 마십시오.
 
 
 ##### 범위 및 네이밍 규칙
 
-* Scope and Naming Resolution
+* 범위 및 네이밍 규칙
 
 QML property bindings, inline functions, and imported JavaScript files all run in a JavaScript scope. Scope controls which variables an expression can access, and which variable takes precedence when two or more names conflict.
 
