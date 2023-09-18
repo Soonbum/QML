@@ -4003,30 +4003,28 @@ QML import 경로에 설치되는 식별되지 않은 모듈은 다음과 같은
 
 - 상대적인 import 경로를 통해 클라이언트가 가져올 수 있습니다.
 - 모듈을 가져올 때 클라이언트가 버전을 지정하는 것은 필수가 아닙니다.
-- if no import version is supplied by the client in the import statement, no guarantees are given by the QML engine about which version of the definition of a given type name will be imported
-  import 문에서 클라이언트에 의해 제공되는 import 버전이 없는 경우, QML 엔진에 의해 주어진 타입 이름 정의의 어떤 버전을 가져올지에 대한 보장이 주어지지 않습니다.
-- conflicting type names are resolved arbitrarily by the QML engine, and the way in which conflicts are resolved is not guaranteed to stay the same between different versions of QML  충돌하는 유형 이름은 QML 엔진에 의해 임의로 해결되며 충돌이 해결되는 방식은 다른 버전의 QML 사이에서 동일하게 유지되는 것이 보장되지 않습니다
-- other legacy modules may modify or override type definitions provided by the located legacy module  다른 레거시 모듈은 위치한 레거시 모듈이 제공하는 유형 정의를 수정하거나 재정의할 수 있습니다
+- import 문에서 클라이언트에 의해 제공되는 import 버전이 없는 경우, QML 엔진에 의해 주어진 타입 이름 정의의 어떤 버전을 가져올지에 대한 보장이 주어지지 않습니다.
+- 충돌하는 타입 이름은 QML 엔진에 의해 임의로 해결되며, 충돌이 해결되는 방식은 다른 버전의 QML 사이에서 동일하게 유지되는 것이 보장되지 않습니다.
+- 다른 레거시 모듈은 위치가 지정된 레거시 모듈이 제공하는 타입 정의를 수정하거나 재정의할 수 있습니다.
 
-A located legacy module may reside on the local file system or on the network and can be referred to by a URL that specifies the file system path or network URL.
-위치한 레거시 모듈은 로컬 파일 시스템 또는 네트워크에 상주할 수 있으며 파일 시스템 경로 또는 네트워크 URL을 지정하는 URL로 참조할 수 있습니다.
+위치가 지정된 레거시 모듈은 로컬 파일 시스템 또는 네트워크에 상주할 수 있으며 파일 시스템 경로 또는 네트워크 URL을 지정하는 URL로 참조할 수 있습니다.
 
 
 ##### C++ 플러그인에서 타입 및 기능 제공하기
 
-* Creating C++ Plugins for QML
+* QML을 위한 C++ 플러그인 만들기
 
-* Creating a Plugin
+* 플러그인 만들기
 
-The QML engine loads C++ plugins for QML. Such plugins are usually provided in a QML extension module, and can provide types for use by clients in QML documents that import the module. A module requires at least one registered type to be considered valid.
+[QML 엔진](https://doc.qt.io/qt-6/qqmlengine.html)은 QML을 위해 C++ 플러그인을 로드합니다. 이러한 플러그인은 보통 QML 확장 모듈에 제공되며, 모듈을 가져온 QML 문서에서 클라이언트가 사용할 수 있는 타입을 제공할 수 있습니다. 모듈은 적어도 하나의 등록된 타입을 유효한 것으로 간주하도록 요구합니다.
 
-QQmlEngineExtensionPlugin is a plugin interface that lets you create QML extensions that can be loaded dynamically into QML applications. These extensions allow custom QML types to be made available to the QML engine.
+[QQmlEngineExtensionPlugin](https://doc.qt.io/qt-6/qqmlengineextensionplugin.html)은 QML 앱에 동적으로 로드할 수 있는 QML 확장을 생성할 수 있는 플러그인 인터페이스입니다. 이러한 확장을 통해 QML 엔진에서 커스텀 QML 타입을 사용할 수 있습니다.
 
-To write a QML extension plugin:
+QML 확장 플러그인을 작성하려면:
 
-1. Subclass QQmlEngineExtensionPlugin and use the Q_PLUGIN_METADATA() macro to register the plugin with the Qt meta object system.
-2. Use the QML_ELEMENT and QML_NAMED_ELEMENT() macros to declare QML types.
-3. Configure your build file.
+1. [QQmlEngineExtensionPlugin](https://doc.qt.io/qt-6/qqmlengineextensionplugin.html)을 분류하고 [Q_PLUGIN_METADATA](https://doc.qt.io/qt-6/qtplugin.html#Q_PLUGIN_METADATA)() 매크로를 사용하여 플러그인을 Qt 메타 객체 시스템으로 등록합니다.
+2. [QML_ELEMENT](https://doc.qt.io/qt-6/qqmlengine.html#QML_ELEMENT)와 [QML_NAMED_ELEMENT](https://doc.qt.io/qt-6/qqmlengine.html#QML_NAMED_ELEMENT)() 매크로를 사용하여 QML 타입을 선언합니다.
+3. 빌드 파일을 구성(configure)하십시오.
 
 CMake:
 ```
@@ -4045,47 +4043,47 @@ QML_IMPORT_NAME = <my.import.name>
 QML_IMPORT_MAJOR_VERSION = <version>
 ```
 
-4. If you're using qmake, create a qmldir file to describe the plugin. Note that CMake will, by default, automatically generate the qmldir file.
+4. qmake를 사용하는 경우, 플러그인을 설명하기 위해 [qmldir 파일](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html)을 생성합니다. CMake는 기본적으로 [qmldir 파일](https://doc.qt.io/qt-6/qtqml-modules-qmldir.html)을 자동으로 생성합니다.
 
-QML extension plugins are for either application-specific or library-like plugins. Library plugins should limit themselves to registering types, as any manipulation of the engine's root context may cause conflicts or other issues in the library user's code.
+QML 확장 플러그인은 응용 프로그램별 또는 라이브러리와 같은 플러그인을 위한 것입니다. 엔진의 루트 컨텍스트를 조작하면 라이브러리 사용자 코드에 충돌이나 기타 문제가 발생할 수 있으므로 라이브러리 플러그인은 타입을 등록하는 것으로 제한해야 합니다.
 
-Note: When using the CMake qt_add_qml_module API, a plugin will be generated automatically for you. It will take care of type registration. You only need to write a custom plugin if you have special requirements, such as registering custom image providers. In that case, pass NO_GENERATE_PLUGIN_SOURCE to the qt_add_qml_module call to disable the generation of the default plugin.
+주의: CMake [qt_add_qml_module](https://doc.qt.io/qt-6/qt-add-qml-module.html) API를 사용할 때, 자동으로 플러그인이 생성됩니다. 이것은 타입 등록을 처리할 것입니다. 커스텀 플러그인은 커스텀 이미지 프로바이더 등록과 같은 특별한 요구사항이 있는 경우에만 작성하면 됩니다. 그런 경우 [NO_GENERATE_PLUGIN_SOURCE](https://doc.qt.io/qt-6/qt-add-qml-module.html#no-generate-plugin-source)를 qt_add_qml_module 호출로 전달하면 기본 플러그인 생성이 비활성화됩니다.
 
-The linker might erroneously remove the generated type registration function as an optimization. You can prevent that by declaring a synthetic volatile pointer to the function somewhere in your code. If your module is called "my.module", you would add the forward declaration in global scope:
+링커가 생성된 타입 등록 함수를 최적화로 잘못 제거할 수도 있습니다. 코드 어딘가에 함수에 대한 합성 휘발성(synthetic volatile) 포인터를 선언함으로써 이를 방지할 수 있습니다. 모듈을 "my.module"이라고 부르는 경우, 전역 범위에 순방향 선언을 추가합니다:
 
 ```cpp
 void qml_register_types_my_module();
 ```
 
-Then add the following snippet of code in the implementation of any function that's part of the same binary as the registration:
+그런 다음 등록과 동일한 바이너리의 일부인 함수를 구현할 때 다음 코드 조각을 추가합니다:
 
 ```cpp
 volatile auto registration = &qml_register_types_my_module;
 Q_UNUSED(registration);
 ```
 
-Reference
-- Writing QML Extensions with C++ - contains a chapter on creating QML plugins.
-- Defining QML Types from C++ - information about registering C++ types into the runtime.
-- How to Create Qt Plugins - information about Qt plugins
+참조
+- C++로 QML 확장 작성하기 - QML 플러그인 생성하기에 대한 챕터를 포함하고 있음
+- C++로부터 QML 타입 정의하기 - C++ 타입을 런타임으로 등록하기에 대한 정보
+- Qt 플러그인 만드는 방법 - Qt 플러그인에 대한 정보
 
 ---
 
 #### QML 문서
 
-* QML Documents
+* QML 문서
 
-A QML document is a string which conforms to QML document syntax. A document defines a QML object type. A document is generally loaded from a ".qml" file stored either locally or remotely, but can be constructed manually in code. An instance of the object type defined by a document may be created using a Component in QML code, or a QQmlComponent in C++. Alternatively, if the object type is explicitly exposed to the QML type system with a particular type name, the type may be used directly in object declarations in other documents.
+QML 문서는 QML 문서 구문을 준수하는 문자열입니다. 문서는 QML 객체 타입을 정의합니다. 문서는 일반적으로 로컬 또는 원격으로 저장된 ".qml" 파일에서 로드되지만 코드에서 수동으로 구성할 수 있습니다. 문서에 의해 정의된 객체 타입의 인스턴스는 QML 코드의 [Component](https://doc.qt.io/qt-6/qml-qtqml-component.html) 또는 C++의 [QQmlComponent](https://doc.qt.io/qt-6/qqmlcomponent.html)를 사용하여 생성될 수 있습니다. 그게 아니면, 객체 타입이 특정 타입 이름을 가진 QML 타입 시스템에 명시적으로 노출되는 경우, 타입은 다른 문서의 객체 선언에서 직접 사용될 수 있습니다.
 
-The ability to define re-usable QML object types in documents is an important enabler to allow clients to write modular, highly readable and maintainable code.
+문서에서 재사용 가능한 QML 객체 타입을 정의할 수 있는 기능은 클라이언트가 모듈화하고, 읽기 쉽고, 유지보수 가능한 코드를 작성할 수 있게 해주는 중요한 요소입니다.
 
-Since Qt 5.4, a document can also have the file extension ".ui.qml". The QML engine handles these files like standard .qml files and ignores the .ui part of the extension. Qt Design Studio handles those files as UI files. The files can contain only a subset of the QML language features.
+Qt 5.4 이후, 문서는 확장자 ".ui.qml"을 가질 수 있습니다. QML 엔진은 이러한 파일을 표준 .qml 파일처럼 처리하고 확장자의 .ui 부분을 무시합니다. Qt Design Studio는 이러한 파일을 [UI 파일](https://doc.qt.io/qtdesignstudio/creator-quick-ui-forms.html)로 처리합니다. 파일은 QML 언어 기능의 일부만 포함할 수 있습니다.
 
-* Structure of a QML Document
+* QML 문서의 구조
 
-A QML document consists of two sections: the imports section, and the object declaration section. The imports section in a document contains import statements that define which QML object types and JavaScript resources the document is able to use. The object declaration section defines the object tree to be created when instantiating the object type defined by the document.
+QML 문서는 2개의 섹션으로 구성되어 있습니다: imports 섹션과 객체 선언 섹션. 문서의 imports 섹션은 QML 객체 타입을 정의하는 import 구문과 문ㅅ가 사용할 수 있는 JavaScript 리소스를 포함하고 있습니다. 객체 선언 섹션은 문서가 정의한 객체 타입을 인스턴스화할 때 생성할 객체 트리를 정의합니다.
 
-An example of a simple document is as follows:
+간단한 문서의 예제는 다음과 같습니다:
 
 ```qml
 import QtQuick 2.0
@@ -4097,19 +4095,19 @@ Rectangle {
 }
 ```
 
-See the Structure of a QML Document for more information on the topic.
+이 주제에 대한 더 많은 정보는 [QML 문서의 구조](https://doc.qt.io/qt-6/qtqml-documents-structure.html)를 보십시오.
 
-* Syntax of the QML Language
+* QML 언어의 구문
 
-The object declaration section of the document must specify a valid object hierarchy with appropriate QML syntax. An object declaration may include the specification of custom object attributes. Object method attributes may be specified as JavaScript functions, and object property attributes may be assigned property binding expressions.
+문서의 객체 선언 섹션은 적절한 [QML 구문](https://doc.qt.io/qt-6/qtqml-syntax-basics.html)으로 유효한 객체 계층을 지정해야 합니다. 객체 선언은 커스텀 [객체 애트리뷰트](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html)의 사양을 포함할 수 있습니다. 객체 메서드 애트리뷰트는 JavaScript 함수로 지정할 수 있고, 객체 프로퍼티 애트리뷰트는 [프로퍼티 바인딩 식](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)을 할당할 수 있습니다.
 
-Please see the documentation about the syntax of QML for more information about valid syntax, and see the documentation about integrating QML and JavaScript for in-depth information on that topic.
+유효한 구문에 대한 자세한 내용은 [QML의 구문](https://doc.qt.io/qt-6/qtqml-syntax-basics.html)에 대한 문서를 보시고, 해당 주제에 대한 자세한 내용은 [QML과 JavaScript 통합하기](https://doc.qt.io/qt-6/qtqml-javascript-topic.html)에 대한 문서를 보시기 바랍니다.
 
-* Defining Object Types Through QML Documents
+* QML 문서를 통한 객체 타입 정의하기
 
-As described briefly in the previous section, a document implicitly defines a QML object type. One of the core principles of QML is the ability to define and then re-use object types. This improves the maintainability of QML code, increases the readability of object hierarchy declarations, and promotes separation between UI definition and logic implementation.
+앞의 섹션에서 간략하게 설명한 바와 같이 문서는 암묵적으로 QML 객체 타입을 정의합니다. QML의 핵심 원칙 중 하나는 객체 타입을 정의한 후 재사용할 수 있는 기능입니다. 이는 QML 코드의 유지보수성을 향상시키고, 객체 계층 선언의 가독성을 높이며, UI 정의와 논리 구현 간의 분리를 촉진합니다.
 
-In the following example, the client developer defines a Button type with a document in a file:
+다음 예제에서 클라이언트 개발자는 파일에 문서가 있는 Button 타입을 정의합니다:
 
 ```qml
 // Button.qml
@@ -4126,7 +4124,7 @@ Rectangle {
 }
 ```
 
-The Button type can then be used in an application:
+그러면 Button 타입을 앱에서 사용할 수 있습니다:
 
 ```qml
 // application.qml
@@ -4139,45 +4137,45 @@ Column {
 }
 ```
 
-Please see the documentation about defining object types in documents for in-depth information on the topic.
+이 주제에 대한 자세한 정보는 [문서에서 객체 타입 정의하기](https://doc.qt.io/qt-6/qtqml-documents-definetypes.html)에 대한 문서를 보십시오.
 
-* Resource Loading and Network Transparency
+* 리소스 로딩 및 네트워크 투명성
 
-It is important to note that QML is network-transparent. Applications can import documents from remote paths just as simply as documents from local paths. In fact, any url property may be assigned a remote or local URL, and the QML engine will handle any network communication involved.
+QML은 네트워크에 투명하다는 점에 유의해야 합니다. 앱은 로컬 경로에서 문서를 가져오는 것처럼 단순히 원격 경로에서 문서를 가져올 수 있습니다. 사실, 임의의 url 프로퍼티는 원격 또는 로컬 URL을 할당받을 수 있으며, QML 엔진은 관련된 모든 네트워크 통신을 처리할 것입니다.
 
-Please see the Network Transparency documentation for more information about network transparency in imports.
+import의 네트워크 투명성에 대한 자세한 정보는 [네트워크 투명성](https://doc.qt.io/qt-6/qtqml-documents-networktransparency.html) 문서를 보십시오.
 
-* Scope and Naming Resolution
+* 범위 및 네이밍 규칙
 
-Expressions in documents usually involve objects or properties of objects, and since multiple objects may be defined and since different objects may have properties with the same name, some predefined symbol resolution semantics must be defined by QML. Please see the page on scope and symbol resolution for in-depth information about the topic.
+문서의 표현식은 일반적으로 객체 또는 객체의 프로퍼티를 포함하며, 여러 객체가 정의될 수 있고 다른 객체가 동일한 이름의 프로퍼티를 가질 수 있으므로 미리 정의된 일부 심볼 규칙 시맨틱은 QML로 정의되어야 합니다. 해당 주제에 대한 자세한 내용은 [범위 및 심볼 규칙](https://doc.qt.io/qt-6/qtqml-documents-scope.html) 페이지를 보십시오.
 
 
 ##### QML 문서의 구조
 
-* Structure of a QML Document
+* QML 문서의 구조
 
-A QML document is a self contained piece of QML source code that consists of two parts:
+QML 문서는 QML 소스 코드의 자체 구성 부분으로 다음과 같은 두 부분으로 구성됩니다:
 
-- Its import statements
-- A single root object declaration
+- import 구문.
+- 단일 루트 객체 선언.
 
-By convention, a single empty line separates the imports from the object hierarchy definition.
+관례적으로 하나의 빈 줄로 객체 계층 정의로부터 import를 구분합니다.
 
-QML documents are always encoded in UTF-8 format.
+QML 문서는 항상 UTF-8 형식으로 인코딩됩니다.
 
-* Imports
+* import 구문
 
-A document must import the necessary modules or type namespaces to enable the engine to load the QML object types referenced within the document. By default, a document can access any QML object types that have been defined through .qml files in the same directory; if a document needs to refer to any other object types, it must import the type namespace into which those types have been registered.
+문서는 엔진이 문서 내에서 참조된 QML 객체 타입을 로드할 수 있도록 필요한 모듈 또는 타입 네임스페이스를 가져와야 합니다. 기본적으로 문서는 동일한 디렉토리에 있는 .qml 파일을 통해 정의된 QML 객체 타입에 접근할 수 있습니다; 만약 문서가 다른 객체 타입을 참조해야 하는 경우, 문서는 해당 타입이 등록된 타입 네임스페이스를 가져와야 합니다.
 
-QML does not have a preprocessor that modifies the document prior to presentation to the QML engine, unlike C or C++. The import statements do not copy and prepend the code in the document, but instead instruct the QML engine on how to resolve type references found in the document. Any type reference present in a QML document - such as Rectangle and ListView - including those made within a JavaScript block or property bindings, are resolved based exclusively on the import statements. At least one import statement must be present such as import QtQuick 2.0.
+QML에는 C나 C++와 달리 [QML 엔진](https://doc.qt.io/qt-6/qqmlengine.html)에 제출하기 전에 문서를 수정하는 전처리기가 없습니다. import 문은 문서의 코드를 복사하고 앞에 붙이지 않고, 문서에 있는 타입 참조를 해결하는 방법을 QML 엔진에게 지시합니다. [JavaScript 블록](https://doc.qt.io/qt-6/qtqml-javascript-expressions.html) 또는 [프로퍼티 바인딩](https://doc.qt.io/qt-6/qtqml-syntax-propertybinding.html)을 포함하여 Rectangle 및 ListView와 같은 QML 문서에 있는 타입 참조는 import 문에만 기반하여 해결됩니다. import QtQuick 2.0과 같이 하나 이상의 import 문이 있어야 합니다.
 
-Please see the QML Syntax - Import Statements documentation for in-depth information about QML imports.
+QML import에 대한 자세한 내용은 [QML 구문 - Import 구문](https://doc.qt.io/qt-6/qtqml-syntax-imports.html) 문서를 보십시오.
 
-* The Root Object Declaration
+* 루트 객체 선언
 
-A QML document describes a hierarchy of objects which can be instantiated. Each object definition has a certain structure; it has a type, it can have an id and an object name, it can have properties, it can have methods, it can have signals and it can have signal handlers.
+QML 문서는 인스턴스화할 수 있는 객체의 계층 구조를 설명합니다. 각 객체 정의는 특정 구조를 가지고 있습니다; 타입, id, 객체 이름, 프로퍼티, 메서드, 시그널, 시그널 핸들러.
 
-A QML file must only contain a single root object definition. The following is invalid and will generate an error:
+QML 파일에는 루트 객체 정의가 하나만 포함되어야 합니다. 다음은 올바르지 않으므로 오류가 발생합니다:
 
 ```qml
 // MyQmlFile.qml
@@ -4187,12 +4185,13 @@ Rectangle { width: 200; height: 200; color: "red" }
 Rectangle { width: 200; height: 200; color: "blue" }    // invalid!
 ```
 
-This is because a .qml file automatically defines a QML type, which encapsulates a single QML object definition. This is discussed further in Documents as QML object type definitions.
+이는 .qml 파일이 자동으로 QML 타입을 정의하기 때문이며, 이는 단일 QML 객체 정의를 캡슐화합니다. 이에 대해서는 [QML 객체 타입 정의로서의 문서](https://doc.qt.io/qt-6/qtqml-documents-definetypes.html)에서 더 자세히 다루겠습니다.
 
 
 ##### 리소스 로딩 및 네트워크 투명성
 
-Resource Loading and Network Transparency
+* Resource Loading and Network Transparency
+
 QML supports network transparency by using URLs (rather than file names) for all references from a QML document to other content. This means that anywhere a URL source is expected, QML can handle remote resources as well as local ones, for example in the following image source:
 
 ```qml
