@@ -4502,22 +4502,16 @@ Displayable {
 }
 ```
 
-Here, the name title is given to both the heading of the output text for Displayable, and also to the honorific title of the Person object.
-여기서 이름 제목은 출력 텍스트의 표시 가능 제목과 사용자 개체의 존칭 제목 모두에 부여됩니다.
+여기서 이름 title은 Displayable을 위한 출력 텍스트의 제목과 Person 객체의 경칭 타이틀에도 주어집니다.
 
-An overridden property is resolved according to the scope in which it is referenced. Inside the scope of the Person component, or from an external scope that refers to an instance of the Person component, title resolves to the property declared inside Person.qml. The fullName function will refer to the title property declared inside Person.
-재정의된 속성은 참조되는 범위에 따라 해결됩니다. Person 구성 요소의 범위 내에서 또는 Person 구성 요소의 인스턴스를 참조하는 외부 범위에서 제목은 Person.qml 내부에 선언된 속성으로 결정됩니다. fullName 함수는 Person 내부에 선언된 제목 속성을 참조합니다.
+재정의된 프로퍼티는 참조되는 범위에 따라 해결됩니다. Person 컴포넌트의 범위 내에서 또는 Person 컴포넌트의 인스턴스를 참조하는 외부 범위로부터 title은 Person.qml 내부에 선언된 프로퍼티로 결정됩니다. fullName 함수는 Person 내부에 선언된 title 프로퍼티를 참조할 것입니다.
 
-Inside the Displayable component, however, title refers to the property declared in Displayable.qml. The getTitle() and setTitle() functions, and the binding for the text property of the Text object will all refer to the title property declared in the Displayable component.
-그러나 Displayable 구성 요소 내부에서 title은 Displayable.qml에 선언된 속성을 나타냅니다. getTitle() 및 setTitle() 기능이 있고 Text 개체의 텍스트 속성에 대한 바인딩은 모두 Displayable 구성 요소에 선언된 title 속성을 나타냅니다.
+그러나 Displayable 컴포넌트 내부에서 title은 Displayable.qml에 선언된 프로퍼티를 참조합니다. getTitle() 및 setTitle() 함수와 Text 객체의 text 프로퍼티에 대한 바인딩은 모두 Displayable 컴포넌트에 선언된 title 프로퍼티를 참조할 것입니다.
 
-Despite sharing the same name, the two properties are entirely separate. An onChanged signal handler for one of the properties will not be triggered by a change to the other property with the same name. An alias to either property will refer to one or the other, but not both.
-같은 이름을 공유하고 있지만 두 속성은 완전히 별개입니다. 속성 중 하나에 대한 onChanged signal handler는 이름이 같은 다른 속성을 변경해도 트리거되지 않습니다. 둘 중 하나의 속성에 대한 별칭은 둘 중 하나를 가리킬 뿐 둘 다를 지칭하지는 않습니다.
+같은 이름을 공유하고 있지만 두 프로퍼티는 완전히 별개입니다. 프로퍼티 중 하나에 대한 onChanged 시그널 핸들러는 이름이 같은 다른 프로퍼티에 대한 변경사항이 발생해도 트리거되지 않습니다. 둘 중 하나의 프로퍼티에 대한 별칭은 둘 중 하나를 가리킬 뿐 둘 다 지칭하지는 않습니다.
 
 * JavaScript 글로벌 객체
 
-QML disallows type, id and property names that conflict with the properties on the global object to prevent any confusion. Programmers can be confident that Math.min(10, 9) will always work as expected!
-QML은 혼동을 방지하기 위해 전역 개체의 속성과 충돌하는 유형, id 및 속성 이름을 허용하지 않습니다. 프로그래머는 Math.min(10, 9)이 항상 예상대로 작동할 것이라고 확신할 수 있습니다!
+QML은 혼동을 방지하기 위해 전역 객체의 프로퍼티와 충돌하는 타입, id, 프로퍼티 이름을 허용하지 않습니다. 프로그래머는 Math.min(10, 9)이 항상 예상대로 작동할 것이라고 확신할 수 있습니다!
 
-See JavaScript Host Environment for more information.
-자세한 내용은 JavaScript Host Environment를 참조하십시오.
+자세한 내용은 [JavaScript 호스트 환경](https://doc.qt.io/qt-6/qtqml-javascript-hostenvironment.html)을 보십시오.
