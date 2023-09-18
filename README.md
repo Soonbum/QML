@@ -3982,32 +3982,34 @@ import com.example.CustomUi 1.0
 
 ##### 지원되는 QML 모듈 타입 - 레거시(Legacy) 모듈
 
-* Legacy Modules
+* 레거시 모듈
 
-Legacy modules are modules whose specification qmldir file does not contain a module identifier directive. A legacy module may be either installed into the QML import path (as an installed legacy module) or imported by clients with a relative import (as a located legacy module). Clients are advised to avoid using legacy modules if possible. Module developers should ensure they create identified modules and not legacy modules.
+레거시 모듈은 사양 qmldir 파일에 모듈 식별자 지시문이 포함되지 않은 모듈입니다. 레거시 모듈은 QML import 경로에 (설치된 레거시 모듈로) 설치되거나, 상대적인 import를 가진 클라이언트에 의해 (위치가 지정된 레거시 모듈로) 가져올 수 있습니다. 클라이언트는 가능하면 레거시 모듈을 사용하지 않는 것이 좋습니다. 모듈 개발자는 레거시 모듈이 아닌 식별된 모듈을 생성해야 합니다.
 
-* Installed Legacy Modules
+* 설치된 레거시 모듈
 
-An installed, non-identified module is automatically given an identifier by the QML engine. This implicitly defined identifier is equal to the install path of the module (relative to the QML import path) where directory-separator characters are replaced with period characters.
+설치된 비식별 모듈은 QML 엔진에 의해 자동으로 식별자가 부여됩니다. 암묵적으로 정의된 이 식별자는 디렉터리 구분 문자가 마침표 문자로 대체되는 (QML import 경로에 상대적인) 모듈의 설치 경로와 동일합니다.
 
-A non-identified module which is installed into the QML import path has the following semantics:
+QML import 경로에 설치되는 식별되지 않은 모듈은 다음과 같은 의미를 갖습니다:
 
-- it may be imported by clients via the implicit module identifier
-- clients must specify a version when importing the module
-- conflicting type names are resolved arbitrarily by the QML engine, and the way in which conflicts are resolved is not guaranteed to stay the same between different versions of QML
-- other legacy modules may modify or override type definitions provided by the installed legacy module
+- 암시적 모듈 식별자를 통해 클라이언트가 가져올 수 있습니다.
+- 클라이언트는 모듈을 가져올 때 버전을 지정해야 합니다.
+- 충돌하는 타입 이름은 QML 엔진에 의해 임의로 해결되며, 충돌이 해결되는 방식은 다른 버전의 QML 사이에서 동일하게 유지되는 것이 보장되지 않습니다.
+- 다른 레거시 모듈이 설치된 레거시 모듈에서 제공하는 타입 정의를 수정하거나 재정의할 수 있습니다.
 
-* Located Legacy Modules
+* 위치가 지정된 레거시 모듈
 
-A non-identified module which is imported via a relative directory path import statement is loaded by the engine as a located legacy module. The following semantics apply to located legacy modules:
+상대적인 디렉토리 경로 import 문을 통해 가져온 식별되지 않은 모듈은 위치를 가진 레거시 모듈로 엔진에 로드됩니다. 위치가 지정된(loated) 레거시 모듈에는 다음 의미론이 적용됩니다:
 
-- it may be imported by clients via a relative import path
-- it is not mandatory for clients to specify a version when importing the module
+- 상대적인 import 경로를 통해 클라이언트가 가져올 수 있습니다.
+- 모듈을 가져올 때 클라이언트가 버전을 지정하는 것은 필수가 아닙니다.
 - if no import version is supplied by the client in the import statement, no guarantees are given by the QML engine about which version of the definition of a given type name will be imported
-- conflicting type names are resolved arbitrarily by the QML engine, and the way in which conflicts are resolved is not guaranteed to stay the same between different versions of QML
-- other legacy modules may modify or override type definitions provided by the located legacy module
+  import 문에서 클라이언트에 의해 제공되는 import 버전이 없는 경우, QML 엔진에 의해 주어진 타입 이름 정의의 어떤 버전을 가져올지에 대한 보장이 주어지지 않습니다.
+- conflicting type names are resolved arbitrarily by the QML engine, and the way in which conflicts are resolved is not guaranteed to stay the same between different versions of QML  충돌하는 유형 이름은 QML 엔진에 의해 임의로 해결되며 충돌이 해결되는 방식은 다른 버전의 QML 사이에서 동일하게 유지되는 것이 보장되지 않습니다
+- other legacy modules may modify or override type definitions provided by the located legacy module  다른 레거시 모듈은 위치한 레거시 모듈이 제공하는 유형 정의를 수정하거나 재정의할 수 있습니다
 
 A located legacy module may reside on the local file system or on the network and can be referred to by a URL that specifies the file system path or network URL.
+위치한 레거시 모듈은 로컬 파일 시스템 또는 네트워크에 상주할 수 있으며 파일 시스템 경로 또는 네트워크 URL을 지정하는 URL로 참조할 수 있습니다.
 
 
 ##### C++ 플러그인에서 타입 및 기능 제공하기
