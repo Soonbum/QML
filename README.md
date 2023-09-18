@@ -3847,32 +3847,138 @@ Rectangle {
 }
 ```
 
-The CustomButton type used above would come from the definition specified in the CustomButton21.qml file, and the JavaScript resource identified by the MathFunctions identifier would be defined in the mathfuncs.js file.
+위에서 사용한 CustomButton 타입은 CustomButton21.qml 파일에 지정된 정의에서 가져온 것이며, MathFunctions 식별자에 의해 식별된 JavaScript 리소스는 mathfuncs.js 파일에 정의될 것입니다.
 
 * 타입 설명 파일
 
-QML modules may refer to one or more type information files in their qmldir file. These usually have the .qmltypes extension and are read by external tools to gain information about types defined in C++ and typically imported via plugins.
+QML 모듈은 qmldir 파일에서 하나 이상의 타입 정보 파일을 참조할 수 있습니다. 이 파일들은 보통 .qmltypes 확장자를 가지며 C++에서 정의되고 플러그인을 통해 일반적으로 가져온 타입에 대한 정보를 얻기 위해 외부 도구에 의해 읽혀집니다.
 
-As such qmltypes files have no effect on the functionality of a QML module. Their only use is to allow tools such as Qt Creator to provide code completion, error checking and other functionality to users of your module.
+이러한 qmltypes 파일은 QML 모듈의 기능에 영향을 미치지 않습니다. 그들의 유일한 용도는 Qt Creator와 같은 도구가 당신의 모듈의 사용자들에게 코드 완료, 오류 검사 및 기타 기능을 제공하도록 하는 것입니다.
 
-Any module that defines QML types in C++ should also ship a type description file.
+C++에서 QML 타입을 정의하는 모든 모듈은 타입 설명 파일도 함께 제공해야 합니다.
 
-The best way to create a qmltypes file for your module is to generate it using the build system and the QML_ELEMENT macros. If you follow the documentation on this, no further action is needed. qmltyperegistrar will automatically generate the .qmltypes files.
+모듈용 qmltypes 파일을 생성하는 가장 좋은 방법은 빌드 시스템과 [QML_ELEMENT](https://doc.qt.io/qt-6/qqmlengine.html#QML_ELEMENT) 매크로를 사용하여 생성하는 것입니다. 이에 대한 문서에 따르면 더 이상의 작업이 필요하지 않습니다. qmltyperegistrar는 .qmltypes 파일을 자동으로 생성할 것입니다.
 
-Example: If your module is in /tmp/imports/My/Module, a file called plugins.qmltypes should be generated alongside the actual plugin binary.
+예제: 모듈이 /tmp/imports/My/Module에 있는 경우, plugins.qmltypes이라는 파일을 실제 플러그인 바이너리와 함께 생성해야 합니다.
 
-Add the line
+/tmp/imports/My/Module/qmldir에 등록하기 위해 다음 라인을 추가하십시오.
 
 ```qml
 typeinfo plugins.qmltypes
 ```
 
-to /tmp/imports/My/Module/qmldir to register it.
-
 
 ##### 지원되는 QML 모듈 타입 - Identified 모듈
 
--
+* Identified Modules
+
+Identified modules are modules that are installed and identifiable to the QML engine by a URI in the form of a dotted identifier string, which should be specified by the module in its qmldir file. This enables such modules to be imported with a unique identifier that remains the same no matter where the module is located on the local file system.
+
+When importing an identified module, an unquoted identifier is used, with an optional version number:
+
+```qml
+import QtQuick 2.0
+import com.nokia.qml.mymodule 1.0
+```
+
+Identified modules must be installed into the import path in order to be found by the QML engine.
+
+Syntactically, each dot-separated segment of the URI must be a well-formed ECMAScript Identifier Name. This means, for example, the segments must not start with a number and they must not contain - (minus) characters. As the URI will be translated into directory names, you should restrict it to alphanumeric characters of the latin alphabet, underscores, and dots.
+
+* Locally Installed Identified Modules
+
+A directory of QML and/or C++ files can be shared as an identified module if it contains a qmldir file with the module metadata and is installed into the QML import path. Any QML file on the local file system can import this directory as a module by using an import statement that refers to the module's URI, enabling the file to use the QML object types and JavaScript resources defined by the module.
+
+The module's qmldir file must reside in a directory structure within the import path that reflects the URI dotted identifier string, where each dot (".") in the identifier reflects a sub-level in the directory tree. For example, the qmldir file of the module com.mycompany.mymodule must be located in the sub-path com/mycompany/mymodule/qmldir somewhere in the import path.
+
+It is possible to store different versions of a module in subdirectories of its own. For example, a version 2.1 of a module could be located under com/mycompany/mymodule.2/qmldir or com/mycompany/mymodule.2.1/qmldir. The engine will automatically load the module which matches best.
+
+Alternatively, versioning for different types can be defined within a qmldir file itself, however this can make updating such a module more difficult (as a qmldir file merge must take place as part of the update procedure).
+
+* An Example
+
+Consider the following QML project directory structure. Under the top level directory myapp, there are a set of common UI components in a sub-directory named mycomponents, and the main application code in a sub-directory named main, like this:
+
+```
+myapp
+    |- mycomponents
+        |- CheckBox.qml
+        |- DialogBox.qml
+        |- Slider.qml
+    |- main
+        |- application.qml
+```
+
+To make the mycomponents directory available as an identified module, the directory must include a qmldir file that defines the module identifier, and describes the object types made available by the module. For example, to make the CheckBox, DialogBox and Slider types available for version 1.0 of the module, the qmldir file would contain the following:
+
+```qml
+module myapp.mycomponents
+CheckBox 1.0 CheckBox.qml
+DialogBox 1.0 DialogBox.qml
+Slider 1.0 Slider.qml
+```
+
+Additionally, the location of the qmldir file in the import path must match the module's dotted identifier string. So, say the top level myapp directory is located in C:\qml\projects, and say the module should be identified as "myapp.mycomponents". In this case:
+
+- The path C:\qml\projects should be added to the import path
+- The qmldir file should be located under C:\qml\projects\myapp\mycomponents\qmldir
+
+Once this is done, a QML file located anywhere on the local filesystem can import the module by referring to its URI and the appropriate version:
+
+```qml
+import myapp.mycomponents 1.0
+
+DialogBox {
+    CheckBox {
+        // ...
+    }
+    Slider {
+        // ...
+    }
+}
+```
+
+* Remotely Installed Identified Modules
+
+Identified modules are also accessible as a network resource. In the previous example, if the C:\qml\projects directory was hosted as http://www.some-server.com/qml/projects and this URL was added to the QML import path, the module could be imported in exactly the same way.
+
+Note that when a file imports a module over a network, it can only access QML and JavaScript resources provided by the module; it cannot access any types defined by C++ plugins in the module.
+
+* Semantics of Identified Modules
+
+An identified module is provided with the following guarantees by the QML engine:
+
+- other modules are unable to modify or override types in the module's namespace
+- other modules are unable to register new types into the module's namespace
+- usage of type names by clients will resolve deterministically to a given type definition depending on the versioning specified and the import order
+
+This ensures that clients which use the module can be certain that the object types defined in the module will behave as the module author documented.
+
+An identified module has several restrictions upon it:
+
+- an identified module must be installed into the QML import path
+- the module identifier specified in the module identifier directive must match the install path of the module (relative to the QML import path, where directory separators are replaced with period characters)
+- the module must register its types into the module identifier type namespace
+- the module may not register types into any other module's namespace
+- clients must specify a version when importing the module
+
+For example, if an identified module is installed into $QML_IMPORT_PATH/ExampleModule, the module identifier directive must be:
+
+```qml
+module ExampleModule
+```
+
+If the strict module is installed into $QML_IMPORT_PATH/com/example/CustomUi, the module identifier directive must be:
+
+```qml
+module com.example.CustomUi
+```
+
+Clients will then be able to import the above module with the following import statement (assuming that the module registers types into version 1.0 of its namespace):
+
+```qml
+import com.example.CustomUi 1.0
+```
 
 
 ##### 지원되는 QML 모듈 타입 - Legacy 모듈
