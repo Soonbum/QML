@@ -1,4 +1,4 @@
-# QML (Qt Modeling Language)
+# QML (Qt Modeling Language) 레퍼런스
 
 ### 목차
 
