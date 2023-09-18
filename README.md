@@ -4341,14 +4341,11 @@ Item {
 }
 ```
 
-Bindings have access to the scope object's properties without qualification. In the previous example, the binding accesses the Item's parent property directly, without needing any form of object prefix. QML introduces a more structured, object-oriented approach to JavaScript, and consequently does not require the use of the JavaScript this property.
-바인딩은 스코프 개체의 속성에 자격 없이 액세스할 수 있습니다. 이전 예에서 바인딩은 개체 접두사의 형식을 필요로 하지 않고 항목의 상위 속성에 직접 액세스합니다. QML은 자바스크립트에 더 구조화되고 개체 지향적인 접근법을 도입하여 결과적으로 자바스크립트의 속성을 사용할 필요가 없습니다.
+바인딩은 자격이 없이도 범위 객체의 프로퍼티에 접근할 수 있습니다. 이전 예제에서 바인딩은 객체 접두사의 형식을 필요로 하지 않고 [Item](https://doc.qt.io/qt-6/qml-qtquick-item.html)의 부모 프로퍼티에 직접 접근합니다. QML은 JavaScript에 더 구조화되고 객체-지향적인 접근법을 도입하여 결과적으로 JavaScript의 프로퍼티를 사용할 필요가 없습니다.
 
-Care must be used when accessing attached properties from bindings due to their interaction with the scope object. Conceptually attached properties exist on all objects, even if they only have an effect on a subset of those. Consequently unqualified attached property reads will always resolve to an attached property on the scope object, which is not always what the programmer intended.
-범위 객체와의 상호 작용으로 인해 바인딩에서 첨부 속성에 액세스할 때는 주의해야 합니다. 개념적으로 첨부된 속성은 모든 객체에 존재하며, 이는 해당 객체의 하위 집합에만 영향을 미치더라도 마찬가지입니다. 결과적으로 정규화되지 않은 첨부 속성 읽기는 항상 범위 객체의 첨부 속성으로 해결되지만 프로그래머가 의도한 것은 아닙니다.
+범위 객체와의 상호 작용으로 인해 바인딩에서 [부착된 프로퍼티](https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html#attached-properties-and-attached-signal-handlers)에 접근할 때는 주의해야 합니다. 개념적으로 부착된 프로퍼티는 모든 객체에 존재하며, 이는 해당 객체의 하위 집합에만 영향을 미치더라도 마찬가지입니다. 결과적으로 자격을 갖추지 않은 부착된 프로퍼티 읽기는 항상 범위 객체의 부착된 프로퍼티로 해결되지만, 항상 프로그래머가 의도한 것은 아닙니다.
 
-For example, the PathView type attaches interpolated value properties to its delegates depending on their position in the path. As PathView only meaningfully attaches these properties to the root object in the delegate, any sub-object that accesses them must explicitly qualify the root object, as shown below.
-예를 들어 PathView 유형은 경로 내 위치에 따라 대리인에 보간된 값 속성을 부여합니다. PathView는 대리인의 루트 개체에만 이러한 속성을 의미 있게 부여하므로, 아래와 같이 이 속성에 액세스하는 모든 하위 개체는 루트 개체의 자격을 명시적으로 부여해야 합니다.
+예를 들어, [PathView](https://doc.qt.io/qt-6/qml-qtquick-pathview.html) 타입은 경로 내 위치에 따라 위임인에게 보간된 값 프로퍼티를 부착합니다. [PathView](https://doc.qt.io/qt-6/qml-qtquick-pathview.html)는 위임인의 루트 객체에만 이러한 프로퍼티를 의미 있게 부착하므로, 아래와 같이 이 프로퍼티에 접근하는 모든 하위 객체는 루트 객체의 자격을 명시적으로 부여해야 합니다.
 
 ```qml
 PathView {
@@ -4363,13 +4360,11 @@ PathView {
 }
 ```
 
-If the Image object omitted the root prefix, it would inadvertently access the unset PathView.scale attached property on itself.
-Image 개체가 루트 접두사를 생략한 경우 실수로 자신의 설정되지 않은 PathView.scale 연결 속성에 액세스하게 됩니다.
+[Image](https://doc.qt.io/qt-6/qml-qtquick-image.html) 객체가 루트 접두사를 생략한 경우, 실수로 자신의 설정되지 않은 PathView.scale 부착된 프로퍼티에 접근하게 됩니다.
 
 * 컴포넌트 범위
 
-Each QML component in a QML document defines a logical scope. Each document has at least one root component, but can also have other inline sub-components. The component scope is the union of the object ids within the component and the component's root object's properties.
-QML 문서의 각 QML 구성 요소는 논리적 범위를 정의합니다. 각 문서에는 적어도 하나의 루트 구성 요소가 있지만 다른 인라인 하위 구성 요소도 있을 수 있습니다. 구성 요소 범위는 구성 요소 내의 개체 ID와 구성 요소의 루트 개체 속성의 결합입니다.
+QML 문서의 각 QML 컴포넌트는 논리적 범위를 정의합니다. 각 문서에는 적어도 하나의 루트 컴포넌트가 있지만 다른 인라인 하위 컴포넌트도 있을 수 있습니다. 컴포넌트 범위는 컴포넌트 내의 객체 ID와 컴포넌트의 루트 객체 프로퍼티의 합집합입니다.
 
 ```qml
 Item {
@@ -4390,19 +4385,15 @@ Item {
 }
 ```
 
-The example above shows a simple QML component that displays a rich text title string at the top, and a smaller copy of the same text at the bottom. The first Text type directly accesses the component's title property when forming the text to display. That the root type's properties are directly accessible makes it trivial to distribute data throughout the component.
-위의 예는 리치 텍스트 제목 문자열을 상단에 표시하는 간단한 QML 구성 요소와 동일한 텍스트의 작은 복사본을 하단에 표시합니다. 첫 번째 텍스트 유형은 표시할 텍스트를 구성할 때 구성 요소의 제목 속성에 직접 액세스합니다. 루트 유형의 속성에 직접 액세스할 수 있다는 점은 구성 요소 전체에 데이터를 배포하는 것을 사소한 일로 만듭니다.
+위의 예제는 리치 텍스트 제목 문자열을 상단에 표시하는 간단한 QML 컴포넌트와 동일한 텍스트의 작은 복사본을 하단에 표시합니다. 1번째 텍스트 타입은 표시할 텍스트를 구성할 때 컴포넌트의 제목 프로퍼티에 직접 접근합니다. 루트 타입의 프로퍼티에 직접 접근할 수 있다는 점은 컴포넌트 전체에 데이터를 배포하는 것을 사소한 일로 만듭니다.
 
-The second Text type uses an id to access the first's text directly. IDs are specified explicitly by the QML programmer so they always take precedence over other property names (except for those in the JavaScript Scope). For example, in the unlikely event that the binding's scope object had a titletype property in the previous example, the titletype id would still take precedence.
-두 번째 텍스트 유형은 첫 번째 텍스트에 직접 액세스하기 위해 ID를 사용합니다. ID는 QML 프로그래머에 의해 명시적으로 지정되므로 항상 다른 속성 이름보다 우선합니다(JavaScript Scope의 경우는 제외). 예를 들어 이전 예에서 바인딩의 스코프 개체에 제목 유형 속성이 있는 경우에는 제목 유형 ID가 여전히 우선합니다.
+ID는 QML 프로그래머에 의해 명시적으로 지정되므로 항상 다른 프로퍼티 이름보다 우선합니다. ([JavaScript 범위](https://doc.qt.io/qt-6/qtqml-documents-scope.html#javascript-scope)의 경우는 제외) 예를 들어, 이전 예제에서 바인딩의 [범위 객체](https://doc.qt.io/qt-6/qtqml-documents-scope.html#binding-scope-object)에 제목 타입 프로퍼티가 있는 경우에는 제목 타입 ID가 여전히 우선합니다.
 
 * 컴포넌트 인스턴스 계층
 
-In QML, component instances connect their component scopes together to form a scope hierarchy. Component instances can directly access the component scopes of their ancestors.
-QML에서 컴포넌트 인스턴스는 자신의 컴포넌트 스코프를 서로 연결하여 스코프 계층을 형성합니다. 컴포넌트 인스턴스는 자신의 조상의 컴포넌트 스코프에 직접 액세스할 수 있습니다.
+QML에서 컴포넌트 인스턴스는 자신의 컴포넌트 범위를 서로 연결하여 범위 계층을 형성합니다. 컴포넌트 인스턴스는 자신의 조상의 컴포넌트 범위에 직접 접근할 수 있습니다.
 
-The easiest way to demonstrate this is with inline sub-components whose component scopes are implicitly scoped as children of the outer component.
-이를 입증하는 가장 쉬운 방법은 구성 요소 범위가 외부 구성 요소의 하위 항목으로 암시적으로 범위가 지정된 인라인 하위 구성 요소입니다.
+이를 시연하는 가장 쉬운 방법은 컴포넌트 범위가 외부 컴포넌트의 하위 컴포넌트로 암시적으로 범위가 지정된 인라인 하위 컴포넌트입니다.
 
 ```qml
 Item {
@@ -4418,11 +4409,9 @@ Item {
 }
 ```
 
-The component instance hierarchy allows instances of the delegate component to access the defaultColor property of the Item type. Of course, had the delegate component had a property called defaultColor that would have taken precedence.
-구성 요소 인스턴스 계층 구조를 사용하면 위임 구성 요소의 인스턴스가 Item 유형의 defaultColor 속성에 액세스할 수 있습니다. 물론, 위임 구성 요소에 defaultColor라는 속성이 있으면 우선 순위가 지정됩니다.
+컴포넌트 인스턴스 계층 구조를 사용하면 위임 컴포넌트의 인스턴스가 Item 타입의 defaultColor 프로퍼티에 접근할 수 있습니다. 물론, 위임 컴포넌트에 defaultColor라는 프로퍼티가 있으면 그것이 먼저 우선 순위를 갖습니다.
 
-The component instance scope hierarchy extends to out-of-line components, too. In the following example, the TitlePage.qml component creates two TitleText instances. Even though the TitleText type is in a separate file, it still has access to the title property when it is used from within the TitlePage. QML is a dynamically scoped language - depending on where it is used, the title property may resolve differently.
-구성 요소 인스턴스 범위 계층 구조는 오프라인 구성 요소로도 확장됩니다. 다음 예제에서 TitlePage.qml 구성 요소는 두 개의 TitleText 인스턴스를 만듭니다. TitleText 유형이 별도의 파일에 있지만 TitlePage 내에서 사용할 때에도 TitleText 속성에 액세스할 수 있습니다. QML은 동적 범위 언어로, 사용되는 위치에 따라 제목 속성이 다르게 확인될 수 있습니다.
+컴포넌트 인스턴스 범위 계층 구조는 라인 밖 컴포넌트로도 확장됩니다. 다음 예제에서 TitlePage.qml 컴포넌트는 2개의 TitleText 인스턴스를 만듭니다. TitleText 타입이 별도의 파일에 있지만, TitlePage 내에서 사용할 때에도 title 프로퍼티에 접근할 수 있습니다. QML은 동적 범위 언어로, 사용되는 위치에 따라 title 프로퍼티가 다르게 해결될 수 있습니다.
 
 ```qml
 // TitlePage.qml
@@ -4450,8 +4439,7 @@ Text {
 }
 ```
 
-Dynamic scoping is very powerful, but it must be used cautiously to prevent the behavior of QML code from becoming difficult to predict. In general it should only be used in cases where the two components are already tightly coupled in another way. When building reusable components, it is preferable to use property interfaces, like this:
-동적 범위 지정은 매우 강력하지만 QML 코드의 동작을 예측하기 어려워지지 않도록 주의하여 사용해야 합니다. 일반적으로 두 구성 요소가 다른 방식으로 이미 단단히 결합되어 있는 경우에만 사용해야 합니다. 재사용 가능한 구성 요소를 만들 때는 다음과 같은 속성 인터페이스를 사용하는 것이 좋습니다:
+동적 범위 지정은 매우 강력하지만 QML 코드의 동작을 예측하기 어려워지지 않도록 주의하여 사용해야 합니다. 일반적으로 두 컴포넌트가 다른 방식으로 이미 단단히 결합되어 있는 경우에만 사용해야 합니다. 재사용 가능한 컴포넌트를 만들 때는 다음과 같은 프로퍼티 인터페이스를 사용하는 것이 좋습니다:
 
 ```qml
 // TitlePage.qml
@@ -4486,8 +4474,7 @@ Text {
 
 * 재정의된 프로퍼티
 
-QML permits property names defined in an object declaration to be overridden by properties declared within another object declaration that extends the first. For example:
-QML은 개체 선언에 정의된 속성 이름이 첫 번째 개체 선언을 확장하는 다른 개체 선언 내에서 선언된 속성에 의해 재정의되도록 허용합니다. 예를 들어:
+QML은 객체 선언에 정의된 프로퍼티 이름이 1번째 객체 선언을 확장하는 다른 객체 선언 내에서 선언된 속성에 의해 재정의되도록 허용합니다. 예를 들면:
 
 ```qml
 // Displayable.qml
