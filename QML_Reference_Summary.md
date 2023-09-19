@@ -49,8 +49,9 @@ Rectangle {
   - 객체 타입: color, font, point, size, rect, quaternion, vector2d, vector3d, vector4d, matrix4x4, ...
 
 * 자료 링크
-  - [All Qt C++ Classes](https://doc.qt.io/qt-6/classes.html)
-  - [All QML Types](https://doc.qt.io/qt-6/qmltypes.html)
-  - [All Qt Modules](https://doc.qt.io/qt-6/qtmodules.html)
-  - [All Qt Reference Pages](https://doc.qt.io/qt-6/reference-overview.html)
-  - [Examples and Tutorials](https://doc.qt.io/qt-6/qtexamplesandtutorials.html)
+  - [모든 Qt 레퍼런스](https://doc.qt.io/qt-6/reference-overview.html)
+  - [예제 및 튜토리얼](https://doc.qt.io/qt-6/qtexamplesandtutorials.html)
+
+... QML 모듈의 종류
+... C++ 모듈의 종류
+... C++ 클래스의 종류
