@@ -125,7 +125,7 @@ import할 때 JavaScript 파일 가져오기는 반드시 적합해야 합니다
 - import "../privateComponents"
 - import "somefile.js" as Script
 
-QML 가져오기에 대한 자세한 정보를 보려면 QML 구문 - Import 구문 문서를 보십시오.
+QML 가져오기에 대한 자세한 정보를 보려면 [QML 구문 - Import 구문](https://doc.qt.io/qt-6/qtqml-syntax-imports.html) 문서를 보십시오.
 
 ##### 객체 선언
 
