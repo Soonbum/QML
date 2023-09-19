@@ -51,7 +51,7 @@ Rectangle {
 * 자료 링크
   - [모든 Qt 레퍼런스](https://doc.qt.io/qt-6/reference-overview.html)
   - [예제 및 튜토리얼](https://doc.qt.io/qt-6/qtexamplesandtutorials.html)
+  - [모든 QML 모듈](https://doc.qt.io/qt-6/modules-qml.html)
+  - [모든 Qt 모듈](https://doc.qt.io/qt-6/qtmodules.html)
+  - [모듈로 구분된 모든 C++ 클래스](https://doc.qt.io/qt-6/modules-cpp.html)
 
-... QML 모듈의 종류
-... C++ 모듈의 종류
-... C++ 클래스의 종류
