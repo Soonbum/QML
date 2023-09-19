@@ -1,6 +1,6 @@
-QML (Qt Modeling Language) 레퍼런스 요약
+# QML (Qt Modeling Language) 레퍼런스 요약
 
-### QML 개요
+## QML 개요
 
 * 개발 템플릿
   - Qt Quick: QML과 C++을 이용하여 프로그램 개발 템플릿
@@ -13,8 +13,8 @@ QML (Qt Modeling Language) 레퍼런스 요약
 
 * 애트리뷰트에는 id, 프로퍼티, 시그널, 시그널 핸들러, 메서드 등이 있다.
   - 프로퍼티(Property): 객체 안에 들어 있는 타입(값 타입, 객체 타입)들을 의미한다.
-  - 시그널(Signal): 
-  - 시그널(Signal Handler): 
+  - 시그널(Signal): 객체에서 발생하는 이벤트 (signal이라는 키워드가 앞에 붙음) [능동적]
+  - 시그널(Signal Handler): 특정 이벤트가 발생했을 때 트리거 되는 함수 (주로 on 접두사가 붙어 있음) [수동적]
 
 * 컴포넌트(Component)는 .qml 파일로 만든 객체 타입을 의미한다.
   - 컴포넌트는 중첩된 구조를 만들 수 있다.
