@@ -116,8 +116,76 @@ Rectangle {
   | [Qt Wayland Compositor](https://doc.qt.io/qt-6/qtwaylandcompositor-index.html) | [Linux](https://doc.qt.io/qt-6/linux.html) | Linux and [Boot to Qt](https://doc.qt.io/Boot2Qt/) | Wayland Compositor를 개발하기 위한 프레임워크를 제공함 |
 
 * QML 모듈의 분류
+  | 모듈 | 설명 |
+  | --- | --- |
+  | [Qt 3D Core QML Types](https://doc.qt.io/qt-6/qt3d-core-qmlmodule.html) | 코어 Qt 3D QML 타입을 제공함 |
+  | [Qt 3D Extras QML Types](https://doc.qt.io/qt-6/qt3d-extras-qmlmodule.html) | 추가 모듈에 대한 Qt 3D QML 타입을 제공함 |
+  | [Qt 3D Input QML Types](https://doc.qt.io/qt-6/qt3d-input-qmlmodule.html) | Qt 3D 사용자 입력을 위한 QML 타입을 제공함 |
+  | [Qt 3D Logic QML Types](https://doc.qt.io/qt-6/qt3d-logic-qmlmodule.html) | 프레임을 3D 백엔드와 동기화할 수 있는 QML 타입을 제공함 |
+  | [Qt 3D Qt3DAnimation QML Types](https://doc.qt.io/qt-6/qt3d-animation-qmlmodule.html) | 애니메이션 모듈에 대한 Qt 3D QML 타입을 제공함 |
+  | [Qt 3D Render QML Types](https://doc.qt.io/qt-6/qt3d-render-qmlmodule.html) | 렌더링에 대한 Qt 3D QML 타입을 제공함 |
+  | [Qt 3D Scene2D QML Types](https://doc.qt.io/qt-6/qtquick-scene2d-qmlmodule.html) | Scene2D 모듈에 대한 Qt 3D QML 타입을 제공함 |
+  | [Qt 3D Scene3D QML Types](https://doc.qt.io/qt-6/qtquick-scene3d-qmlmodule.html) | Scene3D 모듈에 대한 Qt 3D QML 타입을 제공함 |
+  | [Qt 5 Compatibility APIs: Graphical Effect QML Types](https://doc.qt.io/qt-6/qt5compat-graphicaleffects-qmlmodule.html) | Qt 그래픽 효과 모듈은 Qt 5용으로 작성된 애플리케이션과의 호환성을 위해 제공됨 |
+  | [Qt Charts QML Types](https://doc.qt.io/qt-6/qtcharts-qmlmodule.html) | Qt Charts API을 위한 QML 타입 |
+  | [Qt Data Visualization QML Types](https://doc.qt.io/qt-6/qtdatavisualization-qmlmodule.html) | Qt 데이터 시각화 API를 위한 QML 타입 |
+  | [Qt Labs FolderListModel QML Types](https://doc.qt.io/qt-6/qt-labs-folderlistmodel-qmlmodule.html) | FolderListModel은 파일 시스템 폴더의 컨텐츠 모델을 제공함 |
+  | [Qt Labs Platform QML Types](https://doc.qt.io/qt-6/qt-labs-platform-qmlmodule.html) | 네이티브 플랫폼 확장을 위한 QML 타입을 제공함 |
+  | [Qt Labs WavefrontMesh QML Types](https://doc.qt.io/qt-6/qt-labs-wavefrontmesh-qmlmodule.html) | WavefrontMesh는 Wavefront .obj 파일 기반의 mesh를 제공함 |
+  | [Qt Location QML Types](https://doc.qt.io/qt-6/qtlocation-qmlmodule.html) | 매핑과 위치 정보를 위한 QML 타입을 제공함 |
+  | [Qt Lottie Animation QML Types](https://doc.qt.io/qt-6/qt-labs-lottieqt-qmlmodule.html) | Bodymovin 그래픽과 애니메이션을 표시하기 위한 QML 타입을 제공함 |
+  | [Qt Multimedia QML Types](https://doc.qt.io/qt-6/qtmultimedia-qmlmodule.html) | 멀티미디어 지원을 위한 QML 타입을 제공함 |
+  | [Qt OPC UA QML Types](https://doc.qt.io/qt-6/qtopcua-qmlmodule.html) | Qt OPC UA를 위한 QML 타입을 제공함 |
+  | [Qt Positioning QML Types](https://doc.qt.io/qt-6/qtpositioning-qmlmodule.html) | 위치 정보를 위한 QML 타입을 제공함 |
+  | [Qt QML Core QML Types](https://doc.qt.io/qt-6/qtcore-qmlmodule.html) | QML의 코어 시스템 기능을 제공함 |
+  | [Qt QML Models QML Types](https://doc.qt.io/qt-6/qtqml-models-qmlmodule.html) | 데이터 모델에 대한 QML 타입을 제공함 |
+  | [Qt QML Models experimental QML Types](https://doc.qt.io/qt-6/qt-labs-qmlmodels-qmlmodule.html) | 데이터 모델에 대한 실험적인 QML 타입을 제공함 |
+  | [Qt QML QML Types](https://doc.qt.io/qt-6/qtqml-qmlmodule.html) | Qt QML 모듈이 제공하는 QML 타입 목록 |
+  | [Qt QML WorkerScript QML Types](https://doc.qt.io/qt-6/qtqml-workerscript-qmlmodule.html) | 워커 스크립트를 위한 QML 타입을 제공함 |
+  | [Qt Quick 3D Asset Utility QML Types](https://doc.qt.io/qt-6/qtquick3d-assetutils-qmlmodule.html) | 런타임 시 소스로부터 직접 3D 자산을 로드할 수 있는 방법을 제공함 |
+  | [Qt Quick 3D Helpers QML Types](https://doc.qt.io/qt-6/qtquick3d-helpers-qmlmodule.html) | Qt Quick 3D를 사용하여 애플리케이션을 생성하기 위한 Helper가 포함된 모듈 |
+  | [Qt Quick 3D Particles3D QML Types](https://doc.qt.io/qt-6/qtquick3d-particles3d-qmlmodule.html) | Qt Quick 3D를 위한 파티클을 포함하는 모듈 |
+  | [Qt Quick 3D Physics QML Types](https://doc.qt.io/qt-6/qtquick3d-physics-qmlmodule.html) | Qt Quick 장면에 물리적 항목을 포함시키는 QML 타입을 제공함 |
+  | [Qt Quick 3D QML Types](https://doc.qt.io/qt-6/qtquick3d-qmlmodule.html) | Qt Quick 장면에 3D 항목을 포함시키는 QML 타입을 제공함 |
+  | [Qt Quick Controls QML Types](https://doc.qt.io/qt-6/qtquick-controls-qmlmodule.html) | 사용자 인터페이스(Qt Quick Controls)를 위한 QML 타입을 제공함 |
+  | [Qt Quick Dialogs QML Types](https://doc.qt.io/qt-6/qtquick-dialogs-qmlmodule.html) | 시스템 다이얼로그를 생성하고 상호작용하기 위한 QML 타입을 제공함 |
+  | [Qt Quick Effects QML Types](https://doc.qt.io/qt-6/qtquick-effects-qmlmodule.html) | 하나 이상의 간단한 그래픽 효과를 Qt Quick 항목에 적용할 수 있는 QML 타입을 제공함 |
+  | [Qt Quick Layouts QML Types](https://doc.qt.io/qt-6/qtquick-layouts-qmlmodule.html) | 사용자 인터페이스에서 QML 항목을 정렬하기 위한 QML 타입을 제공함 |
+  | [Qt Quick Local Storage QML Types](https://doc.qt.io/qt-6/qtquick-localstorage-qmlmodule.html) | 로컬 SQLite 데이터베이스에 접근하기 위한 JavaScript 객체 싱글톤 타입을 제공함 |
+  | [Qt Quick PDF QML Types](https://doc.qt.io/qt-6/qtquick-pdf-qmlmodule.html) | PDF 문서를 다루기 위한 QML 타입을 제공함 |
+  | [Qt Quick Particles QML Types](https://doc.qt.io/qt-6/qtquick-particles-qmlmodule.html) | 파티클 효과를 위한 QML 타입을 제공함 |
+  | [Qt Quick QML Types](https://doc.qt.io/qt-6/qtquick-qmlmodule.html) | 그래픽 QML 타입을 제공함 |
+  | [Qt Quick Shapes QML Types](https://doc.qt.io/qt-6/qtquick-shapes-qmlmodule.html) | 스트로크와 채워진 도형을 그리기 위한 QML 타입을 제공함 |
+  | [Qt Quick Shared Image Provider](https://doc.qt.io/qt-6/qt-labs-sharedimage-qmlmodule.html) | 공유 CPU 메모리를 활용하는 이미지 제공자를 추가함 |
+  | [Qt Quick Templates 2 QML Types](https://doc.qt.io/qt-6/qtquick-templates-qmlmodule.html) | 템플릿(Qt Quick Templates)을 위한 QML 타입을 제공함 |
+  | [Qt Quick Test QML Types](https://doc.qt.io/qt-6/qttest-qmlmodule.html) | QML 애플리케이션을 단위 테스트하기 위한 QML 타입을 제공함 |
+  | [Qt Quick Timeline QML Types](https://doc.qt.io/qt-6/qtquick-timeline-qmlmodule.html) | Qt Quick 사용자 인터페이스를 애니메이션화하기 위해 타임라인과 키프레임을 사용할 수 있는 QML 타입을 제공함 |
+  | [Qt Quick Virtual Keyboard Components QML Types](https://doc.qt.io/qt-6/qtquick-virtualkeyboard-components-qmlmodule.html) | 가상 키보드 레이아웃을 커스텀화하기 위한 QML 타입을 제공함 |
+  | [Qt Quick Virtual Keyboard Settings QML Types](https://doc.qt.io/qt-6/qtquick-virtualkeyboard-settings-qmlmodule.html) | Qt 가상 키보드에 대한 설정을 제공함 |
+  | [Qt Quick Virtual Keyboard Styles QML Types](https://doc.qt.io/qt-6/qtquick-virtualkeyboard-styles-qmlmodule.html) | Qt 가상 키보드에 대한 스타일링을 제공함 |
+  | [Qt Quick experimental animation types](https://doc.qt.io/qt-6/qt-labs-animation-qmlmodule.html) | 애니메이션을 위한 실험적인 QML 타입을 제공함 |
+  | [Qt Remote Objects QML Types](https://doc.qt.io/qt-6/qtremoteobjects-qmlmodule.html) | 원격 객체 지원을 위한 QML 타입을 제공함 |
+  | [Qt SCXML QML Types](https://doc.qt.io/qt-6/qtscxml-qmlmodule.html) | QML로 SCXML 상태 머신을 사용할 수 있도록 함 |
+  | [Qt Sensors QML Types](https://doc.qt.io/qt-6/qtsensors-qmlmodule.html) | 센서 데이터를 읽기 위한 QML 타입을 제공함 |
+  | [Qt Spatial Audio QML Types](https://doc.qt.io/qt-6/qtquick3d-spatialaudio-qmlmodule.html) | 공간 오디오에 대한 QML 타입을 제공함 |
+  | [Qt State Machine QML Types](https://doc.qt.io/qt-6/qtqml-statemachine-qmlmodule.html) | QML로 상태 머신을 사용할 수 있게 함 |
+  | [Qt TextToSpeech QML Types](https://doc.qt.io/qt-6/qttexttospeech-qmlmodule.html) | TTS(Text-to-Speech) 기능에 접근하기 위한 QML 타입 |
+  | [Qt Virtual Keyboard Module QML Types](https://doc.qt.io/qt-6/qtquick-virtualkeyboard-qmlmodule.html) | 가상 키보드에 대한 QML 타입을 제공함 |
+  | [Qt Wayland Compositor QML Types](https://doc.qt.io/qt-6/qtwayland-compositor-qmlmodule.html) | 커스텀 Wayland 디스플레이 서버를 작성하기 위한 QML 타입을 제공함 |
+  | [Qt Wayland IviApplication Extension](https://doc.qt.io/qt-6/qtwayland-compositor-iviapplication-qmlmodule.html) | IviApplication 셸 확장을 위한 Qt API를 제공함 |
+  | [Qt Wayland Presentation Time Extension](https://doc.qt.io/qt-6/qtwayland-compositor-presentationtime-qmlmodule.html) | 프레임이 화면에 표시되는 타이밍을 추적하는 기능을 제공함 |
+  | [Qt Wayland Qt Shell Extension](https://doc.qt.io/qt-6/qtwayland-compositor-qtshell-qmlmodule.html) | Qt Wayland Compositor에서 실행 중인 Qt 애플리케이션을 위한 셸 확장을 제공함 |
+  | [Qt Wayland WlShell Extension](https://doc.qt.io/qt-6/qtwayland-compositor-wlshell-qmlmodule.html) | WlShell 확장을 위한 Qt API를 제공함 |
+  | [Qt Wayland XdgShell Extension](https://doc.qt.io/qt-6/qtwayland-compositor-xdgshell-qmlmodule.html) | XdgShell 셸 확장을 위한 Qt API를 제공함 |
+  | [Qt WebChannel QML Types](https://doc.qt.io/qt-6/qtwebchannel-qmlmodule.html) | WebChannel 기능을 제공하는 QML 타입의 목록 |
+  | [Qt WebEngine QML Types](https://doc.qt.io/qt-6/qtwebengine-qmlmodule.html) | QML 애플리케이션 내에서 웹 컨텐츠를 렌더링하기 위한 QML 타입을 제공함 |
+  | [Qt WebSockets QML Types](https://doc.qt.io/qt-6/qtwebsockets-qmlmodule.html) | WebSocket-기반 통신을 위한 QML 타입을 제공함 |
+  | [Qt WebView QML Types](https://doc.qt.io/qt-6/qtwebview-qmlmodule.html) | Qt WebView를 위한 QML 타입을 제공함 |
+  | [Qt XmlListModel QML Types](https://doc.qt.io/qt-6/qtqml-xmllistmodel-qmlmodule.html) | XML 데이터로부터 모델을 생성하기 위한 QML 타입을 제공함 |
+  | [QtQuick3D.SpatialAudio QML Types](https://doc.qt.io/qt-6/qtquick3d-audio-qmlmodule.html) | Qt Quick 3D에서 공간 오디오에 대한 QML 타입을 제공함 |
 
 * 모듈로 구분된 C++ 클래스의 분류
+  ... https://doc.qt.io/qt-6/modules-cpp.html
 
 * 자료 링크
   - [모든 Qt 레퍼런스](https://doc.qt.io/qt-6/reference-overview.html)
