@@ -187,65 +187,65 @@ Rectangle {
 * 모듈로 구분된 C++ 클래스의 분류
   | 클래스 | 설명 |
   | --- | --- |
-  | [QAxContainer C++ Classes](https://doc.qt.io/qt-6/qaxcontainer-module.html) | Module is a Windows-only extension for accessing ActiveX controls and COM objects |
-  | [QAxServer C++ Classes](https://doc.qt.io/qt-6/qaxserver-module.html) | Module is a Windows-only static library that you can use to turn a standard Qt binary into a COM server |
-  | [Qt 3D Animation C++ Classes](https://doc.qt.io/qt-6/qt3danimation-module.html) | Qt 3D Animation modules provides a set of prebuilt elements to help you get started with Qt 3D |
-  | [Qt 3D Core C++ Classes](https://doc.qt.io/qt-6/qt3dcore-module.html) | Qt 3D module contains functionality to support near-realtime simulation systems |
-  | [Qt 3D Extras C++ Classes](https://doc.qt.io/qt-6/qt3dextras-module.html) | Qt 3D Extras module provides a set of prebuilt elements to help you get started with Qt 3D |
-  | [Qt 3D Input C++ Classes](https://doc.qt.io/qt-6/qt3dinput-module.html) | Qt 3D Input module provides classes for handling user input in applications using Qt3D |
-  | [Qt 3D Logic C++ Classes](https://doc.qt.io/qt-6/qt3dlogic-module.html) | Qt 3D Logic module enables synchronizing frames with the Qt 3D backend |
-  | [Qt 3D Render C++ Classes](https://doc.qt.io/qt-6/qt3drender-module.html) | Qt 3D Render module contains functionality to support 2D and 3D rendering using Qt 3D |
-  | [Qt 3D Scene2D C++ Classes](https://doc.qt.io/qt-6/qt3dscene2d-module.html) | Qt 3D Scene2D module provides a way to render Quick2 qml content to a Qt 3D texture |
-  | [Qt 5 Core Compatibility C++ Classes](https://doc.qt.io/qt-6/qtcore5compat-module.html) | Contains the Qt 5 Core APIs removed from Qt 6 |
-  | [Qt Bluetooth C++ Classes](https://doc.qt.io/qt-6/qtbluetooth-module.html) | Enables basic Bluetooth operations like scanning for devices and connecting them |
-  | [Qt Charts C++ Classes](https://doc.qt.io/qt-6/qtcharts-module.html) | C++ classes for the Qt Charts API |
-  | [Qt CoAP C++ Classes](https://doc.qt.io/qt-6/qtcoap-module.html) | Provides classes to use CoAP protocol |
-  | [Qt Concurrent C++ Classes](https://doc.qt.io/qt-6/qtconcurrent-module.html) | Qt Concurrent module contains functionality to support concurrent execution of program code |
-  | [Qt Core C++ Classes](https://doc.qt.io/qt-6/qtcore-module.html) | Provides core non-GUI functionality |
-  | [Qt D-Bus C++ Classes](https://doc.qt.io/qt-6/qtdbus-module.html) | Qt D-Bus module is a Unix-only library that you can use to perform Inter-Process Communication using the D-Bus protocol |
-  | [Qt Data Visualization C++ Classes](https://doc.qt.io/qt-6/qtdatavisualization-module.html) | C++ classes for the Qt Data Visualization API |
-  | [Qt Designer C++ Classes](https://doc.qt.io/qt-6/qtdesigner-module.html) | Provides classes to create your own custom widget plugins for Qt Designer and classes to access Qt Designer components |
-  | [Qt GUI C++ Classes](https://doc.qt.io/qt-6/qtgui-module.html) | Qt GUI module provides the basic enablers for graphical applications written with Qt |
-  | [Qt HTTP Server C++ Classes](https://doc.qt.io/qt-6/qthttpserver-module.html) | List of C++ classes that provide HTTP server framework |
-  | [Qt Help C++ Classes](https://doc.qt.io/qt-6/qthelp-module.html) | Provides classes for integrating online documentation in applications |
-  | [Qt Location C++ Classes](https://doc.qt.io/qt-6/qtlocation-module.html) | Provides C++ interfaces to retrieve location and navigational information |
-  | [Qt MQTT C++ Classes](https://doc.qt.io/qt-6/qtmqtt-module.html) | Provides classes that enable sending messages via the MQTT protocol |
-  | [Qt Multimedia Module C++ Classes](https://doc.qt.io/qt-6/qtmultimedia-module.html) | Qt Multimedia module provides audio, video and camera functionality |
-  | [Qt NFC C++ Classes](https://doc.qt.io/qt-6/qtnfc-module.html) | An API for accessing NFC Forum Tags |
-  | [Qt Network Authorization C++ Classes](https://doc.qt.io/qt-6/qtnetworkauth-module.html) | Provides classes for network authorization support (OAuth) |
-  | [Qt Network C++ Classes](https://doc.qt.io/qt-6/qtnetwork-module.html) | Provides classes to make network programming easier and portable |
-  | [Qt OPC UA C++ Classes](https://doc.qt.io/qt-6/qtopcua-module.html) | List of C++ classes that provide the Qt OPC UA functionality |
-  | [Qt OpenGL C++ Classes](https://doc.qt.io/qt-6/qtopengl-module.html) | Qt OpenGL module offers classes that make it easy to use OpenGL in Qt applications |
-  | [Qt PDF C++ Classes](https://doc.qt.io/qt-6/qtpdf-module.html) | Renders pages from PDF documents |
-  | [Qt Positioning C++ Classes](https://doc.qt.io/qt-6/qtpositioning-module.html) | Positioning module provides positioning information via QML and C++ interfaces |
-  | [Qt Print Support C++ Classes](https://doc.qt.io/qt-6/qtprintsupport-module.html) | Qt PrintSupport module provides classes to make printing easier and portable |
-  | [Qt QML C++ Classes](https://doc.qt.io/qt-6/qtqml-module.html) | C++ API provided by the Qt QML module |
-  | [Qt Quick C++ Classes](https://doc.qt.io/qt-6/qtquick-module.html) | Qt Quick module provides classes for embedding Qt Quick in Qt/C++ applications |
-  | [Qt Quick Controls C++ Classes](https://doc.qt.io/qt-6/qtquickcontrols2-module.html) | Provides classes for setting up the controls from C++ |
-  | [Qt Quick Test C++ API](https://doc.qt.io/qt-6/qtquicktest-module.html) | Provides macros and functions for tests |
-  | [Qt Quick Widgets C++ Classes](https://doc.qt.io/qt-6/qtquickwidgets-module.html) | C++ API provided by the Qt Quick Widgets module |
-  | [Qt Remote Objects C++ Classes](https://doc.qt.io/qt-6/qtremoteobjects-module.html) | Provides an easy to use mechanism for sharing a QObject's properties, signals, or slots, between processes |
-  | [Qt SCXML C++ Classes](https://doc.qt.io/qt-6/qtscxml-module.html) | Provides classes to create and use state machines from SCXML files |
-  | [Qt SQL C++ Classes](https://doc.qt.io/qt-6/qtsql-module.html) | Provides a driver layer, SQL API layer, and a user interface layer for SQL databases |
-  | [Qt SVG C++ Classes](https://doc.qt.io/qt-6/qtsvg-module.html) | Qt SVG module provides functionality for handling SVG images |
-  | [Qt Sensors C++ Classes](https://doc.qt.io/qt-6/qtsensors-module.html) | Provides classes for reading sensor data |
-  | [Qt Serial Bus C++ Classes](https://doc.qt.io/qt-6/qtserialbus-module.html) | Provides classes to read and write serial bus data |
-  | [Qt Serial Port C++ Classes](https://doc.qt.io/qt-6/qtserialport-module.html) | List of C++ classes that enable access to a serial port |
-  | [Qt Spatial Audio Module C++ Classes](https://doc.qt.io/qt-6/qtspatialaudio-module.html) | Qt Spatial Audio module provides functionality for 3D audio |
-  | [Qt State Machine C++ Classes](https://doc.qt.io/qt-6/qtstatemachine-module.html) | Qt State Machine module provides classes for creating and executing state graphs |
-  | [Qt Test C++ Classes](https://doc.qt.io/qt-6/qttest-module.html) | Provides classes for unit testing Qt applications and libraries |
-  | [Qt TextToSpeech C++ Classes](https://doc.qt.io/qt-6/qttexttospeech-module.html) | C++ API to access text-to-speech engines |
-  | [Qt UI Tools C++ Classes](https://doc.qt.io/qt-6/qtuitools-module.html) | Provides classes to handle forms created with Qt Designer |
-  | [Qt Virtual Keyboard C++ Classes](https://doc.qt.io/qt-6/qtvirtualkeyboard-module.html) | Provides classes to implement input methods for virtual keyboards |
-  | [Qt Wayland Compositor C++ Classes](https://doc.qt.io/qt-6/qtwaylandcompositor-module.html) | Provides C++ classes for writing custom Wayland display servers |
-  | [Qt WebChannel C++ Classes](https://doc.qt.io/qt-6/qtwebchannel-module.html) | List of C++ classes that provide the Qt WebChannel functionality |
-  | [Qt WebEngine Core C++ Classes](https://doc.qt.io/qt-6/qtwebenginecore-module.html) | Provides public API shared by both QtWebEngineQuick and QtWebEngineWidgets |
-  | [Qt WebEngine Quick C++ Classes](https://doc.qt.io/qt-6/qtwebenginequick-module.html) | Exposes C++ functionality to Qt Quick |
-  | [Qt WebEngine Widgets C++ Classes](https://doc.qt.io/qt-6/qtwebenginewidgets-module.html) | Provides C++ classes for rendering web content in a QWidget based application |
-  | [Qt WebSockets C++ Classes](https://doc.qt.io/qt-6/qtwebsockets-module.html) | List of C++ classes that enable WebSocket-based communication |
-  | [Qt WebView C++ Classes and Namespaces](https://doc.qt.io/qt-6/qtwebview-module.html) | Provides a helper function to set up and use the WebView |
-  | [Qt Widgets C++ Classes](https://doc.qt.io/qt-6/qtwidgets-module.html) | Qt Widgets module extends Qt GUI with C++ widget functionality |
-  | [Qt XML C++ Classes](https://doc.qt.io/qt-6/qtxml-module.html) | Qt XML module provides a C++ implementation of the DOM standard for XML |
+  | [QAxContainer C++ Classes](https://doc.qt.io/qt-6/qaxcontainer-module.html) | 이 모듈은 ActiveX 컨트롤과 COM 객체에 접근하기 위한 Windows 전용 확장입니다. |
+  | [QAxServer C++ Classes](https://doc.qt.io/qt-6/qaxserver-module.html) | 이 모듈은 표준 Qt 라이브러리를 COM 서버로 바꾸는 데 사용할 수 있는 Windows 전용 정적 라이브러리입니다. |
+  | [Qt 3D Animation C++ Classes](https://doc.qt.io/qt-6/qt3danimation-module.html) | Qt 3D 애니메이션 모듈은 Qt 3D를 시작하는 데 도움을 주는 미리 구축된 요소 세트를 제공합니다. |
+  | [Qt 3D Core C++ Classes](https://doc.qt.io/qt-6/qt3dcore-module.html) | Qt 3D 모듈은 근실시간 시뮬레이션 시스템을 지원하는 기능을 포함하고 있습니다. |
+  | [Qt 3D Extras C++ Classes](https://doc.qt.io/qt-6/qt3dextras-module.html) | Qt 3D Extras 모듈은 Qt 3D를 시작하는 데 도움을 주는 미리 구축된 요소 세트를 제공합니다. |
+  | [Qt 3D Input C++ Classes](https://doc.qt.io/qt-6/qt3dinput-module.html) | Qt 3D 입력 모듈은 Qt 3D를 사용하는 애플리케이션에서 사용자 입력을 처리하기 위한 클래스를 제공합니다. |
+  | [Qt 3D Logic C++ Classes](https://doc.qt.io/qt-6/qt3dlogic-module.html) | Qt 3D 로직 모듈은 Qt 3D 백엔드와 프레임을 동기화할 수 있게 해줍니다. |
+  | [Qt 3D Render C++ Classes](https://doc.qt.io/qt-6/qt3drender-module.html) | Qt 3D 렌더 모듈은 Qt 3D를 사용하여 2D 및 3D 렌더링을 지원하기 위한 기능을 포함하고 있습니다. |
+  | [Qt 3D Scene2D C++ Classes](https://doc.qt.io/qt-6/qt3dscene2d-module.html) | Qt 3D Scene2D 모듈은 Qt 3D 텍스쳐에 Quick2 qml 컨텐츠를 렌더링하는 방법을 제공합니다. |
+  | [Qt 5 Core Compatibility C++ Classes](https://doc.qt.io/qt-6/qtcore5compat-module.html) | Qt 6에서 제거된 Qt 5 코어 API를 포함하고 있습니다. |
+  | [Qt Bluetooth C++ Classes](https://doc.qt.io/qt-6/qtbluetooth-module.html) | 장치 스캐닝 및 장치 연결과 같은 기본 Bluetooth 동작을 가능하게 해줍니다. |
+  | [Qt Charts C++ Classes](https://doc.qt.io/qt-6/qtcharts-module.html) | Qt Charts API에 대한 C++ 클래스입니다. |
+  | [Qt CoAP C++ Classes](https://doc.qt.io/qt-6/qtcoap-module.html) | CoAP 프로토콜을 사용하기 위한 클래스를 제공합니다. |
+  | [Qt Concurrent C++ Classes](https://doc.qt.io/qt-6/qtconcurrent-module.html) | Qt Concurrent 모듈은 프로그램 코드 동시 실행을 지원하는 기능을 포함하고 있습니다. |
+  | [Qt Core C++ Classes](https://doc.qt.io/qt-6/qtcore-module.html) | 코어 비-GUI 기능을 제공합니다. |
+  | [Qt D-Bus C++ Classes](https://doc.qt.io/qt-6/qtdbus-module.html) | Qt D-Bus 모듈은 D-Bus 프로토콜을 사용하여 Inter-Process Communication을 수행할 수 있는 Unix 전용 라이브러리입니다. |
+  | [Qt Data Visualization C++ Classes](https://doc.qt.io/qt-6/qtdatavisualization-module.html) | Qt 데이터 시각화 API를 위한 C++ 클래스입니다. |
+  | [Qt Designer C++ Classes](https://doc.qt.io/qt-6/qtdesigner-module.html) | Qt Designer를 위한 자신만의 커스텀 위젯 플러그인을 생성할 수 있는 클래스와 Qt Designer 컴포넌트에 접근할 수 있는 클래스를 제공합니다. |
+  | [Qt GUI C++ Classes](https://doc.qt.io/qt-6/qtgui-module.html) | Qt GUI 모듈은 Qt로 작성된 그래픽 애플리케이션에 대한 기본 조력자를 제공합니다. |
+  | [Qt HTTP Server C++ Classes](https://doc.qt.io/qt-6/qthttpserver-module.html) | HTTP 서버 프레임워크를 제공하는 C++ 클래스의 목록입니다. |
+  | [Qt Help C++ Classes](https://doc.qt.io/qt-6/qthelp-module.html) | 애플리케이션에 온라인 문서를 통합하기 위한 클래스를 제공합니다. |
+  | [Qt Location C++ Classes](https://doc.qt.io/qt-6/qtlocation-module.html) | 위치 및 항법 정보를 가져올 수 있는 C++ 인터페이스를 제공합니다. |
+  | [Qt MQTT C++ Classes](https://doc.qt.io/qt-6/qtmqtt-module.html) | MQTT 프로토콜을 통해 메시지를 보낼 수 있게 해주는 클래스를 제공합니다. |
+  | [Qt Multimedia Module C++ Classes](https://doc.qt.io/qt-6/qtmultimedia-module.html) | 오디오, 비디오, 카메라 기능을 제공하는 Qt 멀티미디어 모듈입니다. |
+  | [Qt NFC C++ Classes](https://doc.qt.io/qt-6/qtnfc-module.html) | NFC Forum Tags에 접근하기 위한 API입니다. |
+  | [Qt Network Authorization C++ Classes](https://doc.qt.io/qt-6/qtnetworkauth-module.html) | 네트워크 인증 지원(OAuth)을 위한 클래스를 제공합니다. |
+  | [Qt Network C++ Classes](https://doc.qt.io/qt-6/qtnetwork-module.html) | 네트워크 프로그래밍을 쉽게 해주고 이식할 수 있도록 해주는 클래스를 제공합니다. |
+  | [Qt OPC UA C++ Classes](https://doc.qt.io/qt-6/qtopcua-module.html) | Qt OPC UA 기능을 제공해주는 C++ 클래스의 목록입니다. |
+  | [Qt OpenGL C++ Classes](https://doc.qt.io/qt-6/qtopengl-module.html) | Qt OpenGL 모듈은 Qt 애플리케이션에서 OpenGL을 사용하기 쉽게 해주는 클래스를 제공합니다. |
+  | [Qt PDF C++ Classes](https://doc.qt.io/qt-6/qtpdf-module.html) | PDF 문서로부터 페이지를 렌더링합니다. |
+  | [Qt Positioning C++ Classes](https://doc.qt.io/qt-6/qtpositioning-module.html) | 포지셔닝 모듈은 QML과 C++ 인터페이스를 통해 포지셔닝 정보를 제공합니다. |
+  | [Qt Print Support C++ Classes](https://doc.qt.io/qt-6/qtprintsupport-module.html) | Qt PrintSupport 모듈은 인쇄를 쉽게 해주고 이식할 수 있도록 해주는 클래스를 제공합니다. |
+  | [Qt QML C++ Classes](https://doc.qt.io/qt-6/qtqml-module.html) | Qt QML 모듈이 제공하는 C++ API입니다. |
+  | [Qt Quick C++ Classes](https://doc.qt.io/qt-6/qtquick-module.html) | Qt Quick 모듈은 Qt/C++ 애플리케이션에 Qt Quick을 포함시키기 위한 클래스를 제공합니다. |
+  | [Qt Quick Controls C++ Classes](https://doc.qt.io/qt-6/qtquickcontrols2-module.html) | C++에서 컨트롤을 설정하기 위한 클래스를 제공합니다. |
+  | [Qt Quick Test C++ API](https://doc.qt.io/qt-6/qtquicktest-module.html) | 테스트를 위한 매크로와 함수를 제공합니다. |
+  | [Qt Quick Widgets C++ Classes](https://doc.qt.io/qt-6/qtquickwidgets-module.html) | Qt Quick Widgets 모듈이 제공하는 C++ API입니다. |
+  | [Qt Remote Objects C++ Classes](https://doc.qt.io/qt-6/qtremoteobjects-module.html) | QObject의 프로퍼티, 시그널, 슬롯을 프로세스 간에 공유하기 위해 사용하기 쉬운 메커니즘을 제공합니다. |
+  | [Qt SCXML C++ Classes](https://doc.qt.io/qt-6/qtscxml-module.html) | SCXML 파일로부터 상태 머신을 생성하기 사용하기 위한 클래스를 제공합니다. |
+  | [Qt SQL C++ Classes](https://doc.qt.io/qt-6/qtsql-module.html) | SQL 데이터베이스를 위한 드라이버 레이어, SQL API 레이어, 사용자 인터페이스 레이어를 제공합니다. |
+  | [Qt SVG C++ Classes](https://doc.qt.io/qt-6/qtsvg-module.html) | Qt SVG 모듈은 SVG 이미지를 처리하기 위한 기능을 제공합니다. |
+  | [Qt Sensors C++ Classes](https://doc.qt.io/qt-6/qtsensors-module.html) | 센서 데이터를 읽기 위한 클래스를 제공합니다. |
+  | [Qt Serial Bus C++ Classes](https://doc.qt.io/qt-6/qtserialbus-module.html) | 시리얼 버스 데이터를 읽고 쓰기 위한 클래스를 제공합니다. |
+  | [Qt Serial Port C++ Classes](https://doc.qt.io/qt-6/qtserialport-module.html) | 시리얼 포드에 접근할 수 있게 해주는 C++ 클래스의 목록입니다. |
+  | [Qt Spatial Audio Module C++ Classes](https://doc.qt.io/qt-6/qtspatialaudio-module.html) | Qt 공간 오디오 모듈은 3D 오디오를 위한 기능을 제공합니다. |
+  | [Qt State Machine C++ Classes](https://doc.qt.io/qt-6/qtstatemachine-module.html) | Qt 상태 머신 모듈은 상태 그래프를 생성하기 실행하기 위한 클래스를 제공합니다. |
+  | [Qt Test C++ Classes](https://doc.qt.io/qt-6/qttest-module.html) | Qt 애플리케이션과 라이브러리 단위 테스트를 위한 클래스를 제공합니다. |
+  | [Qt TextToSpeech C++ Classes](https://doc.qt.io/qt-6/qttexttospeech-module.html) | TTS(Text-to-Speech) 엔진에 접근하기 위한 C++ API입니다. |
+  | [Qt UI Tools C++ Classes](https://doc.qt.io/qt-6/qtuitools-module.html) | Qt Designer로 생성된 폼을 처리하기 위한 클래스를 제공합니다. |
+  | [Qt Virtual Keyboard C++ Classes](https://doc.qt.io/qt-6/qtvirtualkeyboard-module.html) | 가상 키보드를 위한 입력 방법을 구현하기 위한 클래스를 제공합니다. |
+  | [Qt Wayland Compositor C++ Classes](https://doc.qt.io/qt-6/qtwaylandcompositor-module.html) | 커스텀 Wayland 디스플레이 서버를 작성하기 위한 C++ 클래스를 제공합니다. |
+  | [Qt WebChannel C++ Classes](https://doc.qt.io/qt-6/qtwebchannel-module.html) | Qt WebChannel 기능을 제공하는 C++ 클래스의 목록입니다. |
+  | [Qt WebEngine Core C++ Classes](https://doc.qt.io/qt-6/qtwebenginecore-module.html) | QtWebEngineQuick과 QtWebEngineWidgets이 공유하는 public API를 제공합니다. |
+  | [Qt WebEngine Quick C++ Classes](https://doc.qt.io/qt-6/qtwebenginequick-module.html) | Qt Quick에 C++ 기능을 노출시킵니다. |
+  | [Qt WebEngine Widgets C++ Classes](https://doc.qt.io/qt-6/qtwebenginewidgets-module.html) | QWidget 기반 애플리케이션에서 웹 컨텐츠를 렌더링하기 위한 C++ 클래스를 제공합니다. |
+  | [Qt WebSockets C++ Classes](https://doc.qt.io/qt-6/qtwebsockets-module.html) | WebSocket 기반 통신을 할 수 있게 해주는 C++ 클래스의 목록입니다. |
+  | [Qt WebView C++ Classes and Namespaces](https://doc.qt.io/qt-6/qtwebview-module.html) | WebView를 설정하고 사용하기 위한 Helper 함수를 제공합니다. |
+  | [Qt Widgets C++ Classes](https://doc.qt.io/qt-6/qtwidgets-module.html) | Qt Widgets 모듈은 C++ 위젯 기능으로 Qt GUI를 확장합니다. |
+  | [Qt XML C++ Classes](https://doc.qt.io/qt-6/qtxml-module.html) | Qt XML 모듈은 XML에 대한 DOM 표준의 C++ 구현을 제공합니다. |
 
 * 자료 링크
   - [모든 Qt 레퍼런스](https://doc.qt.io/qt-6/reference-overview.html)
